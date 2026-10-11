@@ -4,8 +4,9 @@
  * Two layers:
  *   1. Constants: identical in every theme (palette, type, radius, fixed shadows).
  *   2. Theme tokens: values that change per theme, scoped to [data-theme].
- *      Dark is the default (also applies with data-theme="dark"); set
- *      data-theme="light" on <html> or any wrapper to switch that subtree.
+ *      With no data-theme set, the OS preference decides (dark if unset).
+ *      Set data-theme="dark" or "light" on <html> or any wrapper to force
+ *      a theme for that subtree.
  */
 
 :root {
@@ -183,4 +184,65 @@
     --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
     --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
     --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
+}
+
+/* ---------- Light by OS preference ----------
+ * Same values as [data-theme='light'] above (CSS can't share them with a
+ * media query). Only applies while no data-theme is set; an explicit
+ * data-theme="dark" or "light" always wins. Kept in sync by
+ * scripts/check-tokens.mjs, which runs with `pnpm lint`.
+ */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        color-scheme: light;
+
+        /* Surfaces */
+        --tintora-bg: linear-gradient(180deg, #fcfaf7, #f2ebe4);
+        --tintora-surface-glass: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.5)
+        );
+        --tintora-surface-card: #ffffff;
+        --tintora-surface-row: rgba(255, 255, 255, 0.85);
+        --tintora-surface-field: rgba(255, 255, 255, 0.85);
+        --tintora-surface-menu: #2a2827;
+
+        /* Text */
+        --tintora-text: #1d1c1c;
+        --tintora-text-muted: #5a5754;
+        --tintora-text-faint: #5a5754;
+        --tintora-text-nav-idle: #4a4745;
+        --tintora-text-day: #2b2927;
+        --tintora-text-error: #b3261e;
+
+        /* Borders and lines */
+        --tintora-border-glass: rgba(255, 255, 255, 0.85);
+        --tintora-border-card: rgba(29, 28, 28, 0.05);
+        --tintora-border-row: rgba(29, 28, 28, 0.06);
+        --tintora-border-field: rgba(29, 28, 28, 0.08);
+        --tintora-border-field-hover: rgba(29, 28, 28, 0.3);
+        --tintora-line: rgba(29, 28, 28, 0.1);
+        --tintora-line-strong: rgba(29, 28, 28, 0.3);
+
+        /* Interactive fills (secondary / ghost / day states) */
+        --tintora-fill-subtle: rgba(29, 28, 28, 0.07);
+        --tintora-fill-subtle-hover: rgba(29, 28, 28, 0.14);
+        --tintora-fill-subtle-pressed: rgba(29, 28, 28, 0.2);
+        --tintora-fill-ghost-hover: rgba(29, 28, 28, 0.08);
+        --tintora-fill-day-hover: rgba(29, 28, 28, 0.1);
+
+        /* Tag */
+        --tintora-tag-bg: rgba(29, 28, 28, 0.07);
+        --tintora-tag-fg: #1d1c1c;
+
+        /* Focus and selection rings */
+        --tintora-focus: #c94e0c;
+        --tintora-ring: #1d1c1c;
+
+        /* Elevation */
+        --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
+        --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
+        --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
+    }
 }
