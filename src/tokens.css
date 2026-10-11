@@ -1,0 +1,151 @@
+/*
+ * Tintora design tokens, "Glassy Fitness".
+ *
+ * Two layers:
+ *   1. Constants: identical in every theme (palette, type, radius, fixed shadows).
+ *   2. Theme tokens: values that change per theme, scoped to [data-theme].
+ *      Dark is the default. Add the light values in the [data-theme='light']
+ *      block at the bottom; no component CSS needs to change.
+ */
+
+:root {
+    /* ---------- Colour palette (constants) ---------- */
+    --tintora-color-accent: #ee6b25;
+    --tintora-color-accent-deep: #c94e0c;
+    --tintora-color-success: #4cc56b;
+    --tintora-color-planned: #f2698c;
+    --tintora-color-heart: #c42a56;
+    --tintora-color-steps: #1f7a38;
+    --tintora-color-sleep: #2f4fc4;
+    --tintora-color-ink: #1d1c1c;
+
+    /* Text colour to use on top of each palette colour */
+    --tintora-color-on-accent: #1d0e04;
+    --tintora-color-on-accent-deep: #ffffff;
+    --tintora-color-on-success: #0d200f;
+    --tintora-color-on-planned: #260a13;
+    --tintora-color-on-heart: #ffffff;
+    --tintora-color-on-steps: #ffffff;
+    --tintora-color-on-sleep: #ffffff;
+
+    /* ---------- Typography (constants) ---------- */
+    --tintora-font-family:
+        'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    --tintora-font-weight-regular: 400;
+    --tintora-font-weight-medium: 500;
+    --tintora-font-weight-semibold: 600;
+    --tintora-font-weight-bold: 700;
+    --tintora-font-weight-extrabold: 800;
+
+    --tintora-line-height-tight: 1.2;
+
+    /* Type scale as `font` shorthands: font: var(--tintora-font-label);
+       sizes are rem (16px root); the px value from the design is noted. */
+    --tintora-font-display: 700 1.625rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 26 / 700 */
+    --tintora-font-title: 700 1.125rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 18 / 700 */
+    --tintora-font-heading: 700 0.9375rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 15 / 700 */
+    --tintora-font-label: 700 0.78125rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 12.5 / 700 */
+    --tintora-font-body: 500 0.75rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 12 / 500 */
+    --tintora-font-caption: 400 0.6875rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 11 / 400 */
+    --tintora-font-stat-value: 800 1.5625rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 25 / 800 */
+
+    /* ---------- Radius (constants) ---------- */
+    --tintora-radius-8: 8px;
+    --tintora-radius-12: 12px;
+    --tintora-radius-14: 14px;
+    --tintora-radius-18: 18px;
+    --tintora-radius-20: 20px;
+    --tintora-radius-26: 26px;
+    --tintora-radius-32: 32px;
+    --tintora-radius-40: 40px;
+    --tintora-radius-pill: 9999px;
+
+    --tintora-radius-card: var(--tintora-radius-20);
+    --tintora-radius-panel: var(--tintora-radius-32);
+
+    /* ---------- Elevation (constants) ---------- */
+    --tintora-shadow-selected: 0 14px 30px rgba(201, 78, 12, 0.45);
+}
+
+/* ---------- Theme tokens: dark (default) ---------- */
+:root,
+[data-theme='dark'] {
+    color-scheme: dark;
+
+    /* Surfaces */
+    --tintora-bg-page:
+        radial-gradient(
+            900px 520px at 6% 4%,
+            rgba(222, 204, 176, 0.5),
+            rgba(222, 204, 176, 0) 62%
+        ),
+        radial-gradient(
+            700px 480px at 96% 10%,
+            rgba(132, 106, 86, 0.5),
+            rgba(132, 106, 86, 0) 62%
+        ),
+        linear-gradient(180deg, #4b423b 0%, #221f1e 100%);
+    --tintora-surface-glass: linear-gradient(
+        180deg,
+        rgba(62, 59, 58, 0.8),
+        rgba(34, 32, 32, 0.9)
+    );
+    --tintora-surface-card: #fbfaf9;
+    --tintora-surface-row: rgba(255, 255, 255, 0.06);
+    --tintora-surface-field: rgba(16, 15, 15, 0.62);
+    --tintora-surface-menu: rgba(30, 28, 28, 0.97);
+
+    /* Text */
+    --tintora-text: #ffffff;
+    --tintora-text-muted: rgba(255, 255, 255, 0.72);
+    --tintora-text-faint: rgba(255, 255, 255, 0.65);
+    --tintora-text-nav-idle: rgba(255, 255, 255, 0.78);
+    --tintora-text-day: rgba(255, 255, 255, 0.82);
+    --tintora-text-error: #ff9a8a;
+
+    /* Borders and lines */
+    --tintora-border-glass: rgba(255, 255, 255, 0.08);
+    --tintora-border-card: transparent;
+    --tintora-border-row: rgba(255, 255, 255, 0.06);
+    --tintora-border-field: rgba(255, 255, 255, 0.08);
+    --tintora-border-field-hover: rgba(255, 255, 255, 0.32);
+    --tintora-line: rgba(255, 255, 255, 0.1);
+    --tintora-line-strong: rgba(255, 255, 255, 0.32);
+
+    /* Interactive fills (secondary / ghost / day states) */
+    --tintora-fill-subtle: rgba(255, 255, 255, 0.1);
+    --tintora-fill-subtle-hover: rgba(255, 255, 255, 0.2);
+    --tintora-fill-subtle-pressed: rgba(255, 255, 255, 0.28);
+    --tintora-fill-ghost-hover: rgba(255, 255, 255, 0.12);
+    --tintora-fill-day-hover: rgba(255, 255, 255, 0.14);
+
+    /* Tag */
+    --tintora-tag-bg: rgba(255, 255, 255, 0.14);
+    --tintora-tag-fg: #ffffff;
+
+    /* Focus and selection rings */
+    --tintora-focus: #ee6b25;
+    --tintora-ring: #ffffff;
+
+    /* Elevation */
+    --tintora-shadow-glass: 0 30px 60px rgba(0, 0, 0, 0.35);
+    --tintora-shadow-card: 0 10px 24px rgba(0, 0, 0, 0.18);
+    --tintora-shadow-card-hover: 0 18px 36px rgba(0, 0, 0, 0.32);
+}
+
+/* ---------- Theme tokens: light ----------
+ * TODO: override every token from the dark block above, e.g.
+ * [data-theme='light'] {
+ *     color-scheme: light;
+ *     --tintora-text: #1d1c1c;
+ *     ...
+ * }
+ */
