@@ -1,10 +1,14 @@
 import type { ButtonHTMLAttributes } from 'react';
 import './Button.css';
 
-// Test
 export function Button({
-    className = '',
+    className,
     ...props
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
-    return <button className={`tintora-button ${className}`} {...props} />;
+    return (
+        <button
+            className={['tintora-button', className].filter(Boolean).join(' ')}
+            {...props}
+        />
+    );
 }
