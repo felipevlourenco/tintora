@@ -3,6 +3,18 @@
     "version": "0.0.0",
     "license": "MIT",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/felipevlourenco/tintora.git"
+    },
+    "description": "A lightweight React component library and design system for building polished UIs.",
+    "keywords": [
+        "react",
+        "ui",
+        "components",
+        "design-system",
+        "tintora"
+    ],
     "sideEffects": [
         "**/*.css"
     ],
