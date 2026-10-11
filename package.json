@@ -69,17 +69,11 @@
         "prettier": "^3.9.10",
         "react": "^19.3.0",
         "react-dom": "^19.3.0",
+        "semantic-release": "^25.0.9",
         "storybook": "^10.6.1",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.71.1",
         "vite": "^8.3.4"
-    },
-    "devEngines": {
-        "packageManager": {
-            "name": "pnpm",
-            "version": "12.11.2",
-            "onFail": "download"
-        }
     },
     "packageManager": "pnpm@12.11.2"
 }

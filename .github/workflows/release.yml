@@ -1,0 +1,36 @@
+name: Release
+
+on:
+    push:
+        branches: [main]
+
+permissions:
+    contents: write # tags + GitHub release
+    issues: write
+    pull-requests: write
+    id-token: write # npm trusted publishing (OIDC)
+
+concurrency: release
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        env:
+            HUSKY: 0
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - uses: pnpm/action-setup@v4 # version comes from package.json "packageManager"
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: pnpm
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm format:check
+            - run: pnpm lint
+            - run: pnpm typecheck
+            - run: pnpm build
+            - run: pnpm exec semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
