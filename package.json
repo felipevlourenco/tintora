@@ -23,6 +23,8 @@
   "scripts": {
     "build": "vite build && tsc --noEmit false --emitDeclarationOnly --declaration --rootDir src --outDir dist",
     "dev": "vite build --watch",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm typecheck && pnpm build"
   },
@@ -31,11 +33,14 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },
