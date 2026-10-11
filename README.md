@@ -2,12 +2,14 @@
 
 Tintora is a lightweight React component library for building polished interfaces with a clean, modern default style. It is designed for fast prototyping and production-ready UI composition, with a small API surface and TypeScript support.
 
+**[Live Storybook →](https://felipevlourenco.github.io/tintora/)**
+
 ## Features
 
 - React component library
 - TypeScript-first development
 - Vite-based build output
-- Storybook for component exploration
+- [Storybook](https://felipevlourenco.github.io/tintora/) for component exploration
 - Simple, reusable styling
 
 ## Installation
