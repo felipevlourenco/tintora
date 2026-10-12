@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Palette, ThemeColors } from './components';
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Colors are CSS custom properties prefixed `--tintora-`. Import `tintora/style.css` and use them with `var()`.
+
+## Palette
+
+Constant colors, identical in every theme. Each has a matching `--tintora-color-on-*` token for text placed on top of it.
+
+<Palette />
+
+## Theme colors
+
+These change with the theme. Dark is the default; with no `data-theme` set the OS preference decides, and `data-theme="dark"` or `"light"` on `<html>` (or any wrapper) forces a theme for that subtree.
+
+<ThemeColors />
