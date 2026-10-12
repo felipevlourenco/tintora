@@ -346,11 +346,19 @@ export function Radius() {
 const shadowBackground: Record<string, string> = {
     selected: 'var(--tintora-color-accent-deep)',
     primary: 'var(--tintora-color-accent-deep)',
+    accent: 'var(--tintora-color-accent)',
     glass: 'var(--tintora-surface-glass)',
 };
 
 function Shadows({ theme }: { theme: Theme }) {
-    const order = ['card', 'card-hover', 'selected', 'primary', 'glass'];
+    const order = [
+        'card',
+        'card-hover',
+        'selected',
+        'primary',
+        'accent',
+        'glass',
+    ];
     const rank = (t: Token) =>
         order.indexOf(shortName(t.name).replace('shadow-', ''));
     const shadows = [

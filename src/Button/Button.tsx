@@ -5,9 +5,9 @@ import './Button.css';
 type ButtonVariants = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSizes = 'small' | 'medium' | 'large';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant: ButtonVariants;
-    size: ButtonSizes;
+    size?: ButtonSizes;
     leadingIcon?: ReactNode;
     trailingIcon?: ReactNode;
 }
@@ -16,7 +16,7 @@ export function Button({
     children,
     className,
     variant,
-    size,
+    size = 'medium',
     leadingIcon,
     trailingIcon,
     type = 'button',

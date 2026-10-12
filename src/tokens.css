@@ -75,6 +75,7 @@
     /* ---------- Elevation (constants) ---------- */
     --tintora-shadow-selected: 0 14px 30px rgba(201, 78, 12, 0.45);
     --tintora-shadow-primary: 0 8px 20px rgba(201, 78, 12, 0.35);
+    --tintora-shadow-accent: 0 8px 20px rgba(238, 107, 37, 0.4);
 
     /* ---------- State (constants) ---------- */
     --tintora-opacity-disabled: 0.45;
