@@ -1,0 +1,36 @@
+/* IconButton builds on Button, so hover, pressed, focus and disabled come from
+   Button.css. Everything here overrides Button's size variables. The doubled
+   selectors beat Button's own size classes whatever the stylesheet order. */
+
+.tintora-icon-button {
+    width: var(--tintora-button-height);
+    flex-shrink: 0;
+}
+
+.tintora-icon-button__icon {
+    display: inline-flex;
+}
+.tintora-icon-button__icon svg {
+    width: var(--tintora-icon-button-icon-size);
+    height: var(--tintora-icon-button-icon-size);
+}
+
+/* Sizes */
+.tintora-icon-button.tintora-icon-button--small {
+    --tintora-button-height: 32px;
+    --tintora-icon-button-icon-size: 14px;
+}
+.tintora-icon-button.tintora-icon-button--medium {
+    --tintora-button-height: 36px;
+    --tintora-icon-button-icon-size: 15px;
+}
+.tintora-icon-button.tintora-icon-button--large {
+    --tintora-button-height: 44px;
+    --tintora-icon-button-icon-size: 18px;
+}
+
+/* Variants */
+.tintora-icon-button.tintora-icon-button--round {
+    --tintora-button-padding-x: 0px;
+    --tintora-button-border-radius: var(--tintora-radius-pill);
+}
