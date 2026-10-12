@@ -15,6 +15,18 @@ const preview: Preview = {
             },
         },
     },
+    parameters: {
+        options: {
+            storySort: {
+                order: [
+                    'Foundations',
+                    ['Colors', 'Typography', 'Radius', 'Elevation'],
+                    'Components',
+                    '*',
+                ],
+            },
+        },
+    },
     initialGlobals: { theme: 'dark' },
     decorators: [
         (Story, { globals }) => {

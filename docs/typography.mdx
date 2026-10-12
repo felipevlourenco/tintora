@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { TypeScale, FontBasics } from './components';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Each style is a single `font` shorthand token (weight, size, line height, family):
+
+```css
+.title {
+    font: var(--tintora-font-title);
+}
+```
+
+Sizes are in `rem` (the design's px value is shown next to each). The font is **Plus Jakarta Sans** (400–800). The library does not load it for you, so add it to your app and fall back to the system font otherwise.
+
+## Type scale
+
+<TypeScale />
+
+## Family, weights and line height
+
+<FontBasics />
