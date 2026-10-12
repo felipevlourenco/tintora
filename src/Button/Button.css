@@ -1,8 +1,111 @@
 .tintora-button {
-    padding: 0.5rem 1rem;
-    border: 0;
-    border-radius: 0.375rem;
-    background: #111;
-    color: #fff;
+    --tintora-button-border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-sizing: border-box;
     cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    outline-offset: 2px;
+    height: var(--tintora-button-height);
+    padding: 0 var(--tintora-button-padding-x);
+    border: var(--tintora-button-border);
+    border-radius: var(--tintora-button-border-radius);
+    font-size: var(--tintora-button-font-size);
+    font-weight: var(--tintora-button-font-weight);
+    color: var(--tintora-button-fg);
+    background-color: var(--tintora-button-bg);
+    box-shadow: var(--tintora-button-shadow, none);
+}
+
+/* Sizes */
+.tintora-button--small {
+    --tintora-button-height: 32px;
+    --tintora-button-padding-x: 14px;
+    --tintora-button-border-radius: 16px;
+    --tintora-button-font-size: 12px;
+    --tintora-button-font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-button--medium {
+    --tintora-button-height: 40px;
+    --tintora-button-padding-x: 18px;
+    --tintora-button-border-radius: 20px;
+    --tintora-button-font-size: 13px;
+    --tintora-button-font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-button--large {
+    --tintora-button-height: 48px;
+    --tintora-button-padding-x: 24px;
+    --tintora-button-border-radius: 24px;
+    --tintora-button-font-size: 14px;
+    --tintora-button-font-weight: var(--tintora-font-weight-bold);
+}
+
+/* Icon slots: the side with an icon gets 4px less padding */
+.tintora-button__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+.tintora-button--leading-icon {
+    padding-inline-start: calc(var(--tintora-button-padding-x) - 4px);
+}
+.tintora-button--trailing-icon {
+    padding-inline-end: calc(var(--tintora-button-padding-x) - 4px);
+}
+
+/* Variants */
+.tintora-button--primary {
+    --tintora-button-fg: var(--tintora-color-on-accent-deep);
+    --tintora-button-bg: var(--tintora-color-accent-deep);
+    --tintora-button-shadow: var(--tintora-shadow-primary);
+    --tintora-button-filter-hover: brightness(1.14);
+    --tintora-button-filter-pressed: brightness(0.9);
+}
+.tintora-button--secondary {
+    --tintora-button-fg: var(--tintora-text);
+    --tintora-button-bg: var(--tintora-fill-subtle);
+    --tintora-button-bg-hover: var(--tintora-fill-subtle-hover);
+    --tintora-button-bg-pressed: var(--tintora-fill-subtle-pressed);
+}
+.tintora-button--outline {
+    --tintora-button-border: 1px solid var(--tintora-line-strong);
+    --tintora-button-fg: var(--tintora-text);
+    --tintora-button-bg: transparent;
+    --tintora-button-bg-hover: var(--tintora-fill-ghost-hover);
+    --tintora-button-bg-pressed: var(--tintora-fill-subtle);
+}
+.tintora-button--ghost {
+    --tintora-button-fg: var(--tintora-text-muted);
+    --tintora-button-fg-hover: var(--tintora-text);
+    --tintora-button-fg-pressed: var(--tintora-text);
+    --tintora-button-bg: transparent;
+    --tintora-button-bg-hover: var(--tintora-fill-ghost-hover);
+    --tintora-button-bg-pressed: var(--tintora-fill-subtle);
+}
+
+/* States. Hover/pressed only apply while enabled, and :active comes after
+   :hover so pressed wins. Unset variables fall back to the resting value. */
+.tintora-button:enabled:hover {
+    color: var(--tintora-button-fg-hover, var(--tintora-button-fg));
+    background-color: var(--tintora-button-bg-hover, var(--tintora-button-bg));
+    filter: var(--tintora-button-filter-hover, none);
+}
+.tintora-button:enabled:active {
+    color: var(--tintora-button-fg-pressed, var(--tintora-button-fg));
+    background-color: var(
+        --tintora-button-bg-pressed,
+        var(--tintora-button-bg)
+    );
+    filter: var(--tintora-button-filter-pressed, none);
+    transform: translateY(1px);
+}
+.tintora-button:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+}
+.tintora-button:disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+    box-shadow: none;
 }

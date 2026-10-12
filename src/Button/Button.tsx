@@ -1,15 +1,53 @@
-import type { ButtonHTMLAttributes } from 'react';
+import clsx from 'clsx';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import './Button.css';
 
-// Test
+type ButtonVariants = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonSizes = 'small' | 'medium' | 'large';
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    variant: ButtonVariants;
+    size: ButtonSizes;
+    leadingIcon?: ReactNode;
+    trailingIcon?: ReactNode;
+}
+
 export function Button({
+    children,
     className,
+    variant,
+    size,
+    leadingIcon,
+    trailingIcon,
+    type = 'button',
     ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ButtonProps) {
     return (
         <button
-            className={['tintora-button', className].filter(Boolean).join(' ')}
+            type={type}
+            className={clsx(
+                'tintora-button',
+                `tintora-button--${variant}`,
+                `tintora-button--${size}`,
+                {
+                    'tintora-button--leading-icon': !!leadingIcon,
+                    'tintora-button--trailing-icon': !!trailingIcon,
+                },
+                className,
+            )}
             {...props}
-        />
+        >
+            {leadingIcon && (
+                <span className="tintora-button__icon" aria-hidden="true">
+                    {leadingIcon}
+                </span>
+            )}
+            {children}
+            {trailingIcon && (
+                <span className="tintora-button__icon" aria-hidden="true">
+                    {trailingIcon}
+                </span>
+            )}
+        </button>
     );
 }
