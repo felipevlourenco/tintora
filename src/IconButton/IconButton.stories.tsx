@@ -15,6 +15,15 @@ const Bell = () => (
     </svg>
 );
 
+const Grid = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+        <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+        <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+        <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+        <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
+    </svg>
+);
+
 const meta = {
     title: 'Components/IconButton',
     component: IconButton,
@@ -25,7 +34,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const sizes = ['small', 'medium', 'large'] as const;
 const row = {
     display: 'flex',
     alignItems: 'center',
@@ -35,13 +43,26 @@ const row = {
 
 export const Round: Story = { args: { variant: 'round' } };
 
-export const Sizes: Story = {
+export const Field: Story = { args: { variant: 'field' } };
+
+export const Nav: Story = {
+    args: { variant: 'nav', icon: <Grid />, 'aria-label': 'Dashboard' },
+};
+
+export const NavSelected: Story = {
+    args: { ...Nav.args, selected: true } as Story['args'],
+};
+
+const roundSizes = ['small', 'medium', 'large'] as const;
+
+export const RoundSizes: Story = {
     render: (args) => (
         <div style={row}>
-            {sizes.map((size) => (
+            {roundSizes.map((size) => (
                 <IconButton
                     key={size}
-                    {...args}
+                    icon={args.icon}
+                    variant="round"
                     size={size}
                     aria-label={`${size} notifications`}
                 />
@@ -50,9 +71,32 @@ export const Sizes: Story = {
     ),
 };
 
-export const Disabled: Story = { args: { disabled: true } };
+export const Disabled: Story = {
+    render: (args) => (
+        <div style={row}>
+            <IconButton
+                icon={args.icon}
+                aria-label="Notifications"
+                variant="round"
+                disabled
+            />
+            <IconButton
+                icon={args.icon}
+                aria-label="Notifications"
+                variant="field"
+                disabled
+            />
+            <IconButton
+                variant="nav"
+                icon={<Grid />}
+                aria-label="Dashboard"
+                disabled
+            />
+        </div>
+    ),
+};
 
-/** Every state, like the design. Hover, pressed and focus are forced. */
+/** Every variant in every state, like the design. Nav shows "Selected" in place of "Pressed". */
 const states = [
     { label: 'Default' },
     { label: 'Hover', className: 'is-hover' },
@@ -70,16 +114,34 @@ export const States: Story = {
         },
     },
     render: (args) => (
-        <div style={row}>
-            {states.map(({ label, className, disabled }) => (
-                <IconButton
-                    key={label}
-                    {...args}
-                    className={className}
-                    disabled={disabled}
-                    aria-label={`${label} notifications`}
-                />
+        <div style={{ display: 'grid', gap: 16 }}>
+            {(['round', 'field'] as const).map((variant) => (
+                <div key={variant} style={row}>
+                    {states.map(({ label, className, disabled }) => (
+                        <IconButton
+                            key={label}
+                            icon={args.icon}
+                            variant={variant}
+                            className={className}
+                            disabled={disabled}
+                            aria-label={`${variant} ${label}`}
+                        />
+                    ))}
+                </div>
             ))}
+            <div style={row}>
+                {states.map(({ label, className, disabled }) => (
+                    <IconButton
+                        key={label}
+                        variant="nav"
+                        icon={<Grid />}
+                        className={label === 'Pressed' ? undefined : className}
+                        selected={label === 'Pressed'}
+                        disabled={disabled}
+                        aria-label={`nav ${label === 'Pressed' ? 'Selected' : label}`}
+                    />
+                ))}
+            </div>
         </div>
     ),
 };

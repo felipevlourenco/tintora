@@ -1,6 +1,10 @@
 /* IconButton builds on Button, so hover, pressed, focus and disabled come from
-   Button.css. Everything here overrides Button's size variables. The doubled
-   selectors beat Button's own size classes whatever the stylesheet order. */
+   Button.css. Everything here overrides Button's variables. The doubled
+   selectors beat Button's own classes whatever the stylesheet order. */
+
+.tintora-button.tintora-icon-button {
+    --tintora-button-padding-x: 0px;
+}
 
 .tintora-icon-button {
     width: var(--tintora-button-height);
@@ -15,7 +19,7 @@
     height: var(--tintora-icon-button-icon-size);
 }
 
-/* Sizes */
+/* Round sizes */
 .tintora-icon-button.tintora-icon-button--small {
     --tintora-button-height: 32px;
     --tintora-icon-button-icon-size: 14px;
@@ -29,8 +33,48 @@
     --tintora-icon-button-icon-size: 18px;
 }
 
-/* Variants */
+/* Round: the secondary Button, as a circle */
 .tintora-icon-button.tintora-icon-button--round {
-    --tintora-button-padding-x: 0px;
     --tintora-button-border-radius: var(--tintora-radius-pill);
+}
+
+/* Field: dark inset circle. Hover changes the border, not the fill. */
+.tintora-icon-button.tintora-icon-button--field {
+    --tintora-button-height: 48px;
+    --tintora-button-border-radius: var(--tintora-radius-pill);
+    --tintora-button-border: 1px solid var(--tintora-border-field);
+    --tintora-button-fg: var(--tintora-text);
+    --tintora-button-bg: var(--tintora-surface-field);
+    --tintora-button-bg-hover: var(--tintora-surface-field);
+    --tintora-button-bg-pressed: var(--tintora-fill-subtle);
+    --tintora-icon-button-icon-size: 18px;
+}
+.tintora-icon-button--field:enabled:hover {
+    border-color: var(--tintora-border-field-hover);
+}
+.tintora-icon-button--field:enabled:active {
+    border-color: var(--tintora-border-field);
+}
+
+/* Nav: rounded square, transparent until hovered or selected */
+.tintora-icon-button.tintora-icon-button--nav {
+    --tintora-button-height: 44px;
+    --tintora-button-border-radius: var(--tintora-radius-14);
+    --tintora-button-fg: var(--tintora-text-nav-idle);
+    --tintora-button-fg-hover: var(--tintora-text);
+    --tintora-button-fg-pressed: var(--tintora-text);
+    --tintora-button-bg: transparent;
+    --tintora-button-bg-hover: var(--tintora-fill-ghost-hover);
+    --tintora-button-bg-pressed: var(--tintora-fill-ghost-hover);
+    --tintora-icon-button-icon-size: 20px;
+}
+/* The design uses white here, not --tintora-color-on-accent. */
+.tintora-icon-button.tintora-icon-button--nav[aria-current='page'] {
+    --tintora-button-fg: #ffffff;
+    --tintora-button-fg-hover: #ffffff;
+    --tintora-button-fg-pressed: #ffffff;
+    --tintora-button-bg: var(--tintora-color-accent);
+    --tintora-button-bg-hover: var(--tintora-color-accent);
+    --tintora-button-bg-pressed: var(--tintora-color-accent);
+    --tintora-button-shadow: var(--tintora-shadow-accent);
 }

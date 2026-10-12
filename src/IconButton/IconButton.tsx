@@ -5,12 +5,14 @@ import './IconButton.css';
 
 type IconButtonSizes = NonNullable<ButtonProps['size']>;
 
-type IconButtonVariants = 'round';
+// Each IconButton variant builds on the Button variant closest to it.
+const buttonVariant = {
+    round: 'secondary',
+    field: 'secondary',
+    nav: 'ghost',
+} as const;
 
-// A round icon button is a secondary Button squared into a circle.
-const buttonVariant = { round: 'secondary' } as const;
-
-export interface IconButtonProps extends Omit<
+type Shared = Omit<
     ButtonProps,
     | 'children'
     | 'type'
@@ -19,33 +21,58 @@ export interface IconButtonProps extends Omit<
     | 'leadingIcon'
     | 'trailingIcon'
     | 'aria-label'
-> {
-    variant?: IconButtonVariants;
-    /** 32 / 36 / 44. Large is the default: it meets the 44px hit area. */
-    size?: IconButtonSizes;
+> & {
     icon: ReactNode;
     /** There is no visible text, so an accessible name is required. */
     'aria-label': string;
-}
+};
+
+export type IconButtonProps = Shared &
+    (
+        | {
+              /** Filled circle. 32 / 36 / 44. */
+              variant?: 'round';
+              /** Large is the default: it meets the 44px hit area. */
+              size?: IconButtonSizes;
+              selected?: never;
+          }
+        | {
+              /** Bordered circle for use next to inputs. Fixed at 48. */
+              variant: 'field';
+              size?: never;
+              selected?: never;
+          }
+        | {
+              /** Navigation item. Fixed at 44. */
+              variant: 'nav';
+              size?: never;
+              /** The current destination. Sets `aria-current="page"`. */
+              selected?: boolean;
+          }
+    );
 
 export function IconButton({
     icon,
-    size = 'large',
     variant = 'round',
+    size,
+    selected,
     className,
     ...props
 }: IconButtonProps) {
+    // Field and nav have one fixed size each, so only round gets a size class.
+    const roundSize = variant === 'round' ? (size ?? 'large') : undefined;
     return (
         <Button
             {...props}
             variant={buttonVariant[variant]}
-            size={size}
+            aria-current={selected ? 'page' : undefined}
             className={clsx(
                 'tintora-icon-button',
                 `tintora-icon-button--${variant}`,
-                `tintora-icon-button--${size}`,
+                roundSize && `tintora-icon-button--${roundSize}`,
                 className,
             )}
+            {...(roundSize && { size: roundSize })}
         >
             <span className="tintora-icon-button__icon" aria-hidden="true">
                 {icon}
