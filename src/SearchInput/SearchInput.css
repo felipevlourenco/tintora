@@ -1,0 +1,92 @@
+/* The pill is the wrapper: it draws the border, fill and focus ring, and the
+   input inside is transparent. Same tokens as TextField. */
+.tintora-search-input {
+    --tintora-search-input-font-size: 0.8125rem; /* 13px: control text, not on the type scale */
+    --tintora-search-input-clear-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 18px;
+    border: 1px solid var(--tintora-border-field);
+    border-radius: var(--tintora-radius-pill);
+    color: var(--tintora-text-muted);
+    background-color: var(--tintora-surface-field);
+}
+.tintora-search-input--disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}
+
+.tintora-search-input__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.tintora-search-input__input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: var(--tintora-search-input-font-size);
+    color: var(--tintora-text);
+    background: transparent;
+}
+.tintora-search-input__input::placeholder {
+    color: var(--tintora-text-muted);
+    opacity: 1;
+}
+.tintora-search-input__input:disabled {
+    cursor: not-allowed;
+}
+
+/* Clear button. Chrome, Edge and Safari draw a native one (Firefox has none).
+   Switch off its native look, then paint our own X with a mask so the colour
+   comes from tokens. It shows only while the field has a value. */
+.tintora-search-input__input::-webkit-search-decoration {
+    display: none;
+}
+.tintora-search-input__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-color: var(--tintora-text-muted);
+    -webkit-mask: var(--tintora-search-input-clear-icon) center / contain
+        no-repeat;
+    mask: var(--tintora-search-input-clear-icon) center / contain no-repeat;
+}
+.tintora-search-input__input::-webkit-search-cancel-button:hover {
+    background-color: var(--tintora-text);
+}
+
+.tintora-search-input:not(.tintora-search-input--disabled):hover {
+    border-color: var(--tintora-border-field-hover);
+}
+/* After :hover so a focused field keeps its focus border */
+.tintora-search-input:focus-within {
+    border-color: var(--tintora-focus);
+    box-shadow: var(--tintora-shadow-focus-ring);
+    /* Invisible normally, but forced-colors mode removes borders and shadows
+       and shows this outline instead. */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.tintora-search-input__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-color: var(--tintora-text-muted);
+    mask: var(--tintora-search-input-clear-icon) center / contain no-repeat;
+}
+.tintora-search-input__input::-webkit-search-cancel-button:hover {
+    background-color: var(--tintora-focus);
+}

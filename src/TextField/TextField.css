@@ -24,10 +24,6 @@
     font-size: var(--tintora-textfield-font-size);
     color: var(--tintora-text);
     background-color: var(--tintora-surface-field);
-    /* Hidden normally, but shown in forced-colors mode, where borders and
-       shadows are removed. The visible focus style is the border and ring. */
-    outline: 2px solid transparent;
-    outline-offset: 2px;
 }
 .tintora-textfield__input::placeholder {
     color: var(--tintora-text-muted);
@@ -40,6 +36,10 @@
 .tintora-textfield__input:focus-visible {
     border-color: var(--tintora-focus);
     box-shadow: var(--tintora-shadow-focus-ring);
+    /* Invisible normally, but forced-colors mode removes borders and shadows
+       and shows this outline instead. */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
 }
 /* After :focus-visible so an invalid field keeps its error border */
 .tintora-textfield__input[aria-invalid='true'] {
