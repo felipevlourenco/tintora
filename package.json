@@ -55,6 +55,7 @@
         "@commitlint/cli": "^21.2.3",
         "@commitlint/config-conventional": "^21.2.3",
         "@eslint/js": "^9.39.5",
+        "@storybook/addon-a11y": "^10.6.1",
         "@storybook/addon-docs": "^10.6.1",
         "@storybook/react-vite": "^10.6.1",
         "@testing-library/jest-dom": "^7.0.1",
@@ -63,6 +64,7 @@
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "@vitejs/plugin-react": "^6.1.2",
+        "axe-core": "^4.14.0",
         "clsx": "^2.1.1",
         "eslint": "^9.39.5",
         "eslint-config-prettier": "^10.1.8",
@@ -83,7 +85,8 @@
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.71.1",
         "vite": "^8.3.4",
-        "vitest": "^5.0.3"
+        "vitest": "^5.0.3",
+        "vitest-axe": "^0.1.0"
     },
     "packageManager": "pnpm@12.11.2"
 }

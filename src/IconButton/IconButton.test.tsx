@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { IconButton, type IconButtonProps } from './IconButton';
+import { expectNoA11yViolations } from '../test-utils';
 
 // The props are a union, so tests pass them loosely and let the component sort them out.
 type LooseProps = Partial<Record<keyof IconButtonProps, unknown>> &
@@ -131,6 +132,21 @@ describe('IconButton', () => {
         it('does not leak the selected prop onto the DOM element', () => {
             setup({ variant: 'nav', selected: true });
             expect(screen.getByRole('button')).not.toHaveAttribute('selected');
+        });
+    });
+
+    describe('accessibility (axe)', () => {
+        it.each([
+            { variant: 'round', size: 'small' },
+            { variant: 'round', size: 'medium' },
+            { variant: 'round', size: 'large' },
+            { variant: 'field' },
+            { variant: 'nav' },
+            { variant: 'nav', selected: true },
+            { variant: 'round', disabled: true },
+        ])('has no violations: %j', async (props) => {
+            const { container } = setup(props);
+            await expectNoA11yViolations(container);
         });
     });
 
