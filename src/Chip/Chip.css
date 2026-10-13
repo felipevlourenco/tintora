@@ -1,0 +1,36 @@
+.tintora-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: var(--tintora-radius-12);
+    background-color: var(--tintora-chip-bg);
+    color: var(--tintora-chip-fg);
+    font: var(--tintora-font-caption);
+    font-weight: var(--tintora-font-weight-semibold);
+    cursor: pointer;
+    outline: none;
+    outline-offset: 2px;
+}
+
+/* Hover only changes chips that are not selected */
+.tintora-chip:enabled:hover:not([aria-pressed='true']) {
+    background-color: var(--tintora-chip-bg-hover);
+}
+
+/* Selected is a state, not a press. This look is designed for the selected
+   (accent) card. */
+.tintora-chip[aria-pressed='true'] {
+    background-color: var(--tintora-chip-selected-bg);
+    color: var(--tintora-chip-selected-fg);
+    font-weight: var(--tintora-font-weight-bold);
+}
+
+.tintora-chip:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+}
+
+.tintora-chip:disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}

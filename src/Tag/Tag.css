@@ -1,0 +1,40 @@
+.tintora-tag {
+    display: inline-block;
+    white-space: nowrap;
+    font: var(--tintora-font-caption);
+    font-weight: var(--tintora-font-weight-semibold);
+}
+
+/* Variants */
+.tintora-tag--neutral {
+    background-color: var(--tintora-tag-bg);
+    color: var(--tintora-tag-fg);
+}
+.tintora-tag--success {
+    background-color: var(--tintora-color-success);
+    color: var(--tintora-color-on-success);
+}
+.tintora-tag--accent {
+    background-color: var(--tintora-color-accent-deep);
+    color: var(--tintora-color-on-accent-deep);
+    font-weight: var(--tintora-font-weight-bold);
+}
+/* For use on a card, which is light in both themes */
+.tintora-tag--card {
+    background-color: var(--tintora-chip-bg);
+    color: var(--tintora-chip-fg);
+}
+
+/* Sizes */
+.tintora-tag--small {
+    padding: 2px 8px;
+    border-radius: var(--tintora-radius-8);
+}
+.tintora-tag--medium {
+    padding: 3px 9px;
+    border-radius: var(--tintora-radius-8);
+}
+.tintora-tag--large {
+    padding: 5px 12px;
+    border-radius: var(--tintora-radius-12);
+}

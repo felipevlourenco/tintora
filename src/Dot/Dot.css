@@ -1,0 +1,26 @@
+.tintora-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    /* Keep the colour in forced-colors mode, where a plain dot would vanish */
+    forced-color-adjust: none;
+}
+
+.tintora-dot--unread {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--tintora-radius-pill);
+    background-color: var(--tintora-color-accent);
+}
+.tintora-dot--read {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--tintora-radius-pill);
+    border: 1.5px solid var(--tintora-text-faint);
+}
+.tintora-dot--tick {
+    width: 3px;
+    height: 15px;
+    border-radius: 2px;
+    background-color: var(--tintora-color-accent);
+}

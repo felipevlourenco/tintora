@@ -29,6 +29,23 @@
     --tintora-color-on-steps: #ffffff;
     --tintora-color-on-sleep: #ffffff;
 
+    /* ---------- Chips, tints and text on cards (constants) ----------
+       Cards are light in both themes, so what sits on them is constant. */
+    --tintora-text-on-card-muted: #55524f;
+
+    --tintora-chip-fg: #3c3a38;
+    --tintora-chip-bg: #efedeb;
+    --tintora-chip-bg-hover: #e4e1de;
+    --tintora-chip-selected-fg: #8f3604;
+    --tintora-chip-selected-bg: #ffffff;
+
+    /* Pale backgrounds for icon chips; the text colour is the matching
+       --tintora-color-* (accent-deep, heart, steps, sleep). */
+    --tintora-tint-accent: #fdeadd;
+    --tintora-tint-heart: #fbe0e8;
+    --tintora-tint-steps: #dcf3e1;
+    --tintora-tint-sleep: #e0e7fb;
+
     /* ---------- Typography (constants) ---------- */
     --tintora-font-family:
         'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
