@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { Palette, ThemeColors } from './components';
+import { Palette, ComponentColors, ThemeColors } from './components';
 
 <Meta title="Foundations/Colors" />
 
@@ -12,6 +12,12 @@ Colors are CSS custom properties prefixed `--tintora-`. Import `tintora/style.cs
 Constant colors, identical in every theme. Each has a matching `--tintora-color-on-*` token for text placed on top of it.
 
 <Palette />
+
+## Chips, tints and text on cards
+
+Constants for things that sit on cards. Cards are light in both themes, so these don't change. The `tint` colors are the pale backgrounds of icon chips; their text uses the matching palette color.
+
+<ComponentColors />
 
 ## Theme colors
 

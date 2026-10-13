@@ -127,6 +127,44 @@ export function Palette() {
     );
 }
 
+/** Constant colours for chips, icon-chip tints and text on cards. */
+export function ComponentColors() {
+    const tokens = constants.filter((t) =>
+        /^--tintora-(chip|tint|text-on-card)/.test(t.name),
+    );
+    return (
+        <ThemeScope theme="light">
+            <div style={grid(150)}>
+                {tokens.map((t) => (
+                    <div key={t.name}>
+                        <div
+                            style={{
+                                height: 48,
+                                borderRadius: 'var(--tintora-radius-14)',
+                                border: '1px solid var(--tintora-line)',
+                                background: `var(${t.name})`,
+                            }}
+                        />
+                        <code
+                            style={{ ...mono, display: 'block', marginTop: 8 }}
+                        >
+                            {t.name}
+                        </code>
+                        <code
+                            style={{
+                                ...mono,
+                                color: 'var(--tintora-text-muted)',
+                            }}
+                        >
+                            {t.value}
+                        </code>
+                    </div>
+                ))}
+            </div>
+        </ThemeScope>
+    );
+}
+
 const groupLabel: Record<string, string> = {
     surface: 'Surfaces',
     text: 'Text',
