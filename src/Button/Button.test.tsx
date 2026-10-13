@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
+import { expectNoA11yViolations } from '../test-utils';
 
 const setup = (props: Partial<React.ComponentProps<typeof Button>> = {}) =>
     render(
@@ -104,6 +105,45 @@ describe('Button', () => {
             expect(screen.getByRole('button')).toHaveFocus();
             await userEvent.keyboard('{Enter}');
             expect(onClick).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe('accessibility (axe)', () => {
+        const variants = ['primary', 'secondary', 'outline', 'ghost'] as const;
+        const sizes = ['small', 'medium', 'large'] as const;
+
+        it.each(variants)('has no violations: %s', async (variant) => {
+            const { container } = setup({ variant });
+            await expectNoA11yViolations(container);
+        });
+
+        it.each(sizes)('has no violations: %s', async (size) => {
+            const { container } = setup({ size });
+            await expectNoA11yViolations(container);
+        });
+
+        it('has no violations when disabled', async () => {
+            const { container } = setup({ disabled: true });
+            await expectNoA11yViolations(container);
+        });
+
+        it('has no violations with icons', async () => {
+            const { container } = setup({
+                leadingIcon: <svg />,
+                trailingIcon: <svg />,
+            });
+            await expectNoA11yViolations(container);
+        });
+
+        it('has no violations when only named by aria-label', async () => {
+            const { container } = render(
+                <Button
+                    variant="ghost"
+                    aria-label="Close"
+                    leadingIcon={<svg />}
+                />,
+            );
+            await expectNoA11yViolations(container);
         });
     });
 });
