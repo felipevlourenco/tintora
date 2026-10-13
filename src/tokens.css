@@ -62,6 +62,7 @@
     --tintora-radius-8: 8px;
     --tintora-radius-12: 12px;
     --tintora-radius-14: 14px;
+    --tintora-radius-16: 16px;
     --tintora-radius-18: 18px;
     --tintora-radius-20: 20px;
     --tintora-radius-26: 26px;
@@ -76,6 +77,7 @@
     --tintora-shadow-selected: 0 14px 30px rgba(201, 78, 12, 0.45);
     --tintora-shadow-primary: 0 8px 20px rgba(201, 78, 12, 0.35);
     --tintora-shadow-accent: 0 8px 20px rgba(238, 107, 37, 0.4);
+    --tintora-shadow-focus-ring: 0 0 0 3px rgba(238, 107, 37, 0.28);
 
     /* ---------- State (constants) ---------- */
     --tintora-opacity-disabled: 0.45;
