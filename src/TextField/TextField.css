@@ -1,0 +1,58 @@
+.tintora-textfield {
+    --tintora-textfield-font-size: 0.8125rem; /* 13px: control text, not on the type scale */
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.tintora-textfield--disabled {
+    opacity: var(--tintora-opacity-disabled);
+}
+
+.tintora-textfield__label {
+    font: var(--tintora-font-body);
+    font-weight: var(--tintora-font-weight-semibold);
+    color: var(--tintora-text);
+}
+
+.tintora-textfield__input {
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid var(--tintora-border-field);
+    border-radius: var(--tintora-radius-16);
+    font-family: inherit;
+    font-size: var(--tintora-textfield-font-size);
+    color: var(--tintora-text);
+    background-color: var(--tintora-surface-field);
+    /* Hidden normally, but shown in forced-colors mode, where borders and
+       shadows are removed. The visible focus style is the border and ring. */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+.tintora-textfield__input::placeholder {
+    color: var(--tintora-text-muted);
+    opacity: 1;
+}
+
+.tintora-textfield__input:enabled:hover {
+    border-color: var(--tintora-border-field-hover);
+}
+.tintora-textfield__input:focus-visible {
+    border-color: var(--tintora-focus);
+    box-shadow: var(--tintora-shadow-focus-ring);
+}
+/* After :focus-visible so an invalid field keeps its error border */
+.tintora-textfield__input[aria-invalid='true'] {
+    border-color: var(--tintora-text-error);
+}
+.tintora-textfield__input:disabled {
+    cursor: not-allowed;
+}
+
+.tintora-textfield__hint {
+    font: var(--tintora-font-caption);
+    color: var(--tintora-text-faint);
+}
+.tintora-textfield__hint--error {
+    color: var(--tintora-text-error);
+}
