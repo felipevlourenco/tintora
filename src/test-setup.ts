@@ -8,4 +8,13 @@ globalThis.ResizeObserver ??= class {
     disconnect() {}
 };
 
+// jsdom has no Popover API, but its stylesheet already hides a closed [popover].
+// The stub shows the element, which is all the tests need from it.
+HTMLElement.prototype.showPopover ??= function (this: HTMLElement) {
+    this.style.display = 'block';
+};
+HTMLElement.prototype.hidePopover ??= function (this: HTMLElement) {
+    this.style.display = '';
+};
+
 afterEach(cleanup);
