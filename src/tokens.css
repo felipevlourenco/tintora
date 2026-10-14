@@ -46,6 +46,14 @@
     --tintora-tint-steps: #dcf3e1;
     --tintora-tint-sleep: #e0e7fb;
 
+    /* Menu that opens from a trigger on a card (light in both themes).
+       The dark menu on the panel is --tintora-surface-menu. */
+    --tintora-menu-bg: #ffffff;
+    --tintora-menu-border: rgba(29, 28, 28, 0.1);
+    --tintora-menu-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+    --tintora-menu-item-hover: rgba(29, 28, 28, 0.07);
+    --tintora-menu-item-destructive: #b3261e;
+
     /* ---------- Typography (constants) ---------- */
     --tintora-font-family:
         'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;

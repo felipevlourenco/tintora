@@ -1,0 +1,16 @@
+.tintora-select {
+    position: relative;
+}
+
+.tintora-select__trigger {
+}
+
+.tintora-select__menu {
+    position: absolute;
+    background-color: var(--tintora-menu-bg);
+    border: var(--tintora-menu-border);
+    box-shadow: var(--tintora-menu-shadow);
+}
+
+.tintora-select__option {
+}
