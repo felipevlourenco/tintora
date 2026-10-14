@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import './Select.css';
 import { useSelectContext } from './SelectContext';
 
 export interface SelectOption<T extends string = string> {
@@ -9,21 +8,31 @@ export interface SelectOption<T extends string = string> {
 }
 
 export function SelectOption({ label, value, disabled }: SelectOption) {
-    const { select, value: selectedValue } = useSelectContext();
-
-    const onClickHandler = () => {
-        select(value);
-    };
+    const {
+        select,
+        activate,
+        optionId,
+        value: selectedValue,
+        activeValue,
+    } = useSelectContext();
 
     return (
-        <button
+        // Focus stays on the trigger; the keyboard drives the option through
+        // aria-activedescendant, so the option itself is not focusable.
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
+        <div
+            id={optionId(value)}
             role="option"
-            disabled={disabled}
-            className={clsx('tintora-select__option')}
             aria-selected={selectedValue === value}
-            onClick={onClickHandler}
+            aria-disabled={disabled || undefined}
+            className={clsx(
+                'tintora-select__option',
+                activeValue === value && 'tintora-select__option--active',
+            )}
+            onClick={() => select(value)}
+            onMouseMove={() => !disabled && activate(value)}
         >
             {label}
-        </button>
+        </div>
     );
 }

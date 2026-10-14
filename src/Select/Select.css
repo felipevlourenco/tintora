@@ -1,16 +1,103 @@
 .tintora-select {
+    --tintora-select-font-size: 0.71875rem; /* 11.5px: control text, not on the type scale */
     position: relative;
+    display: inline-block;
 }
 
 .tintora-select__trigger {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--tintora-radius-14);
+    font-family: inherit;
+    font-size: var(--tintora-select-font-size);
+    font-weight: var(--tintora-font-weight-medium);
+    color: var(--tintora-chip-fg);
+    background-color: var(--tintora-chip-bg);
+    cursor: pointer;
+}
+.tintora-select__trigger:enabled:hover,
+.tintora-select__trigger[aria-expanded='true'] {
+    background-color: var(--tintora-chip-bg-hover);
+}
+.tintora-select__trigger:focus-visible {
+    box-shadow: var(--tintora-shadow-focus-ring);
+    /* Invisible normally, but forced-colors mode removes shadows and shows
+       this outline instead. */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+.tintora-select__trigger:disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
 }
 
+.tintora-select__value--placeholder {
+    color: var(--tintora-text-on-card-muted);
+}
+.tintora-select__chevron {
+    flex-shrink: 0;
+}
+.tintora-select__trigger[aria-expanded='true'] .tintora-select__chevron {
+    transform: rotate(180deg);
+}
+
+/* A popover: fixed to the viewport, placed by the component. */
 .tintora-select__menu {
-    position: absolute;
-    background-color: var(--tintora-menu-bg);
-    border: var(--tintora-menu-border);
+    box-sizing: border-box;
+    inset: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 50vh;
+    padding: 6px;
+    overflow-y: auto;
+    border: 1px solid var(--tintora-menu-border);
+    border-radius: var(--tintora-radius-14);
+    color: var(--tintora-color-ink);
+    background: var(--tintora-menu-bg);
     box-shadow: var(--tintora-menu-shadow);
 }
 
 .tintora-select__option {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 10px;
+    border-radius: var(--tintora-radius-12);
+    font: var(--tintora-font-body);
+    cursor: pointer;
+    user-select: none;
+}
+.tintora-select__option--active {
+    background: var(--tintora-menu-item-hover);
+}
+.tintora-select__option[aria-selected='true'] {
+    font-weight: var(--tintora-font-weight-bold);
+    color: var(--tintora-color-accent-deep);
+    background: var(--tintora-tint-accent);
+}
+.tintora-select__option[aria-disabled='true'] {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}
+
+@media (pointer: coarse) {
+    .tintora-select__option {
+        min-height: 44px;
+    }
+}
+
+/* Forced colors drops backgrounds, so mark the active option with an outline */
+@media (forced-colors: active) {
+    .tintora-select__option--active {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
 }

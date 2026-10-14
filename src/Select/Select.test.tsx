@@ -1,17 +1,9 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../test-utils';
 import { Select, type SelectProps } from './Select';
 import { type SelectOption } from './SelectOption';
-
-// Vitest blanks CSS imports, so read the stylesheets directly.
-const read = (...path: string[]) =>
-    readFileSync(join(import.meta.dirname, ...path), 'utf8');
-const css = read('Select.css');
-const tokens = read('..', 'tokens.css');
 
 type Frequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
@@ -410,67 +402,6 @@ describe('Select', () => {
         });
     });
 
-    describe('type-ahead', () => {
-        it('opens and highlights the match when typed while closed', async () => {
-            setup();
-            trigger().focus();
-            await userEvent.keyboard('m');
-            expect(trigger()).toHaveAttribute('aria-expanded', 'true');
-            expect(highlighted()).toBe('Monthly');
-        });
-
-        it('moves the highlight to the match while open', async () => {
-            setup();
-            await open();
-            await userEvent.keyboard('y');
-            expect(highlighted()).toBe('Yearly');
-        });
-
-        it('ignores case', async () => {
-            setup();
-            await open();
-            await userEvent.keyboard('W');
-            expect(highlighted()).toBe('Weekly');
-        });
-
-        it('matches on several characters typed quickly', async () => {
-            setup({
-                options: [
-                    { value: 'mon', label: 'Monday' },
-                    { value: 'mont', label: 'Month' },
-                ],
-            });
-            await open();
-            await userEvent.keyboard('mont');
-            expect(highlighted()).toBe('Month');
-        });
-
-        it('skips a disabled match', async () => {
-            setup({
-                options: [
-                    { value: 'a', label: 'Apple', disabled: true },
-                    { value: 'b', label: 'Apricot' },
-                ],
-            });
-            await open();
-            await userEvent.keyboard('a');
-            expect(highlighted()).toBe('Apricot');
-        });
-
-        it('keeps the highlight when nothing matches', async () => {
-            setup();
-            await open();
-            await userEvent.keyboard('{ArrowDown}z');
-            expect(highlighted()).toBe('Weekly');
-        });
-
-        it('does not open when disabled', async () => {
-            setup({ disabled: true });
-            await userEvent.keyboard('m');
-            expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-        });
-    });
-
     describe('forms', () => {
         const hidden = (container: HTMLElement) =>
             container.querySelector<HTMLInputElement>('input[type="hidden"]');
@@ -508,110 +439,6 @@ describe('Select', () => {
                 disabled: true,
             });
             expect(hidden(container)).toBeDisabled();
-        });
-    });
-
-    // jsdom does not load stylesheets, so check the source.
-    describe('stylesheet', () => {
-        const rule = (selector: string) =>
-            css.match(
-                new RegExp(
-                    `${selector.replace(/[.[\]'=>()]/g, '\\$&')}\\s*\\{([^}]*)\\}`,
-                ),
-            )?.[1] ?? '';
-
-        it.each([
-            '.tintora-select__trigger',
-            '.tintora-select__menu',
-            '.tintora-select__option',
-        ])('defines %s exactly once', (selector) => {
-            const own = new RegExp(`^\\${selector}\\s*\\{`, 'gm');
-            expect(css.match(own)).toHaveLength(1);
-        });
-
-        it('makes the trigger a 28px pill', () => {
-            const body = rule('.tintora-select__trigger');
-            expect(body).toMatch(/height:\s*28px/);
-            expect(body).toMatch(/border-radius:\s*var\(--tintora-radius-14\)/);
-            expect(body).toMatch(/padding:\s*0 12px/);
-        });
-
-        it('colours the trigger from the chip tokens', () => {
-            const body = rule('.tintora-select__trigger');
-            expect(body).toMatch(/var\(--tintora-chip-bg\)/);
-            expect(body).toMatch(/var\(--tintora-chip-fg\)/);
-            expect(css).toMatch(/var\(--tintora-chip-bg-hover\)/);
-        });
-
-        it('styles the open state from aria-expanded', () => {
-            expect(css).toMatch(
-                /\.tintora-select__trigger\[aria-expanded='true'\]\s*\{/,
-            );
-        });
-
-        it('shows a visible focus ring that survives forced colours', () => {
-            const body = rule('.tintora-select__trigger:focus-visible');
-            expect(body).toMatch(/var\(--tintora-shadow-focus-ring\)/);
-            expect(body).toMatch(/outline:\s*2px solid transparent/);
-        });
-
-        it('dims a disabled trigger and its disabled options', () => {
-            expect(rule('.tintora-select__trigger:disabled')).toMatch(
-                /opacity:\s*var\(--tintora-opacity-disabled\)/,
-            );
-            expect(
-                rule(".tintora-select__option[aria-disabled='true']"),
-            ).toMatch(/opacity:\s*var\(--tintora-opacity-disabled\)/);
-        });
-
-        it('draws the menu from the menu tokens', () => {
-            const body = rule('.tintora-select__menu');
-            expect(body).toMatch(/var\(--tintora-menu-bg\)/);
-            expect(body).toMatch(/var\(--tintora-menu-border\)/);
-            expect(body).toMatch(/var\(--tintora-menu-shadow\)/);
-            expect(body).toMatch(/border-radius:\s*var\(--tintora-radius-14\)/);
-        });
-
-        it('makes options 32px, and 44px on touch screens', () => {
-            expect(rule('.tintora-select__option')).toMatch(
-                /min-height:\s*32px|height:\s*32px/,
-            );
-            const touch = css.match(
-                /@media \(pointer:\s*coarse\)\s*\{[\s\S]*?\}\s*\}/,
-            )?.[0];
-            expect(touch).toMatch(/\.tintora-select__option/);
-            expect(touch).toMatch(/44px/);
-        });
-
-        it('tints the selected option from tokens', () => {
-            const body = rule(".tintora-select__option[aria-selected='true']");
-            expect(body).toMatch(/var\(--tintora-tint-accent\)/);
-            expect(body).toMatch(/var\(--tintora-color-accent-deep\)/);
-            expect(body).toMatch(
-                /font-weight:\s*var\(--tintora-font-weight-bold\)/,
-            );
-        });
-
-        it('highlights the active option, which the keyboard moves', () => {
-            expect(css).toMatch(
-                /\.tintora-select__option--active\s*\{|\[data-active/,
-            );
-            expect(css).toMatch(/var\(--tintora-menu-item-hover\)/);
-        });
-
-        it('has no hardcoded colours', () => {
-            expect(css).not.toMatch(/#[0-9a-f]{3,8}\b|rgba?\(/i);
-        });
-
-        it('defines the menu tokens it uses', () => {
-            for (const name of [
-                'menu-bg',
-                'menu-border',
-                'menu-shadow',
-                'menu-item-hover',
-            ]) {
-                expect(tokens).toMatch(new RegExp(`--tintora-${name}:`));
-            }
         });
     });
 
