@@ -1,5 +1,6 @@
 import './tokens.css';
 
+export { Avatar } from './Avatar/Avatar';
 export { Button } from './Button/Button';
 export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';

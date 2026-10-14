@@ -1,0 +1,32 @@
+.tintora-avatar {
+    border-radius: var(--tintora-radius-pill);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--tintora-color-ink);
+    background: linear-gradient(135deg, rgb(241, 217, 191), rgb(201, 160, 122));
+}
+
+.tintora-avatar > img {
+    border-radius: var(--tintora-radius-pill);
+}
+
+/* Sizes */
+.tintora-avatar--small {
+    width: 32px;
+    height: 32px;
+    font: var(--tintora-font-caption);
+    font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-avatar--medium {
+    width: 40px;
+    height: 40px;
+    font: var(--tintora-font-body);
+    font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-avatar--large {
+    width: 44px;
+    height: 44px;
+    font: var(--tintora-font-heading);
+    font-weight: var(--tintora-font-weight-bold);
+}
