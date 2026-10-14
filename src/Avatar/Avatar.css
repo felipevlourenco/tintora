@@ -1,32 +1,39 @@
 .tintora-avatar {
-    border-radius: var(--tintora-radius-pill);
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    border-radius: var(--tintora-radius-pill);
     color: var(--tintora-color-ink);
-    background: linear-gradient(135deg, rgb(241, 217, 191), rgb(201, 160, 122));
+    background: linear-gradient(135deg, #f1d9bf, #c9a07a);
+    font: var(--tintora-font-body);
+    font-size: var(--tintora-avatar-font-size);
+    font-weight: var(--tintora-font-weight-bold);
 }
 
 .tintora-avatar > img {
-    border-radius: var(--tintora-radius-pill);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Sizes */
 .tintora-avatar--small {
+    --tintora-avatar-font-size: 0.6875rem; /* 11 */
     width: 32px;
     height: 32px;
-    font: var(--tintora-font-caption);
     font-weight: var(--tintora-font-weight-bold);
 }
 .tintora-avatar--medium {
+    --tintora-avatar-font-size: 0.8125rem; /* 13 */
     width: 40px;
     height: 40px;
-    font: var(--tintora-font-body);
     font-weight: var(--tintora-font-weight-bold);
 }
 .tintora-avatar--large {
+    --tintora-avatar-font-size: 0.875rem; /* 14 */
     width: 44px;
     height: 44px;
-    font: var(--tintora-font-heading);
     font-weight: var(--tintora-font-weight-bold);
 }

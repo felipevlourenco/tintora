@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { HTMLAttributes } from 'react';
+import { useState, type HTMLAttributes } from 'react';
 import './Avatar.css';
 import { getCapitalFirstLetters } from './utils';
 
@@ -14,15 +14,33 @@ export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
     size?: AvatarSize;
 }
 
-export function Avatar({ name, src, size = 'medium', ...props }: AvatarProps) {
+export function Avatar({
+    name,
+    src,
+    size = 'medium',
+    className,
+    ...props
+}: AvatarProps) {
+    // Remember which URL failed, so a new `src` gets a fresh attempt.
+    const [failedSrc, setFailedSrc] = useState<string>();
+    const showImage = Boolean(src) && src !== failedSrc;
+
     return (
         <span
-            {...props}
             role="img"
             aria-label={name}
-            className={clsx('tintora-avatar', `tintora-avatar--${size}`)}
+            {...props}
+            className={clsx(
+                'tintora-avatar',
+                `tintora-avatar--${size}`,
+                className,
+            )}
         >
-            {src ? <img src={src} alt="" /> : getCapitalFirstLetters(name)}
+            {showImage ? (
+                <img src={src} alt="" onError={() => setFailedSrc(src)} />
+            ) : (
+                getCapitalFirstLetters(name)
+            )}
         </span>
     );
 }
