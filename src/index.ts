@@ -2,6 +2,12 @@ import './tokens.css';
 
 export { Avatar } from './Avatar/Avatar';
 export { Button } from './Button/Button';
+export {
+    Card,
+    SelectableCard,
+    type CardProps,
+    type SelectableCardProps,
+} from './Card/Card';
 export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
 export { IconButton } from './IconButton/IconButton';

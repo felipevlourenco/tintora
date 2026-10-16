@@ -1,0 +1,73 @@
+.tintora-card {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    border: 1px solid transparent;
+    font: inherit;
+    text-align: start;
+}
+
+/* Light card (light in both themes) */
+.tintora-card--surface {
+    padding: 18px 18px 18px 20px;
+    border-color: var(--tintora-border-card);
+    border-radius: var(--tintora-radius-card);
+    background: var(--tintora-surface-card);
+    box-shadow: var(--tintora-shadow-card);
+    color: var(--tintora-color-ink);
+    /* Secondary text inside the card: use as `color` on descriptions */
+    --tintora-card-text-muted: var(--tintora-text-on-card-muted);
+}
+
+/* Translucent list row on the panel */
+.tintora-card--row {
+    justify-content: flex-start;
+    padding: 10px 6px 10px 10px;
+    border-color: var(--tintora-border-row);
+    border-radius: var(--tintora-radius-18);
+    background: var(--tintora-surface-row);
+    color: var(--tintora-text);
+    --tintora-card-text-muted: var(--tintora-text-faint);
+}
+
+/* Selectable (a button) */
+.tintora-card--selectable {
+    width: 100%;
+    cursor: pointer;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            background-color 0.15s ease;
+    }
+}
+.tintora-card--selectable:not(.tintora-card--selected):hover {
+    transform: translateY(-3px);
+    box-shadow: var(--tintora-shadow-card-hover);
+}
+.tintora-card--selectable:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+.tintora-card--selectable:disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}
+
+.tintora-card--selected {
+    border-color: transparent;
+    background: var(--tintora-color-accent-deep);
+    box-shadow: var(--tintora-shadow-selected);
+    color: var(--tintora-color-on-accent-deep);
+    --tintora-card-text-muted: var(--tintora-color-on-accent-deep);
+}
+/* A Tag on a selected card flips to white, like the selected Chip */
+.tintora-card--selected .tintora-tag--card {
+    background-color: var(--tintora-chip-selected-bg);
+    color: var(--tintora-chip-selected-fg);
+    font-weight: var(--tintora-font-weight-bold);
+}
