@@ -113,14 +113,8 @@
 
     /* ---------- Colour (constants) ---------- */
     --tintora-color-white: #ffffff;
-    /* Icon or dot drawn on --tintora-color-accent (selected nav item, theme
-       toggle, selected icon button). Text on accent uses --tintora-color-on-accent. */
-    --tintora-color-on-accent-icon: var(--tintora-color-white);
     --tintora-color-destructive: #b3261e;
     --tintora-color-on-destructive: var(--tintora-color-white);
-    /* Brighter greens and blues used for chart marks inside cards */
-    --tintora-color-steps-light: #35b455;
-    --tintora-color-sleep-light: #3a5bd0;
 
     /* Chart parts on a card (cards are light in both themes) */
     --tintora-chart-grid: #ece9e6;
@@ -129,11 +123,6 @@
 
     /* Dark menu on the glass panel (--tintora-surface-menu): used by the
        notification popover and the row menus, in both themes */
-    --tintora-text-on-menu: var(--tintora-color-white);
-    --tintora-text-on-menu-muted: rgba(255, 255, 255, 0.65);
-    --tintora-text-on-menu-destructive: #ffb4a6;
-    --tintora-border-menu: rgba(255, 255, 255, 0.12);
-    --tintora-fill-menu-item-hover: rgba(255, 255, 255, 0.12);
     --tintora-surface-menu-row: rgba(255, 255, 255, 0.05);
 
     /* ---------- Typography (constants) ---------- */
@@ -143,32 +132,6 @@
         var(--tintora-font-family); /* 13 / 700 */
     --tintora-font-button-sm: 700 0.75rem/var(--tintora-line-height-tight)
         var(--tintora-font-family); /* 12 / 700 */
-
-    /* Single font sizes for text that has no role token above (rem, 16px root) */
-    --tintora-font-size-10: 0.625rem; /* 10 */
-    --tintora-font-size-10-5: 0.65625rem; /* 10.5 */
-    --tintora-font-size-11: 0.6875rem; /* 11 */
-    --tintora-font-size-11-5: 0.71875rem; /* 11.5 */
-    --tintora-font-size-12: 0.75rem; /* 12 */
-    --tintora-font-size-12-5: 0.78125rem; /* 12.5 */
-    --tintora-font-size-13: 0.8125rem; /* 13 */
-    --tintora-font-size-13-5: 0.84375rem; /* 13.5 */
-    --tintora-font-size-14: 0.875rem; /* 14 */
-    --tintora-font-size-16: 1rem; /* 16 */
-    --tintora-font-size-19: 1.1875rem; /* 19 */
-    --tintora-font-size-20: 1.25rem; /* 20 */
-    --tintora-font-size-22: 1.375rem; /* 22 */
-    --tintora-font-size-40: 2.5rem; /* 40 */
-
-    /* Line heights besides --tintora-line-height-tight */
-    --tintora-line-height-1: 1;
-    --tintora-line-height-1-1: 1.1;
-    --tintora-line-height-1-3: 1.3;
-    --tintora-line-height-1-35: 1.35;
-    --tintora-line-height-1-45: 1.45;
-    --tintora-line-height-1-5: 1.5;
-    --tintora-line-height-1-55: 1.55;
-    --tintora-line-height-1-6: 1.6;
 
     --tintora-tracking-tight: -0.02em;
     --tintora-tracking-snug: -0.01em;
@@ -189,7 +152,6 @@
 
     /* ---------- Elevation (constants) ---------- */
     --tintora-shadow-menu: 0 16px 32px rgba(0, 0, 0, 0.45);
-    --tintora-shadow-menu-lg: 0 24px 48px rgba(0, 0, 0, 0.45);
     --tintora-shadow-tooltip: 0 8px 20px rgba(0, 0, 0, 0.25);
     --tintora-shadow-knob: 0 2px 4px rgba(0, 0, 0, 0.3);
     --tintora-shadow-sheet: 0 -16px 40px rgba(0, 0, 0, 0.35);
