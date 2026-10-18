@@ -19,12 +19,32 @@ const parse = (text: string): Token[] =>
         note,
     }));
 
-/** Same in every theme. */
-export const constants = parse(block(':root {'));
-/** Defined per theme (dark block; light must define the same names). */
-export const themed = parse(block(":root,\n[data-theme='dark'] {"));
+/**
+ * Show a token that is just `var(--other)` as the value it points to.
+ * Longer values (font shorthands) are left alone.
+ */
+const resolveAliases = (tokens: Token[], scope: Token[] = []) => {
+    const env = new Map([...scope, ...tokens].map((t) => [t.name, t.value]));
+    const resolve = (value: string, depth = 0): string => {
+        const ref = value.match(/^var\((--[\w-]+)\)$/)?.[1];
+        const next = ref && depth < 10 ? env.get(ref) : undefined;
+        return next === undefined ? value : resolve(next, depth + 1);
+    };
+    return tokens.map((t) => ({ ...t, value: resolve(t.value) }));
+};
 
-export const lightThemed = parse(block("[data-theme='light'] {"));
+/** Same in every theme. */
+export const constants = resolveAliases(parse(block(':root {')));
+/** Defined per theme (dark block; light must define the same names). */
+export const themed = resolveAliases(
+    parse(block(":root,\n[data-theme='dark'] {")),
+    constants,
+);
+
+export const lightThemed = resolveAliases(
+    parse(block("[data-theme='light'] {")),
+    constants,
+);
 
 export const withPrefix = (tokens: Token[], prefix: string) =>
     tokens.filter((t) => t.name.startsWith(`--tintora-${prefix}`));
