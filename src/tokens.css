@@ -19,15 +19,18 @@
     --tintora-color-steps: #1f7a38;
     --tintora-color-sleep: #2f4fc4;
     --tintora-color-ink: #1d1c1c;
+    --tintora-color-white: #ffffff;
+    --tintora-color-destructive: #b3261e;
 
     /* Text colour to use on top of each palette colour */
     --tintora-color-on-accent: #1d0e04;
-    --tintora-color-on-accent-deep: #ffffff;
+    --tintora-color-on-accent-deep: var(--tintora-color-white);
     --tintora-color-on-success: #0d200f;
     --tintora-color-on-planned: #260a13;
-    --tintora-color-on-heart: #ffffff;
-    --tintora-color-on-steps: #ffffff;
-    --tintora-color-on-sleep: #ffffff;
+    --tintora-color-on-heart: var(--tintora-color-white);
+    --tintora-color-on-steps: var(--tintora-color-white);
+    --tintora-color-on-sleep: var(--tintora-color-white);
+    --tintora-color-on-destructive: var(--tintora-color-white);
 
     /* ---------- Chips, tints and text on cards (constants) ----------
        Cards are light in both themes, so what sits on them is constant. */
@@ -37,7 +40,7 @@
     --tintora-chip-bg: #efedeb;
     --tintora-chip-bg-hover: #e4e1de;
     --tintora-chip-selected-fg: #8f3604;
-    --tintora-chip-selected-bg: #ffffff;
+    --tintora-chip-selected-bg: var(--tintora-color-white);
 
     /* Pale backgrounds for icon chips; the text colour is the matching
        --tintora-color-* (accent-deep, heart, steps, sleep). */
@@ -48,11 +51,20 @@
 
     /* Menu that opens from a trigger on a card (light in both themes).
        The dark menu on the panel is --tintora-surface-menu. */
-    --tintora-menu-bg: #ffffff;
+    --tintora-menu-bg: var(--tintora-color-white);
     --tintora-menu-border: rgba(29, 28, 28, 0.1);
     --tintora-menu-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
     --tintora-menu-item-hover: rgba(29, 28, 28, 0.07);
-    --tintora-menu-item-destructive: #b3261e;
+    --tintora-menu-item-destructive: var(--tintora-color-destructive);
+
+    /* Chart parts on a card (cards are light in both themes) */
+    --tintora-chart-grid: #ece9e6;
+    --tintora-chart-axis: #6f6b68;
+    --tintora-chart-track: #e6e4e2;
+
+    /* Dark menu on the glass panel (--tintora-surface-menu): used by the
+       notification popover and the row menus, in both themes */
+    --tintora-surface-menu-row: rgba(255, 255, 255, 0.05);
 
     /* ---------- Typography (constants) ---------- */
     --tintora-font-family:
@@ -82,16 +94,37 @@
         var(--tintora-font-family); /* 11 / 400 */
     --tintora-font-stat-value: 800 1.5625rem/var(--tintora-line-height-tight)
         var(--tintora-font-family); /* 25 / 800 */
+    --tintora-font-subtitle: 700 0.875rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 14 / 700 */
+    --tintora-font-button: 700 0.8125rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 13 / 700 */
+    --tintora-font-button-sm: 700 0.75rem/var(--tintora-line-height-tight)
+        var(--tintora-font-family); /* 12 / 700 */
+
+    --tintora-tracking-tight: -0.02em;
+    --tintora-tracking-snug: -0.01em;
+    --tintora-tracking-wide: 0.04em;
 
     /* ---------- Radius (constants) ---------- */
+    --tintora-radius-2: 2px;
+    --tintora-radius-4: 4px;
+    --tintora-radius-6: 6px;
+    --tintora-radius-7: 7px;
     --tintora-radius-8: 8px;
+    --tintora-radius-9: 9px;
+    --tintora-radius-10: 10px;
     --tintora-radius-12: 12px;
     --tintora-radius-14: 14px;
     --tintora-radius-16: 16px;
     --tintora-radius-18: 18px;
     --tintora-radius-20: 20px;
+    --tintora-radius-22: 22px;
     --tintora-radius-26: 26px;
+    --tintora-radius-28: 28px;
+    --tintora-radius-30: 30px;
     --tintora-radius-32: 32px;
+    --tintora-radius-34: 34px;
+    --tintora-radius-38: 38px;
     --tintora-radius-40: 40px;
     --tintora-radius-pill: 9999px;
 
@@ -103,6 +136,15 @@
     --tintora-shadow-primary: 0 8px 20px rgba(201, 78, 12, 0.35);
     --tintora-shadow-accent: 0 8px 20px rgba(238, 107, 37, 0.4);
     --tintora-shadow-focus-ring: 0 0 0 3px rgba(238, 107, 37, 0.28);
+    --tintora-shadow-menu: 0 16px 32px rgba(0, 0, 0, 0.45);
+    --tintora-shadow-tooltip: 0 8px 20px rgba(0, 0, 0, 0.25);
+    --tintora-shadow-knob: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --tintora-shadow-sheet: 0 -16px 40px rgba(0, 0, 0, 0.35);
+
+    /* ---------- Glass and motion (constants) ---------- */
+    --tintora-blur-glass: 28px;
+    --tintora-duration-fast: 0.15s;
+    --tintora-duration-base: 0.2s;
 
     /* ---------- State (constants) ---------- */
     --tintora-opacity-disabled: 0.45;
@@ -127,7 +169,7 @@
     --tintora-surface-menu: rgba(30, 28, 28, 0.97);
 
     /* Text */
-    --tintora-text: #ffffff;
+    --tintora-text: var(--tintora-color-white);
     --tintora-text-muted: rgba(255, 255, 255, 0.72);
     --tintora-text-faint: rgba(255, 255, 255, 0.65);
     --tintora-text-nav-idle: rgba(255, 255, 255, 0.78);
@@ -152,16 +194,86 @@
 
     /* Tag */
     --tintora-tag-bg: rgba(255, 255, 255, 0.14);
-    --tintora-tag-fg: #ffffff;
+    --tintora-tag-fg: var(--tintora-color-white);
 
     /* Focus and selection rings */
-    --tintora-focus: #ee6b25;
-    --tintora-ring: #ffffff;
+    --tintora-focus: var(--tintora-color-accent);
+    --tintora-ring: var(--tintora-color-white);
 
     /* Elevation */
     --tintora-shadow-glass: 0 30px 60px rgba(0, 0, 0, 0.35);
     --tintora-shadow-card: 0 10px 24px rgba(0, 0, 0, 0.18);
     --tintora-shadow-card-hover: 0 18px 36px rgba(0, 0, 0, 0.32);
+
+    /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
+    --tintora-bg-glow:
+        radial-gradient(
+            60% 50% at 6% 8%,
+            rgba(222, 204, 176, 0.5),
+            transparent 62%
+        ),
+        radial-gradient(
+            50% 45% at 96% 10%,
+            rgba(132, 106, 86, 0.5),
+            transparent 62%
+        );
+    --tintora-text-placeholder: rgba(255, 255, 255, 0.62);
+
+    /* Scrim, modal and popover */
+    --tintora-scrim: rgba(10, 9, 9, 0.6);
+    --tintora-surface-modal: linear-gradient(180deg, #403c3b, #2a2726);
+    --tintora-border-modal: rgba(255, 255, 255, 0.12);
+    --tintora-shadow-modal: 0 40px 80px rgba(0, 0, 0, 0.5);
+    --tintora-surface-popover: #2b2928;
+    --tintora-border-popover: rgba(255, 255, 255, 0.14);
+    --tintora-shadow-popover: 0 24px 48px rgba(0, 0, 0, 0.45);
+
+    /* Tooltip (inverse of the page) */
+    --tintora-surface-tooltip: #fbfaf9;
+    --tintora-text-on-tooltip: var(--tintora-color-ink);
+    --tintora-text-on-tooltip-muted: #5a5754;
+    --tintora-tooltip-kbd-bg: rgba(29, 28, 28, 0.1);
+
+    /* Toast (inverse of the page) */
+    --tintora-surface-toast: #fbfaf9;
+    --tintora-text-on-toast: var(--tintora-color-ink);
+    --tintora-text-on-toast-muted: #5a5754;
+    --tintora-toast-action: var(--tintora-color-accent-deep);
+    --tintora-shadow-toast: 0 16px 36px rgba(0, 0, 0, 0.4);
+    --tintora-toast-icon-success: var(--tintora-color-steps);
+    --tintora-toast-icon-error: var(--tintora-color-destructive);
+    --tintora-toast-icon-info: var(--tintora-color-sleep);
+    --tintora-toast-icon-warning: #8a5600;
+
+    /* Status (alert bar, banners): tinted background, border and a foreground for icon and action */
+    --tintora-status-info-bg: rgba(120, 150, 255, 0.14);
+    --tintora-status-info-border: rgba(150, 175, 255, 0.38);
+    --tintora-status-info-fg: #a9bcff;
+    --tintora-status-success-bg: rgba(76, 197, 107, 0.14);
+    --tintora-status-success-border: rgba(76, 197, 107, 0.4);
+    --tintora-status-success-fg: #6ddb8b;
+    --tintora-status-warning-bg: rgba(242, 163, 58, 0.15);
+    --tintora-status-warning-border: rgba(242, 163, 58, 0.42);
+    --tintora-status-warning-fg: #f5b45a;
+    --tintora-status-error-bg: rgba(255, 130, 110, 0.15);
+    --tintora-status-error-border: rgba(255, 140, 120, 0.42);
+    --tintora-status-error-fg: var(--tintora-text-error);
+
+    /* Form controls (switch, checkbox, radio) */
+    --tintora-control-fill: var(--tintora-color-accent);
+    --tintora-control-on-fill: var(--tintora-color-on-accent);
+    --tintora-control-border: rgba(255, 255, 255, 0.6);
+    --tintora-control-hover-tint: rgba(238, 107, 37, 0.16);
+    --tintora-switch-track: rgba(255, 255, 255, 0.3);
+    --tintora-switch-track-hover: rgba(255, 255, 255, 0.4);
+
+    /* Skeleton shimmer */
+    --tintora-shimmer: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
 }
 
 /* ---------- Theme tokens: light ---------- */
@@ -181,12 +293,12 @@
     --tintora-surface-menu: #2a2827;
 
     /* Text */
-    --tintora-text: #1d1c1c;
+    --tintora-text: var(--tintora-color-ink);
     --tintora-text-muted: #5a5754;
     --tintora-text-faint: #5a5754;
     --tintora-text-nav-idle: #4a4745;
     --tintora-text-day: #2b2927;
-    --tintora-text-error: #b3261e;
+    --tintora-text-error: var(--tintora-color-destructive);
 
     /* Borders and lines */
     --tintora-border-glass: rgba(255, 255, 255, 0.85);
@@ -206,16 +318,86 @@
 
     /* Tag */
     --tintora-tag-bg: rgba(29, 28, 28, 0.07);
-    --tintora-tag-fg: #1d1c1c;
+    --tintora-tag-fg: var(--tintora-color-ink);
 
     /* Focus and selection rings */
-    --tintora-focus: #c94e0c;
-    --tintora-ring: #1d1c1c;
+    --tintora-focus: var(--tintora-color-accent-deep);
+    --tintora-ring: var(--tintora-color-ink);
 
     /* Elevation */
     --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
     --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
     --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
+
+    /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
+    --tintora-bg-glow:
+        radial-gradient(
+            60% 50% at 6% 8%,
+            rgba(255, 214, 172, 0.9),
+            transparent 62%
+        ),
+        radial-gradient(
+            50% 45% at 96% 10%,
+            rgba(255, 238, 214, 0.95),
+            transparent 62%
+        );
+    --tintora-text-placeholder: #5f5b58;
+
+    /* Scrim, modal and popover */
+    --tintora-scrim: rgba(29, 28, 28, 0.45);
+    --tintora-surface-modal: #ffffff;
+    --tintora-border-modal: rgba(29, 28, 28, 0.06);
+    --tintora-shadow-modal: 0 40px 80px rgba(60, 40, 20, 0.35);
+    --tintora-surface-popover: #ffffff;
+    --tintora-border-popover: rgba(29, 28, 28, 0.1);
+    --tintora-shadow-popover: 0 24px 48px rgba(60, 40, 20, 0.22);
+
+    /* Tooltip (inverse of the page) */
+    --tintora-surface-tooltip: #2a2827;
+    --tintora-text-on-tooltip: var(--tintora-color-white);
+    --tintora-text-on-tooltip-muted: rgba(255, 255, 255, 0.78);
+    --tintora-tooltip-kbd-bg: rgba(255, 255, 255, 0.18);
+
+    /* Toast (inverse of the page) */
+    --tintora-surface-toast: #2a2827;
+    --tintora-text-on-toast: var(--tintora-color-white);
+    --tintora-text-on-toast-muted: rgba(255, 255, 255, 0.75);
+    --tintora-toast-action: #ff9a5c;
+    --tintora-shadow-toast: 0 16px 36px rgba(60, 40, 20, 0.35);
+    --tintora-toast-icon-success: var(--tintora-color-success);
+    --tintora-toast-icon-error: #ff9a8a;
+    --tintora-toast-icon-info: #9db4ff;
+    --tintora-toast-icon-warning: #f2a33a;
+
+    /* Status (alert bar, banners): tinted background, border and a foreground for icon and action */
+    --tintora-status-info-bg: rgba(47, 79, 196, 0.08);
+    --tintora-status-info-border: rgba(47, 79, 196, 0.28);
+    --tintora-status-info-fg: var(--tintora-color-sleep);
+    --tintora-status-success-bg: rgba(31, 122, 56, 0.09);
+    --tintora-status-success-border: rgba(31, 122, 56, 0.3);
+    --tintora-status-success-fg: var(--tintora-color-steps);
+    --tintora-status-warning-bg: rgba(168, 106, 10, 0.1);
+    --tintora-status-warning-border: rgba(168, 106, 10, 0.32);
+    --tintora-status-warning-fg: #8a5600;
+    --tintora-status-error-bg: rgba(179, 38, 30, 0.08);
+    --tintora-status-error-border: rgba(179, 38, 30, 0.28);
+    --tintora-status-error-fg: var(--tintora-text-error);
+
+    /* Form controls (switch, checkbox, radio) */
+    --tintora-control-fill: var(--tintora-color-accent-deep);
+    --tintora-control-on-fill: var(--tintora-color-white);
+    --tintora-control-border: rgba(29, 28, 28, 0.55);
+    --tintora-control-hover-tint: rgba(238, 107, 37, 0.16);
+    --tintora-switch-track: rgba(29, 28, 28, 0.38);
+    --tintora-switch-track-hover: rgba(29, 28, 28, 0.5);
+
+    /* Skeleton shimmer */
+    --tintora-shimmer: linear-gradient(
+        90deg,
+        rgba(29, 28, 28, 0.07) 0%,
+        rgba(29, 28, 28, 0.16) 50%,
+        rgba(29, 28, 28, 0.07) 100%
+    );
 }
 
 /* ---------- Light by OS preference ----------
@@ -241,12 +423,12 @@
         --tintora-surface-menu: #2a2827;
 
         /* Text */
-        --tintora-text: #1d1c1c;
+        --tintora-text: var(--tintora-color-ink);
         --tintora-text-muted: #5a5754;
         --tintora-text-faint: #5a5754;
         --tintora-text-nav-idle: #4a4745;
         --tintora-text-day: #2b2927;
-        --tintora-text-error: #b3261e;
+        --tintora-text-error: var(--tintora-color-destructive);
 
         /* Borders and lines */
         --tintora-border-glass: rgba(255, 255, 255, 0.85);
@@ -266,15 +448,85 @@
 
         /* Tag */
         --tintora-tag-bg: rgba(29, 28, 28, 0.07);
-        --tintora-tag-fg: #1d1c1c;
+        --tintora-tag-fg: var(--tintora-color-ink);
 
         /* Focus and selection rings */
-        --tintora-focus: #c94e0c;
-        --tintora-ring: #1d1c1c;
+        --tintora-focus: var(--tintora-color-accent-deep);
+        --tintora-ring: var(--tintora-color-ink);
 
         /* Elevation */
         --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
         --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
         --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
+
+        /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
+        --tintora-bg-glow:
+            radial-gradient(
+                60% 50% at 6% 8%,
+                rgba(255, 214, 172, 0.9),
+                transparent 62%
+            ),
+            radial-gradient(
+                50% 45% at 96% 10%,
+                rgba(255, 238, 214, 0.95),
+                transparent 62%
+            );
+        --tintora-text-placeholder: #5f5b58;
+
+        /* Scrim, modal and popover */
+        --tintora-scrim: rgba(29, 28, 28, 0.45);
+        --tintora-surface-modal: #ffffff;
+        --tintora-border-modal: rgba(29, 28, 28, 0.06);
+        --tintora-shadow-modal: 0 40px 80px rgba(60, 40, 20, 0.35);
+        --tintora-surface-popover: #ffffff;
+        --tintora-border-popover: rgba(29, 28, 28, 0.1);
+        --tintora-shadow-popover: 0 24px 48px rgba(60, 40, 20, 0.22);
+
+        /* Tooltip (inverse of the page) */
+        --tintora-surface-tooltip: #2a2827;
+        --tintora-text-on-tooltip: var(--tintora-color-white);
+        --tintora-text-on-tooltip-muted: rgba(255, 255, 255, 0.78);
+        --tintora-tooltip-kbd-bg: rgba(255, 255, 255, 0.18);
+
+        /* Toast (inverse of the page) */
+        --tintora-surface-toast: #2a2827;
+        --tintora-text-on-toast: var(--tintora-color-white);
+        --tintora-text-on-toast-muted: rgba(255, 255, 255, 0.75);
+        --tintora-toast-action: #ff9a5c;
+        --tintora-shadow-toast: 0 16px 36px rgba(60, 40, 20, 0.35);
+        --tintora-toast-icon-success: var(--tintora-color-success);
+        --tintora-toast-icon-error: #ff9a8a;
+        --tintora-toast-icon-info: #9db4ff;
+        --tintora-toast-icon-warning: #f2a33a;
+
+        /* Status (alert bar, banners): tinted background, border and a foreground for icon and action */
+        --tintora-status-info-bg: rgba(47, 79, 196, 0.08);
+        --tintora-status-info-border: rgba(47, 79, 196, 0.28);
+        --tintora-status-info-fg: var(--tintora-color-sleep);
+        --tintora-status-success-bg: rgba(31, 122, 56, 0.09);
+        --tintora-status-success-border: rgba(31, 122, 56, 0.3);
+        --tintora-status-success-fg: var(--tintora-color-steps);
+        --tintora-status-warning-bg: rgba(168, 106, 10, 0.1);
+        --tintora-status-warning-border: rgba(168, 106, 10, 0.32);
+        --tintora-status-warning-fg: #8a5600;
+        --tintora-status-error-bg: rgba(179, 38, 30, 0.08);
+        --tintora-status-error-border: rgba(179, 38, 30, 0.28);
+        --tintora-status-error-fg: var(--tintora-text-error);
+
+        /* Form controls (switch, checkbox, radio) */
+        --tintora-control-fill: var(--tintora-color-accent-deep);
+        --tintora-control-on-fill: var(--tintora-color-white);
+        --tintora-control-border: rgba(29, 28, 28, 0.55);
+        --tintora-control-hover-tint: rgba(238, 107, 37, 0.16);
+        --tintora-switch-track: rgba(29, 28, 28, 0.38);
+        --tintora-switch-track-hover: rgba(29, 28, 28, 0.5);
+
+        /* Skeleton shimmer */
+        --tintora-shimmer: linear-gradient(
+            90deg,
+            rgba(29, 28, 28, 0.07) 0%,
+            rgba(29, 28, 28, 0.16) 50%,
+            rgba(29, 28, 28, 0.07) 100%
+        );
     }
 }
