@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { Spinner } from '../Spinner/Spinner';
 import './Button.css';
 
 type ButtonVariants = 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -8,6 +9,7 @@ type ButtonSizes = 'small' | 'medium' | 'large';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant: ButtonVariants;
     size?: ButtonSizes;
+    loading?: boolean;
     leadingIcon?: ReactNode;
     trailingIcon?: ReactNode;
 }
@@ -20,6 +22,8 @@ export function Button({
     leadingIcon,
     trailingIcon,
     type = 'button',
+    loading = false,
+    disabled,
     ...props
 }: ButtonProps) {
     return (
@@ -30,14 +34,22 @@ export function Button({
                 `tintora-button--${variant}`,
                 `tintora-button--${size}`,
                 {
-                    'tintora-button--leading-icon': !!leadingIcon,
+                    'tintora-button--leading-icon': !!leadingIcon || loading,
+                    'tintora-button--loading': loading,
                     'tintora-button--trailing-icon': !!trailingIcon,
                 },
                 className,
             )}
+            disabled={disabled || loading}
+            aria-busy={loading || undefined}
             {...props}
         >
-            {leadingIcon && (
+            {loading && (
+                <span className="tintora-button__icon" aria-hidden="true">
+                    <Spinner size="small" color="current" />
+                </span>
+            )}
+            {!loading && leadingIcon && (
                 <span className="tintora-button__icon" aria-hidden="true">
                     {leadingIcon}
                 </span>

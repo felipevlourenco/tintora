@@ -81,6 +81,46 @@ describe('Button', () => {
         });
     });
 
+    describe('loading', () => {
+        it('shows a spinner instead of the leading icon, hidden from assistive tech', () => {
+            setup({ loading: true, leadingIcon: <svg data-testid="lead" /> });
+            const button = screen.getByRole('button');
+            expect(screen.queryByTestId('lead')).not.toBeInTheDocument();
+            expect(
+                button.querySelector('.tintora-spinner'),
+            ).toBeInTheDocument();
+            expect(button.firstElementChild).toHaveAttribute(
+                'aria-hidden',
+                'true',
+            );
+            expect(button).toHaveClass(
+                'tintora-button--loading',
+                'tintora-button--leading-icon',
+            );
+        });
+
+        it('is disabled and aria-busy so it cannot be activated twice', async () => {
+            const onClick = vi.fn();
+            setup({ loading: true, onClick });
+            const button = screen.getByRole('button', { name: 'Save' });
+            expect(button).toBeDisabled();
+            expect(button).toHaveAttribute('aria-busy', 'true');
+            await userEvent.click(button);
+            expect(onClick).not.toHaveBeenCalled();
+        });
+
+        it('is not busy by default', () => {
+            setup();
+            expect(screen.getByRole('button')).not.toHaveAttribute('aria-busy');
+            expect(screen.getByRole('button')).toBeEnabled();
+        });
+
+        it('stays disabled when disabled is set and loading ends', () => {
+            setup({ loading: false, disabled: true });
+            expect(screen.getByRole('button')).toBeDisabled();
+        });
+    });
+
     describe('interaction', () => {
         it('calls onClick when clicked', async () => {
             const onClick = vi.fn();
@@ -124,6 +164,11 @@ describe('Button', () => {
 
         it('has no violations when disabled', async () => {
             const { container } = setup({ disabled: true });
+            await expectNoA11yViolations(container);
+        });
+
+        it('has no violations when loading', async () => {
+            const { container } = setup({ loading: true });
             await expectNoA11yViolations(container);
         });
 

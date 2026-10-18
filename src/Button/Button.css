@@ -109,3 +109,8 @@
     cursor: not-allowed;
     box-shadow: none;
 }
+/* Loading is disabled-but-not-dimmed: the spinner shows it's working. */
+.tintora-button--loading:disabled {
+    opacity: 0.85;
+    cursor: progress;
+}

@@ -111,6 +111,18 @@ const states = [
     { label: 'Disabled', disabled: true },
 ];
 
+export const Loading: Story = {
+    render: (args) => (
+        <div style={row}>
+            {variants.map((variant) => (
+                <Button key={variant} {...args} variant={variant} loading>
+                    {variant}
+                </Button>
+            ))}
+        </div>
+    ),
+};
+
 export const States: Story = {
     parameters: {
         pseudo: {

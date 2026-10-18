@@ -1,0 +1,16 @@
+.tintora-spinner {
+    flex-shrink: 0;
+    animation: tintora-spin 0.9s linear infinite;
+}
+
+@keyframes tintora-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-spinner {
+        animation: none;
+    }
+}
