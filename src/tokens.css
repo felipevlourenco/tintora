@@ -19,6 +19,8 @@
     --tintora-color-steps: #1f7a38;
     --tintora-color-sleep: #2f4fc4;
     --tintora-color-ink: #1d1c1c;
+    --tintora-color-white: #ffffff;
+    --tintora-color-destructive: #b3261e;
 
     /* Text colour to use on top of each palette colour */
     --tintora-color-on-accent: #1d0e04;
@@ -28,6 +30,7 @@
     --tintora-color-on-heart: var(--tintora-color-white);
     --tintora-color-on-steps: var(--tintora-color-white);
     --tintora-color-on-sleep: var(--tintora-color-white);
+    --tintora-color-on-destructive: var(--tintora-color-white);
 
     /* ---------- Chips, tints and text on cards (constants) ----------
        Cards are light in both themes, so what sits on them is constant. */
@@ -53,6 +56,15 @@
     --tintora-menu-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
     --tintora-menu-item-hover: rgba(29, 28, 28, 0.07);
     --tintora-menu-item-destructive: var(--tintora-color-destructive);
+
+    /* Chart parts on a card (cards are light in both themes) */
+    --tintora-chart-grid: #ece9e6;
+    --tintora-chart-axis: #6f6b68;
+    --tintora-chart-track: #e6e4e2;
+
+    /* Dark menu on the glass panel (--tintora-surface-menu): used by the
+       notification popover and the row menus, in both themes */
+    --tintora-surface-menu-row: rgba(255, 255, 255, 0.05);
 
     /* ---------- Typography (constants) ---------- */
     --tintora-font-family:
@@ -82,50 +94,6 @@
         var(--tintora-font-family); /* 11 / 400 */
     --tintora-font-stat-value: 800 1.5625rem/var(--tintora-line-height-tight)
         var(--tintora-font-family); /* 25 / 800 */
-
-    /* ---------- Radius (constants) ---------- */
-    --tintora-radius-8: 8px;
-    --tintora-radius-12: 12px;
-    --tintora-radius-14: 14px;
-    --tintora-radius-16: 16px;
-    --tintora-radius-18: 18px;
-    --tintora-radius-20: 20px;
-    --tintora-radius-26: 26px;
-    --tintora-radius-32: 32px;
-    --tintora-radius-40: 40px;
-    --tintora-radius-pill: 9999px;
-
-    --tintora-radius-card: var(--tintora-radius-20);
-    --tintora-radius-panel: var(--tintora-radius-32);
-
-    /* ---------- Elevation (constants) ---------- */
-    --tintora-shadow-selected: 0 14px 30px rgba(201, 78, 12, 0.45);
-    --tintora-shadow-primary: 0 8px 20px rgba(201, 78, 12, 0.35);
-    --tintora-shadow-accent: 0 8px 20px rgba(238, 107, 37, 0.4);
-    --tintora-shadow-focus-ring: 0 0 0 3px rgba(238, 107, 37, 0.28);
-
-    /* ---------- State (constants) ---------- */
-    --tintora-opacity-disabled: 0.45;
-
-    /* =====================================================================
-       Added from the designs (constants)
-       ===================================================================== */
-
-    /* ---------- Colour (constants) ---------- */
-    --tintora-color-white: #ffffff;
-    --tintora-color-destructive: #b3261e;
-    --tintora-color-on-destructive: var(--tintora-color-white);
-
-    /* Chart parts on a card (cards are light in both themes) */
-    --tintora-chart-grid: #ece9e6;
-    --tintora-chart-axis: #6f6b68;
-    --tintora-chart-track: #e6e4e2;
-
-    /* Dark menu on the glass panel (--tintora-surface-menu): used by the
-       notification popover and the row menus, in both themes */
-    --tintora-surface-menu-row: rgba(255, 255, 255, 0.05);
-
-    /* ---------- Typography (constants) ---------- */
     --tintora-font-subtitle: 700 0.875rem/var(--tintora-line-height-tight)
         var(--tintora-font-family); /* 14 / 700 */
     --tintora-font-button: 700 0.8125rem/var(--tintora-line-height-tight)
@@ -142,24 +110,44 @@
     --tintora-radius-4: 4px;
     --tintora-radius-6: 6px;
     --tintora-radius-7: 7px;
+    --tintora-radius-8: 8px;
     --tintora-radius-9: 9px;
     --tintora-radius-10: 10px;
+    --tintora-radius-12: 12px;
+    --tintora-radius-14: 14px;
+    --tintora-radius-16: 16px;
+    --tintora-radius-18: 18px;
+    --tintora-radius-20: 20px;
     --tintora-radius-22: 22px;
+    --tintora-radius-26: 26px;
     --tintora-radius-28: 28px;
     --tintora-radius-30: 30px;
+    --tintora-radius-32: 32px;
     --tintora-radius-34: 34px;
     --tintora-radius-38: 38px;
+    --tintora-radius-40: 40px;
+    --tintora-radius-pill: 9999px;
+
+    --tintora-radius-card: var(--tintora-radius-20);
+    --tintora-radius-panel: var(--tintora-radius-32);
 
     /* ---------- Elevation (constants) ---------- */
+    --tintora-shadow-selected: 0 14px 30px rgba(201, 78, 12, 0.45);
+    --tintora-shadow-primary: 0 8px 20px rgba(201, 78, 12, 0.35);
+    --tintora-shadow-accent: 0 8px 20px rgba(238, 107, 37, 0.4);
+    --tintora-shadow-focus-ring: 0 0 0 3px rgba(238, 107, 37, 0.28);
     --tintora-shadow-menu: 0 16px 32px rgba(0, 0, 0, 0.45);
     --tintora-shadow-tooltip: 0 8px 20px rgba(0, 0, 0, 0.25);
     --tintora-shadow-knob: 0 2px 4px rgba(0, 0, 0, 0.3);
     --tintora-shadow-sheet: 0 -16px 40px rgba(0, 0, 0, 0.35);
 
-    /* Glass blur and motion */
+    /* ---------- Glass and motion (constants) ---------- */
     --tintora-blur-glass: 28px;
     --tintora-duration-fast: 0.15s;
     --tintora-duration-base: 0.2s;
+
+    /* ---------- State (constants) ---------- */
+    --tintora-opacity-disabled: 0.45;
 }
 
 /* ---------- Theme tokens: dark (default) ---------- */
@@ -216,10 +204,6 @@
     --tintora-shadow-glass: 0 30px 60px rgba(0, 0, 0, 0.35);
     --tintora-shadow-card: 0 10px 24px rgba(0, 0, 0, 0.18);
     --tintora-shadow-card-hover: 0 18px 36px rgba(0, 0, 0, 0.32);
-
-    /* =====================================================================
-       Added from the designs (theme tokens)
-       ===================================================================== */
 
     /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
     --tintora-bg-glow:
@@ -344,10 +328,6 @@
     --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
     --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
     --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
-
-    /* =====================================================================
-       Added from the designs (theme tokens)
-       ===================================================================== */
 
     /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
     --tintora-bg-glow:
@@ -478,10 +458,6 @@
         --tintora-shadow-glass: 0 30px 60px rgba(96, 64, 32, 0.14);
         --tintora-shadow-card: 0 10px 24px rgba(96, 64, 32, 0.1);
         --tintora-shadow-card-hover: 0 18px 36px rgba(96, 64, 32, 0.2);
-
-        /* =====================================================================
-           Added from the designs (theme tokens)
-           ===================================================================== */
 
         /* Canvas glow: warm light behind the glass, layered over --tintora-bg */
         --tintora-bg-glow:
