@@ -13,6 +13,7 @@ export { Dot } from './Dot/Dot';
 export { IconButton } from './IconButton/IconButton';
 export { SearchInput } from './SearchInput/SearchInput';
 export { Select } from './Select/Select';
+export { Spinner } from './Spinner/Spinner';
 export { Tag } from './Tag/Tag';
 export { TextField } from './TextField/TextField';
 export { Toggle, type ToggleProps } from './Toggle/Toggle';
