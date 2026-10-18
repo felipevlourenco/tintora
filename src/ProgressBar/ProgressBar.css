@@ -1,0 +1,53 @@
+.tintora-progress-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tintora-progress-bar__header {
+    display: flex;
+    justify-content: space-between;
+    font: var(--tintora-font-label);
+    font-weight: var(--tintora-font-weight-semibold);
+}
+.tintora-progress-bar__value {
+    color: var(--tintora-text-muted);
+}
+
+.tintora-progress-bar__track {
+    overflow: hidden;
+    position: relative;
+    height: 8px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-fill-subtle-hover);
+}
+.tintora-progress-bar__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: var(--tintora-radius-4);
+    background: var(--tintora-control-fill);
+}
+.tintora-progress-bar__fill--complete {
+    background: var(--tintora-status-success-fg);
+}
+.tintora-progress-bar__fill--indeterminate {
+    width: 40%;
+    animation: tintora-indeterminate 1.3s ease-in-out infinite;
+}
+
+@keyframes tintora-indeterminate {
+    from {
+        left: -40%;
+    }
+    to {
+        left: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-progress-bar__fill--indeterminate {
+        animation: none;
+    }
+}

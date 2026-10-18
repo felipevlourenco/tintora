@@ -11,6 +11,7 @@ export {
 export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
 export { IconButton } from './IconButton/IconButton';
+export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';
 export { SearchInput } from './SearchInput/SearchInput';
 export { Select } from './Select/Select';
 export { Spinner } from './Spinner/Spinner';
