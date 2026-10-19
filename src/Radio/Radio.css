@@ -1,0 +1,71 @@
+.tintora-radio {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* The native input is invisible but covers the circle plus 11px on every side,
+   giving the 44px hit area and real keyboard/focus behaviour. */
+.tintora-radio__input {
+    position: absolute;
+    inset: -11px;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.tintora-radio__circle {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--tintora-control-border);
+    border-radius: var(--tintora-radius-pill);
+    background: transparent;
+    outline-offset: 2px;
+    pointer-events: none;
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+.tintora-radio__circle::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-control-fill);
+    opacity: 0;
+}
+
+.tintora-radio__input:enabled:hover + .tintora-radio__circle {
+    border-color: var(--tintora-control-fill);
+    background: var(--tintora-control-hover-tint);
+}
+.tintora-radio__input:checked + .tintora-radio__circle {
+    border-color: var(--tintora-control-fill);
+    background: transparent;
+}
+.tintora-radio__input:checked + .tintora-radio__circle::after {
+    opacity: 1;
+}
+.tintora-radio__input:focus-visible + .tintora-radio__circle {
+    outline: 2px solid var(--tintora-focus);
+}
+.tintora-radio__input:disabled {
+    cursor: not-allowed;
+}
+.tintora-radio__input:disabled + .tintora-radio__circle {
+    opacity: var(--tintora-opacity-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-radio__circle {
+        transition: none;
+    }
+}
