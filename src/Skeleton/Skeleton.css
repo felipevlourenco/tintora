@@ -1,0 +1,25 @@
+.tintora-skeleton {
+    display: block;
+    flex-shrink: 0;
+    width: 100%;
+    height: 14px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-shimmer);
+    background-size: 200% 100%;
+    animation: tintora-shimmer 1.4s linear infinite;
+}
+
+@keyframes tintora-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+    to {
+        background-position: -200% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-skeleton {
+        animation: none;
+    }
+}
