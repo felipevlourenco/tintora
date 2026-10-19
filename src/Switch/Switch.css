@@ -1,0 +1,73 @@
+.tintora-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+/* The native input is invisible but covers the switch plus 9px above and below,
+   giving the 44px hit area and real keyboard/focus behaviour. */
+.tintora-switch__input {
+    position: absolute;
+    inset: -9px 0;
+    width: 100%;
+    height: calc(100% + 18px);
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.tintora-switch__track {
+    --tintora-switch-offset: 3px;
+    position: absolute;
+    inset: 0;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-switch-track);
+    outline-offset: 2px;
+    pointer-events: none;
+    transition: background 200ms ease;
+}
+.tintora-switch__track::after {
+    content: '';
+    position: absolute;
+    top: var(--tintora-switch-offset);
+    left: var(--tintora-switch-offset);
+    width: 20px;
+    height: 20px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-color-white);
+    box-shadow: var(--tintora-shadow-knob);
+    transition: transform 200ms ease;
+}
+
+.tintora-switch__input:hover + .tintora-switch__track {
+    background: var(--tintora-switch-track-hover);
+}
+.tintora-switch__input:checked + .tintora-switch__track {
+    background: var(--tintora-control-fill);
+}
+/* 44 - 20 - 2 * 3 */
+.tintora-switch__input:checked + .tintora-switch__track::after {
+    transform: translateX(18px);
+}
+.tintora-switch__input:focus-visible + .tintora-switch__track {
+    outline: 2px solid var(--tintora-focus);
+}
+.tintora-switch__input:disabled {
+    cursor: not-allowed;
+}
+.tintora-switch__input:disabled + .tintora-switch__track {
+    opacity: var(--tintora-opacity-disabled);
+    background: var(--tintora-switch-track);
+}
+.tintora-switch__input:disabled:checked + .tintora-switch__track {
+    background: var(--tintora-control-fill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-switch__track,
+    .tintora-switch__track::after {
+        transition: none;
+    }
+}
