@@ -1,0 +1,84 @@
+.tintora-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* The native input is invisible but covers the box plus 11px on every side,
+   giving the 44px hit area and real keyboard/focus behaviour. */
+.tintora-checkbox__input {
+    position: absolute;
+    inset: -11px;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.tintora-checkbox__box {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--tintora-control-border);
+    border-radius: var(--tintora-radius-7);
+    background: transparent;
+    outline-offset: 2px;
+    pointer-events: none;
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+.tintora-checkbox__check,
+.tintora-checkbox__dash {
+    position: absolute;
+    stroke: var(--tintora-control-on-fill);
+    opacity: 0;
+}
+
+.tintora-checkbox__input:enabled:hover + .tintora-checkbox__box {
+    border-color: var(--tintora-control-fill);
+    background: var(--tintora-control-hover-tint);
+}
+.tintora-checkbox__input:checked + .tintora-checkbox__box,
+.tintora-checkbox__input:indeterminate + .tintora-checkbox__box {
+    border-color: var(--tintora-control-fill);
+    background: var(--tintora-control-fill);
+}
+.tintora-checkbox__input:checked
+    + .tintora-checkbox__box
+    .tintora-checkbox__check {
+    opacity: 1;
+}
+/* Mixed wins over checked, so these come last. */
+.tintora-checkbox__input:indeterminate
+    + .tintora-checkbox__box
+    .tintora-checkbox__check {
+    opacity: 0;
+}
+.tintora-checkbox__input:indeterminate
+    + .tintora-checkbox__box
+    .tintora-checkbox__dash {
+    opacity: 1;
+}
+.tintora-checkbox__input:focus-visible + .tintora-checkbox__box {
+    outline: 2px solid var(--tintora-focus);
+}
+.tintora-checkbox__input:disabled {
+    cursor: not-allowed;
+}
+.tintora-checkbox__input:disabled + .tintora-checkbox__box {
+    opacity: var(--tintora-opacity-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-checkbox__box {
+        transition: none;
+    }
+}

@@ -8,6 +8,7 @@ export {
     type CardProps,
     type SelectableCardProps,
 } from './Card/Card';
+export { Checkbox, type CheckboxProps } from './Checkbox/Checkbox';
 export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
 export { IconButton } from './IconButton/IconButton';
@@ -15,6 +16,7 @@ export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';
 export { SearchInput } from './SearchInput/SearchInput';
 export { Select } from './Select/Select';
 export { Spinner } from './Spinner/Spinner';
+export { Switch, type SwitchProps } from './Switch/Switch';
 export { Tag } from './Tag/Tag';
 export { TextField } from './TextField/TextField';
 export { Toggle, type ToggleProps } from './Toggle/Toggle';
