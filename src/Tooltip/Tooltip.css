@@ -1,0 +1,99 @@
+/* Only carries the hover/focus listeners; the trigger lays itself out. */
+.tintora-tooltip {
+    display: contents;
+}
+
+/* A popover: fixed to the viewport, placed by the component. */
+.tintora-tooltip__content {
+    box-sizing: border-box;
+    inset: auto;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+    padding: 6px 10px;
+    border: 0;
+    /* [popover] defaults to overflow: auto, which would clip the arrow. */
+    overflow: visible;
+    border-radius: var(--tintora-radius-10);
+    font: var(--tintora-font-body);
+    font-weight: var(--tintora-font-weight-semibold);
+    white-space: nowrap;
+    color: var(--tintora-text-on-tooltip);
+    background: var(--tintora-surface-tooltip);
+    box-shadow: var(--tintora-shadow-tooltip);
+}
+
+/* The arrow: an 8px square turned 45deg, half of it hidden behind the body. */
+.tintora-tooltip__content::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    transform: rotate(45deg);
+}
+.tintora-tooltip__content--top::before {
+    bottom: -4px;
+    left: calc(50% - 4px);
+}
+.tintora-tooltip__content--bottom::before {
+    top: -4px;
+    left: calc(50% - 4px);
+}
+.tintora-tooltip__content--left::before {
+    right: -4px;
+    top: calc(50% - 4px);
+}
+.tintora-tooltip__content--right::before {
+    left: -4px;
+    top: calc(50% - 4px);
+}
+
+.tintora-tooltip__shortcut {
+    margin-right: -2px;
+    padding: 2px 6px;
+    border-radius: var(--tintora-radius-6);
+    font: var(--tintora-font-caption);
+    font-weight: var(--tintora-font-weight-bold);
+    background: var(--tintora-tooltip-kbd-bg);
+}
+
+/* Rich: a title over wrapping body text, 220px wide. */
+.tintora-tooltip__content--rich {
+    display: block;
+    width: 220px;
+    padding: 10px 12px;
+    border-radius: var(--tintora-radius-12);
+    font-weight: var(--tintora-font-weight-medium);
+    white-space: normal;
+}
+.tintora-tooltip__title {
+    display: block;
+    font: var(--tintora-font-label);
+}
+.tintora-tooltip__text {
+    min-width: 0;
+}
+.tintora-tooltip__content--rich .tintora-tooltip__text {
+    display: block;
+    margin-top: 2px;
+    line-height: 1.45;
+    color: var(--tintora-text-on-tooltip-muted);
+}
+.tintora-tooltip__content--rich .tintora-tooltip__shortcut {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .tintora-tooltip__content {
+        animation: tintora-tooltip-in 120ms ease-out;
+    }
+}
+@keyframes tintora-tooltip-in {
+    from {
+        opacity: 0;
+    }
+}

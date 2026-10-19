@@ -24,3 +24,4 @@ export { Tag } from './Tag/Tag';
 export { TextField } from './TextField/TextField';
 export { Toggle, type ToggleProps } from './Toggle/Toggle';
 export { ToggleItem, type ToggleItemProps } from './Toggle/ToggleItem';
+export { Tooltip } from './Tooltip/Tooltip';
