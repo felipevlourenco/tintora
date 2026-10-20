@@ -1,0 +1,162 @@
+/* A native <dialog> in the top layer; showModal() adds the scrim. */
+.tintora-modal {
+    /* The UA's position: fixed; inset: 0; margin: auto centres it, and fixed
+       also anchors the close button. */
+    box-sizing: border-box;
+    width: min(var(--tintora-modal-width), calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100vh - 32px);
+    padding: 28px;
+    overflow: auto;
+    border: 1px solid var(--tintora-border-modal);
+    border-radius: var(--tintora-radius-32);
+    font-family: var(--tintora-font-family);
+    color: var(--tintora-text);
+    background: var(--tintora-surface-modal);
+    box-shadow: var(--tintora-shadow-modal);
+    flex-direction: column;
+    gap: 18px;
+}
+/* display on [open] only: on the bare class it would show a closed dialog.
+   The rest stays on the base rule so the layout survives the exit fade. */
+.tintora-modal[open] {
+    display: flex;
+}
+
+.tintora-modal::backdrop {
+    background: var(--tintora-scrim);
+}
+
+/* Fade and scale in and out. allow-discrete lets display and overlay (the top
+   layer) switch at the end of the transition, so the exit is visible too;
+   @starting-style gives the enter something to start from. */
+@media (prefers-reduced-motion: no-preference) {
+    .tintora-modal,
+    .tintora-modal::backdrop {
+        opacity: 0;
+        transition:
+            opacity 200ms ease,
+            scale 200ms ease,
+            overlay 200ms allow-discrete,
+            display 200ms allow-discrete;
+    }
+    .tintora-modal {
+        scale: 0.96;
+    }
+    .tintora-modal[open],
+    .tintora-modal[open]::backdrop {
+        opacity: 1;
+    }
+    .tintora-modal[open] {
+        scale: 1;
+    }
+    @starting-style {
+        .tintora-modal[open],
+        .tintora-modal[open]::backdrop {
+            opacity: 0;
+        }
+        .tintora-modal[open] {
+            scale: 0.96;
+        }
+    }
+}
+
+/* The page behind a modal does not scroll. */
+body:has(.tintora-modal:modal) {
+    overflow: hidden;
+}
+
+.tintora-modal--sm {
+    --tintora-modal-width: 400px;
+}
+.tintora-modal--md {
+    --tintora-modal-width: 520px;
+}
+.tintora-modal--lg {
+    --tintora-modal-width: 640px;
+}
+
+.tintora-modal--center {
+    align-items: center;
+    text-align: center;
+}
+
+.tintora-modal__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+}
+
+.tintora-modal__title {
+    margin: 0;
+    /* Keep a long title clear of the close button. */
+    padding-inline-end: 44px;
+    font-size: 20px;
+    font-weight: var(--tintora-font-weight-bold);
+    line-height: var(--tintora-line-height-tight);
+}
+.tintora-modal--center .tintora-modal__title {
+    padding-inline: 0;
+}
+
+.tintora-modal__description {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--tintora-text-muted);
+}
+
+.tintora-modal__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--tintora-modal-status-border);
+    border-radius: var(--tintora-radius-pill);
+    color: var(--tintora-modal-status-fg);
+    background: var(--tintora-modal-status-bg);
+}
+.tintora-modal--center .tintora-modal__icon {
+    width: 64px;
+    height: 64px;
+}
+.tintora-modal__icon svg {
+    width: 24px;
+    height: 24px;
+}
+.tintora-modal--center .tintora-modal__icon svg {
+    width: 30px;
+    height: 30px;
+}
+.tintora-modal__icon--success {
+    --tintora-modal-status-bg: var(--tintora-status-success-bg);
+    --tintora-modal-status-border: var(--tintora-status-success-border);
+    --tintora-modal-status-fg: var(--tintora-status-success-fg);
+}
+.tintora-modal__icon--error {
+    --tintora-modal-status-bg: var(--tintora-status-error-bg);
+    --tintora-modal-status-border: var(--tintora-status-error-border);
+    --tintora-modal-status-fg: var(--tintora-status-error-fg);
+}
+.tintora-modal__icon--info {
+    --tintora-modal-status-bg: var(--tintora-status-info-bg);
+    --tintora-modal-status-border: var(--tintora-status-info-border);
+    --tintora-modal-status-fg: var(--tintora-status-info-fg);
+}
+.tintora-modal__icon--warning {
+    --tintora-modal-status-bg: var(--tintora-status-warning-bg);
+    --tintora-modal-status-border: var(--tintora-status-warning-border);
+    --tintora-modal-status-fg: var(--tintora-status-warning-fg);
+}
+
+.tintora-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 6px;
+}
+.tintora-modal--center .tintora-modal__actions {
+    flex-direction: column;
+    align-self: stretch;
+}
