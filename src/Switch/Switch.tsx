@@ -1,6 +1,9 @@
 import clsx from 'clsx';
 import type { InputHTMLAttributes } from 'react';
-import { useCheckedState, type CheckedStateProps } from '../useCheckedState';
+import {
+    useCheckedState,
+    type CheckedStateProps,
+} from '../hooks/useCheckedState';
 import './Switch.css';
 
 interface SwitchBaseProps extends Omit<

@@ -1,6 +1,9 @@
 import clsx from 'clsx';
 import { useLayoutEffect, useRef, type InputHTMLAttributes } from 'react';
-import { useCheckedState, type CheckedStateProps } from '../useCheckedState';
+import {
+    useCheckedState,
+    type CheckedStateProps,
+} from '../hooks/useCheckedState';
 import './Checkbox.css';
 
 interface CheckboxBaseProps extends Omit<

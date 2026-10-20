@@ -7,6 +7,7 @@ import {
     type HTMLAttributes,
     type ReactNode,
 } from 'react';
+import { useLatest } from '../hooks/useLatest';
 import './Toast.css';
 import {
     CloseIcon,
@@ -65,10 +66,7 @@ export function Toast({
     const paused = hovered || focused;
 
     // A parent that passes an inline callback must not restart the clock.
-    const onDismissRef = useRef(onDismiss);
-    useEffect(() => {
-        onDismissRef.current = onDismiss;
-    }, [onDismiss]);
+    const onDismissRef = useLatest(onDismiss);
 
     const remaining = useRef(duration);
     useEffect(() => {
@@ -87,7 +85,7 @@ export function Toast({
             clearTimeout(timer);
             remaining.current -= Date.now() - startedAt;
         };
-    }, [duration, paused]);
+    }, [duration, paused, onDismissRef]);
 
     const showBar = timerBar && duration > 0;
     const progressStyle = {
