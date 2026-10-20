@@ -162,3 +162,34 @@ export const ClampsAtRightEdge = edgeStory(
     { top: 120, right: 0 },
     'bottom, trigger at the right edge: shifted left, arrow on the trigger',
 );
+
+/**
+ * The tooltip is fixed to the viewport, so it is placed again when the page
+ * scrolls. It opens on load: scroll the page and it stays on its trigger, and
+ * flips to the other side when the trigger nears the top.
+ */
+export const FollowsScroll: Story = {
+    name: 'Scrolling the page: stays on its trigger',
+    parameters: {
+        layout: 'fullscreen',
+        docs: { story: { inline: false, height: '260px' } },
+    },
+    args: { placement: 'top', content: 'Heart rate zone' },
+    render: (args) => (
+        <div style={{ height: '200vh', padding: '40vh 0 0 200px' }}>
+            <p
+                style={{
+                    margin: '0 0 24px',
+                    font: 'var(--tintora-font-body)',
+                    color: 'var(--tintora-text-muted)',
+                }}
+            >
+                Scroll down: the trigger moves up and the tooltip follows.
+            </p>
+            <Tooltip {...args}>
+                <Trigger />
+            </Tooltip>
+        </div>
+    ),
+    play: FlipsTopToBottom.play,
+};
