@@ -8,6 +8,7 @@ const Trigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
         {...props}
         type="button"
         style={{
+            ...props.style,
             width: 96,
             height: 36,
             padding: 0,
@@ -84,3 +85,80 @@ export const Rich: Story = {
     },
     render: Default.render,
 };
+
+/**
+ * Edge cases. Each story pins a trigger to a viewport edge, asks for the side
+ * that does not fit, and opens the tooltip on load.
+ * `Flips*` should open on the opposite side; `Clamps*` stay on the requested
+ * side but are shifted back inside the screen, with the arrow still on the trigger.
+ */
+const edgeStory = (
+    placement: 'top' | 'bottom' | 'left' | 'right',
+    position: React.CSSProperties,
+    expected: string,
+): Story => ({
+    name: expected,
+    parameters: {
+        layout: 'fullscreen',
+        docs: { story: { inline: false, height: '260px' } },
+    },
+    args: { placement, content: 'Heart rate zone' },
+    render: (args) => (
+        <div style={{ position: 'fixed', inset: 0 }}>
+            <Tooltip
+                {...args}
+                // The trigger is positioned by the story, not by a wrapper.
+            >
+                <Trigger style={{ position: 'absolute', ...position }} />
+            </Tooltip>
+        </div>
+    ),
+    play: ({ canvasElement }) => {
+        // A focusin event, not .focus(): it opens the tooltip even when the
+        // browser window itself does not have focus.
+        canvasElement
+            .querySelector('button')
+            ?.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    },
+});
+
+// Not enough room on the requested side: flips to the opposite one.
+export const FlipsTopToBottom = edgeStory(
+    'top',
+    { top: 8, left: 200 },
+    'top, at the top edge: flips to bottom',
+);
+export const FlipsBottomToTop = edgeStory(
+    'bottom',
+    { bottom: 8, left: 200 },
+    'bottom, at the bottom edge: flips to top',
+);
+export const FlipsLeftToRight = edgeStory(
+    'left',
+    { top: 120, left: 8 },
+    'left, at the left edge: flips to right',
+);
+export const FlipsRightToLeft = edgeStory(
+    'right',
+    { top: 120, right: 8 },
+    'right, at the right edge: flips to left',
+);
+
+// Enough room on the requested side: must not flip.
+export const StaysTop = edgeStory(
+    'top',
+    { top: 200, left: 200 },
+    'top, with room above: stays top',
+);
+
+// Cross axis: stays on the requested side, shifted inside the screen.
+export const ClampsAtLeftEdge = edgeStory(
+    'top',
+    { top: 200, left: 0 },
+    'top, trigger at the left edge: shifted right, arrow on the trigger',
+);
+export const ClampsAtRightEdge = edgeStory(
+    'bottom',
+    { top: 120, right: 0 },
+    'bottom, trigger at the right edge: shifted left, arrow on the trigger',
+);

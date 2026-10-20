@@ -36,19 +36,19 @@
 }
 .tintora-tooltip__content--top::before {
     bottom: -4px;
-    left: calc(50% - 4px);
+    left: calc(var(--tintora-tooltip-arrow-offset, 50%) - 4px);
 }
 .tintora-tooltip__content--bottom::before {
     top: -4px;
-    left: calc(50% - 4px);
+    left: calc(var(--tintora-tooltip-arrow-offset, 50%) - 4px);
 }
 .tintora-tooltip__content--left::before {
     right: -4px;
-    top: calc(50% - 4px);
+    top: calc(var(--tintora-tooltip-arrow-offset, 50%) - 4px);
 }
 .tintora-tooltip__content--right::before {
     left: -4px;
-    top: calc(50% - 4px);
+    top: calc(var(--tintora-tooltip-arrow-offset, 50%) - 4px);
 }
 
 .tintora-tooltip__shortcut {
