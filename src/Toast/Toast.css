@@ -1,0 +1,83 @@
+.tintora-toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    min-height: 52px;
+    padding: 10px 10px 10px 16px;
+    border-radius: var(--tintora-radius-18);
+    background: var(--tintora-surface-toast);
+    color: var(--tintora-text-on-toast);
+    box-shadow: var(--tintora-shadow-toast);
+}
+
+.tintora-toast--timer {
+    position: relative;
+    overflow: hidden;
+    min-height: 56px;
+    padding: 10px 10px 14px 16px;
+}
+
+.tintora-toast__message {
+    flex: 1 1 0%;
+    min-width: 0px;
+    font: var(--tintora-font-button);
+    font-weight: var(--tintora-font-weight-semibold);
+}
+
+.tintora-toast__action {
+    display: inline-block;
+    height: 32px;
+    padding: 0px 12px;
+    border: 0px;
+    border-radius: var(--tintora-radius-pill);
+    background: transparent;
+    font-family: inherit;
+    font: var(--tintora-font-button);
+    font-weight: var(--tintora-font-weight-extrabold);
+    color: var(--tintora-toast-action);
+    cursor: pointer;
+}
+
+.tintora-toast__close {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    border-radius: var(--tintora-radius-pill);
+    background: transparent;
+    color: var(--tintora-text-on-toast-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.tintora-toast__progress {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+    background: var(--tintora-toast-action);
+    animation: progress-bar var(--tintora-toast-animation-duration) forwards;
+}
+
+.tintora-toast--paused .tintora-toast__progress {
+    animation-play-state: paused;
+}
+
+@keyframes progress-bar {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tintora-toast__progress {
+        display: none;
+    }
+}
