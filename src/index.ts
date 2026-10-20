@@ -23,6 +23,7 @@ export { Spinner } from './Spinner/Spinner';
 export { Switch, type SwitchProps } from './Switch/Switch';
 export { Tag } from './Tag/Tag';
 export { TextField } from './TextField/TextField';
+export { Toast, type ToastProps } from './Toast/Toast';
 export { Toggle, type ToggleProps } from './Toggle/Toggle';
 export { ToggleItem, type ToggleItemProps } from './Toggle/ToggleItem';
 export { Tooltip } from './Tooltip/Tooltip';

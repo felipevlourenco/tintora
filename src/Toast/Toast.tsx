@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import {
-    CSSProperties,
-    HTMLAttributes,
-    ReactNode,
     useEffect,
     useRef,
+    useState,
+    type CSSProperties,
+    type HTMLAttributes,
+    type ReactNode,
 } from 'react';
 import './Toast.css';
 import {
@@ -23,7 +24,7 @@ export interface ToastProps extends Omit<
 > {
     /** The message. */
     children: ReactNode;
-    /** Picks the icon and its colour. @default 'info' */
+    /** Picks the icon and its colour. */
     status?: ToastStatus;
     /** One text button, e.g. Undo or Retry. */
     action?: { label: string; onClick: () => void };
@@ -32,9 +33,13 @@ export interface ToastProps extends Omit<
      * removes the toast; Toast is controlled, like Modal.
      */
     onDismiss: () => void;
-    /** Ms before `onDismiss` fires, paused while hovered or focused. 0 turns auto-dismiss off. @default 5000 */
+    /**
+     * Ms before `onDismiss` fires. The clock pauses while the toast is hovered
+     * or has focus, and resumes with the time that was left. 0 turns
+     * auto-dismiss off. @default 5000
+     */
     duration?: number;
-    /** Show the 4px bar for the time left. Needs a `duration`. @default false */
+    /** Show the 4px bar for the time left. Needs a `duration` above 0. @default false */
     timerBar?: boolean;
 }
 
@@ -46,83 +51,99 @@ const STATUS_ICON_MAP: Record<ToastStatus, ReactNode> = {
 };
 
 export function Toast({
-    status = 'info',
+    status,
     children,
     action,
     onDismiss,
     duration = 5000,
     timerBar = false,
     className,
+    ...props
 }: ToastProps) {
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const startTime = useRef(new Date().getTime());
-    const remaingTime = useRef<number | null>(null);
+    const [hovered, setHovered] = useState(false);
+    const [focused, setFocused] = useState(false);
+    const paused = hovered || focused;
 
-    const progressStyle: CSSProperties & {
-        '--tintora-toast-animation-duration': string;
-    } = {
-        '--tintora-toast-animation-duration': `${duration}ms`,
-    };
-
-    const onMouseEnterHandler = () => {
-        if (timerRef.current) {
-            const now = new Date().getTime();
-            remaingTime.current = now - startTime.current;
-
-            clearTimeout(timerRef.current);
-        }
-    };
-
-    const onMouseLeaveHandler = () => {
-        if (remaingTime.current && remaingTime.current > 0) {
-            timerRef.current = setTimeout(
-                () => onDismiss(),
-                remaingTime.current,
-            );
-            remaingTime.current = null;
-        }
-    };
-
+    // A parent that passes an inline callback must not restart the clock.
+    const onDismissRef = useRef(onDismiss);
     useEffect(() => {
-        if (timerBar) {
-            timerRef.current = setTimeout(() => {
-                onDismiss();
-            }, duration);
+        onDismissRef.current = onDismiss;
+    }, [onDismiss]);
 
-            return () => {
-                if (timerRef.current) {
-                    clearTimeout(timerRef.current);
-                    timerRef.current = null;
-                }
-            };
-        }
-    }, [duration, onDismiss, timerBar]);
+    const remaining = useRef(duration);
+    useEffect(() => {
+        remaining.current = duration;
+    }, [duration]);
+
+    // Each pause cleans up the timer and keeps what was left of it.
+    useEffect(() => {
+        if (duration <= 0 || paused) return;
+        const startedAt = Date.now();
+        const timer = setTimeout(
+            () => onDismissRef.current(),
+            remaining.current,
+        );
+        return () => {
+            clearTimeout(timer);
+            remaining.current -= Date.now() - startedAt;
+        };
+    }, [duration, paused]);
+
+    const showBar = timerBar && duration > 0;
+    const progressStyle = {
+        '--tintora-toast-animation-duration': `${duration}ms`,
+    } as CSSProperties;
 
     return (
         <div
+            {...props}
             role="status"
             className={clsx(
                 'tintora-toast',
-                timerBar && 'tintora-toast--timer',
+                showBar && 'tintora-toast--timer',
+                paused && 'tintora-toast--paused',
                 className,
             )}
-            onMouseEnter={onMouseEnterHandler}
-            onMouseLeave={onMouseLeaveHandler}
+            onMouseEnter={(event) => {
+                props.onMouseEnter?.(event);
+                setHovered(true);
+            }}
+            onMouseLeave={(event) => {
+                props.onMouseLeave?.(event);
+                setHovered(false);
+            }}
+            onFocus={(event) => {
+                props.onFocus?.(event);
+                setFocused(true);
+            }}
+            onBlur={(event) => {
+                props.onBlur?.(event);
+                // Focus moving between the toast's own buttons is not a blur.
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                    setFocused(false);
+                }
+            }}
         >
-            {STATUS_ICON_MAP[status]}
+            {status && STATUS_ICON_MAP[status]}
             <span className="tintora-toast__message">{children}</span>
             {action && (
                 <button
+                    type="button"
                     className="tintora-toast__action"
                     onClick={action.onClick}
                 >
                     {action.label}
                 </button>
             )}
-            <button className="tintora-toast__close" aria-labelledby="Dismiss">
+            <button
+                type="button"
+                className="tintora-toast__close"
+                aria-label="Dismiss"
+                onClick={onDismiss}
+            >
                 <CloseIcon />
             </button>
-            {timerBar && (
+            {showBar && (
                 <span
                     className="tintora-toast__progress"
                     style={progressStyle}

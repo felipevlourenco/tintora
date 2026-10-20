@@ -6,8 +6,8 @@ const meta = {
     component: Toast,
     tags: ['autodocs'],
     args: {
-        children: <span>Toast Message</span>,
-        onDismiss: () => console.log('Dismissing...'),
+        children: 'Workout saved',
+        onDismiss: () => {},
     },
 } satisfies Meta<typeof Toast>;
 export default meta;
@@ -18,6 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Success: Story = {
     args: {
         status: 'success',
+        action: { label: 'Undo', onClick: () => {} },
     },
 };
 
@@ -25,6 +26,8 @@ export const Success: Story = {
 export const Error: Story = {
     args: {
         status: 'error',
+        children: 'Could not save changes',
+        action: { label: 'Retry', onClick: () => {} },
     },
 };
 
@@ -32,6 +35,7 @@ export const Error: Story = {
 export const Info: Story = {
     args: {
         status: 'info',
+        children: 'Syncing 3 workouts',
     },
 };
 
@@ -39,21 +43,20 @@ export const Info: Story = {
 export const Warning: Story = {
     args: {
         status: 'warning',
+        children: 'You are offline. Changes sync later.',
     },
 };
 
 /** "Workout deleted" with Undo and a 4px bar showing the 5s time left. */
 export const WithTimerBar: Story = {
     args: {
+        children: 'Workout deleted',
+        action: { label: 'Undo', onClick: () => {} },
         timerBar: true,
     },
 };
 
-export const WithAction: Story = {
-    args: {
-        action: {
-            label: 'Retry',
-            onClick: () => null,
-        },
-    },
+/** No status icon and no timer: the toast stays until dismissed. */
+export const Persistent: Story = {
+    args: { duration: 0 },
 };

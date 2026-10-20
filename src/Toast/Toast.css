@@ -14,6 +14,8 @@
 .tintora-toast--timer {
     position: relative;
     overflow: hidden;
+    min-height: 56px;
+    padding: 10px 10px 14px 16px;
 }
 
 .tintora-toast__message {
@@ -61,7 +63,7 @@
     animation: progress-bar var(--tintora-toast-animation-duration) forwards;
 }
 
-.tintora-toast:hover .tintora-toast__progress {
+.tintora-toast--paused .tintora-toast__progress {
     animation-play-state: paused;
 }
 
@@ -76,6 +78,6 @@
 
 @media (prefers-reduced-motion: reduce) {
     .tintora-toast__progress {
-        animation: none;
+        display: none;
     }
 }
