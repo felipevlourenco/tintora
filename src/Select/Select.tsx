@@ -3,13 +3,14 @@ import {
     MouseEvent,
     useEffect,
     useId,
-    useLayoutEffect,
     useRef,
     useState,
     type ButtonHTMLAttributes,
     type CSSProperties,
     type KeyboardEvent,
 } from 'react';
+import { useOutsidePress } from '../hooks/useOutsidePress';
+import { useTopLayerPosition } from '../hooks/useTopLayerPosition';
 import './Select.css';
 import { SelectContext } from './SelectContext';
 import { SelectOption } from './SelectOption';
@@ -67,7 +68,6 @@ export function Select<T extends string>({
     const [internalValue, setInternalValue] = useState(defaultValue ?? null);
     const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(-1);
-    const [position, setPosition] = useState<CSSProperties>({});
 
     const isControlled = value !== undefined;
     const selected = (isControlled ? value : internalValue) as T | null;
@@ -154,25 +154,30 @@ export function Select<T extends string>({
         if (event.key === ' ') event.preventDefault();
     };
 
-    // Under the trigger, or above it when it does not fit. The menu is fixed to
-    // the viewport, so it is placed again whenever the page moves.
-    const place = () => {
-        const menu = menuRef.current;
-        const trigger = triggerRef.current;
-        if (!menu || !trigger) return;
-        const rect = trigger.getBoundingClientRect();
-        const height = menu.offsetHeight;
-        const fitsBelow = rect.bottom + MENU_GAP + height <= window.innerHeight;
-        const fitsAbove = rect.top - MENU_GAP - height >= 0;
-        setPosition({
-            top:
-                fitsBelow || !fitsAbove
-                    ? rect.bottom + MENU_GAP
-                    : rect.top - MENU_GAP - height,
-            left: rect.left,
-            minWidth: rect.width,
-        });
-    };
+    // Under the trigger, or above it when it does not fit.
+    const position = useTopLayerPosition(
+        open,
+        menuRef,
+        (): CSSProperties | null => {
+            const menu = menuRef.current;
+            const trigger = triggerRef.current;
+            if (!menu || !trigger) return null;
+            const rect = trigger.getBoundingClientRect();
+            const height = menu.offsetHeight;
+            const fitsBelow =
+                rect.bottom + MENU_GAP + height <= window.innerHeight;
+            const fitsAbove = rect.top - MENU_GAP - height >= 0;
+            return {
+                top:
+                    fitsBelow || !fitsAbove
+                        ? rect.bottom + MENU_GAP
+                        : rect.top - MENU_GAP - height,
+                left: rect.left,
+                minWidth: rect.width,
+            };
+        },
+        [],
+    );
 
     const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
         onClick?.(event);
@@ -188,30 +193,7 @@ export function Select<T extends string>({
         }
     };
 
-    useLayoutEffect(() => {
-        if (!open) return;
-        menuRef.current?.showPopover(); // top layer: no clipping by a card
-        place();
-    }, [open]);
-
-    // The popover is manual, so light dismiss is ours.
-    useEffect(() => {
-        if (!open) return;
-        const outside = (event: Event) => {
-            if (!rootRef.current?.contains(event.target as Node)) closeMenu();
-        };
-        const moved = (event: Event) => {
-            if (!menuRef.current?.contains(event.target as Node)) place();
-        };
-        document.addEventListener('pointerdown', outside);
-        window.addEventListener('scroll', moved, true);
-        window.addEventListener('resize', place);
-        return () => {
-            document.removeEventListener('pointerdown', outside);
-            window.removeEventListener('scroll', moved, true);
-            window.removeEventListener('resize', place);
-        };
-    }, [open]);
+    useOutsidePress(open, rootRef, closeMenu);
 
     useEffect(() => {
         if (open && activeIndex >= 0) {
@@ -290,7 +272,7 @@ export function Select<T extends string>({
                         aria-label={ariaLabel}
                         popover="manual"
                         className="tintora-select__menu"
-                        style={position}
+                        style={position ?? {}}
                         // Keep focus on the trigger when clicking an option.
                         onMouseDown={(event) => event.preventDefault()}
                     >
