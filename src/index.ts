@@ -1,5 +1,6 @@
 import './tokens.css';
 
+export { Alert, type AlertProps } from './Alert/Alert';
 export { Avatar } from './Avatar/Avatar';
 export { Button } from './Button/Button';
 export {
