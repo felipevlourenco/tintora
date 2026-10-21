@@ -1,0 +1,61 @@
+/* Only carries the trigger and the panel; the trigger lays itself out. */
+.tintora-popover-root {
+    display: contents;
+}
+
+.tintora-popover {
+    position: fixed;
+    left: 0px;
+    top: 48px;
+    overflow: visible;
+    box-sizing: border-box;
+    padding: 18px;
+    border-radius: var(--tintora-radius-22);
+    background: var(--tintora-surface-popover);
+    border: 1px solid var(--tintora-border-popover);
+    box-shadow: var(--tintora-shadow-popover);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    transform-style: preserve-3d;
+}
+.tintora-popover--sm {
+    width: fit-content;
+}
+.tintora-popover--md {
+    width: 300px;
+}
+
+.tintora-popover::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+    background: var(--tintora-surface-popover);
+}
+.tintora-popover--top::before {
+    bottom: -7px;
+    left: calc(var(--tintora-popover-arrow-offset, 50%) - 7px);
+    border-right: 1px solid var(--tintora-border-popover);
+    border-bottom: 1px solid var(--tintora-border-popover);
+}
+.tintora-popover--bottom::before {
+    top: -7px;
+    left: calc(var(--tintora-popover-arrow-offset, 50%) - 7px);
+    border-top: 1px solid var(--tintora-border-popover);
+    border-left: 1px solid var(--tintora-border-popover);
+}
+.tintora-popover--left::before {
+    right: -7px;
+    top: calc(var(--tintora-popover-arrow-offset, 50%) - 7px);
+    border-top: 1px solid var(--tintora-border-popover);
+    border-right: 1px solid var(--tintora-border-popover);
+}
+.tintora-popover--right::before {
+    left: -7px;
+    top: calc(var(--tintora-popover-arrow-offset, 50%) - 7px);
+    border-bottom: 1px solid var(--tintora-border-popover);
+    border-left: 1px solid var(--tintora-border-popover);
+}

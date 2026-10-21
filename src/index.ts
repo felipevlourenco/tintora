@@ -13,6 +13,7 @@ export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
 export { IconButton } from './IconButton/IconButton';
 export { Modal, type ModalProps } from './Modal/Modal';
+export { Popover, type PopoverProps } from './Popover/Popover';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';
 export { Radio, type RadioProps } from './Radio/Radio';
 export { RadioGroup, type RadioGroupProps } from './Radio/RadioGroup';
