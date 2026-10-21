@@ -5,18 +5,20 @@ import { Switch } from '../Switch/Switch';
 import { TextField } from '../TextField/TextField';
 import { Modal, type ModalProps } from './Modal';
 
-// The trigger owns `open`; Modal is controlled.
-function Demo(props: Omit<ModalProps, 'open' | 'onClose'> & { label: string }) {
-    const { label, ...modalProps } = props;
+// The trigger owns `open`; Modal is controlled. `open` and `onClose` from the
+// controls are overridden.
+function Demo({
+    label,
+    ...props
+}: Omit<ModalProps, 'open' | 'onClose'> &
+    Partial<Pick<ModalProps, 'open' | 'onClose'>> & { label: string }) {
     const [open, setOpen] = useState(false);
     return (
         <>
             <Button variant="secondary" onClick={() => setOpen(true)}>
                 {label}
             </Button>
-            <Modal {...modalProps} open={open} onClose={() => setOpen(false)}>
-                {modalProps.children}
-            </Modal>
+            <Modal {...props} open={open} onClose={() => setOpen(false)} />
         </>
     );
 }
@@ -26,6 +28,14 @@ const meta = {
     component: Modal,
     tags: ['autodocs'],
     args: { open: false, onClose: () => {}, title: 'Weekly goal' },
+    // Owned by the story's Demo, or React nodes: a control would do nothing.
+    argTypes: {
+        open: { table: { disable: true } },
+        onClose: { table: { disable: true } },
+        children: { table: { disable: true } },
+        icon: { table: { disable: true } },
+        actions: { table: { disable: true } },
+    },
     parameters: { layout: 'centered' },
 } satisfies Meta<typeof Modal>;
 export default meta;
@@ -60,49 +70,47 @@ const CheckIcon = () => (
 
 /** Destructive action: `alertdialog`, focus starts on the safe button. */
 export const Confirm: Story = {
-    render: () => (
-        <Demo
-            label="Delete workout"
-            role="alertdialog"
-            size="sm"
-            icon={<TrashIcon />}
-            status="error"
-            title="Delete this workout?"
-            description="It will be removed from your history and weekly totals. This can't be undone."
-            actions={
-                <>
-                    <Button variant="secondary" data-autofocus>
-                        Keep it
-                    </Button>
-                    <Button
-                        variant="primary"
-                        style={{
-                            background: 'var(--tintora-color-destructive)',
-                            color: 'var(--tintora-color-on-destructive)',
-                        }}
-                    >
-                        Delete
-                    </Button>
-                </>
-            }
-        />
-    ),
+    args: {
+        role: 'alertdialog',
+        size: 'sm',
+        icon: <TrashIcon />,
+        status: 'error',
+        title: 'Delete this workout?',
+        description:
+            "It will be removed from your history and weekly totals. This can't be undone.",
+        actions: (
+            <>
+                <Button variant="secondary" data-autofocus>
+                    Keep it
+                </Button>
+                <Button
+                    variant="primary"
+                    style={{
+                        background: 'var(--tintora-color-destructive)',
+                        color: 'var(--tintora-color-on-destructive)',
+                    }}
+                >
+                    Delete
+                </Button>
+            </>
+        ),
+    },
+    render: (args) => <Demo {...args} label="Delete workout" />,
 };
 
 /** Enter submits, Esc cancels; focus starts on the first field. */
 export const Form: Story = {
-    render: () => (
-        <Demo
-            label="Edit goal"
-            title="Weekly goal"
-            closeButton
-            actions={
-                <>
-                    <Button variant="secondary">Cancel</Button>
-                    <Button variant="primary">Save goal</Button>
-                </>
-            }
-        >
+    args: {
+        title: 'Weekly goal',
+        actions: (
+            <>
+                <Button variant="secondary">Cancel</Button>
+                <Button variant="primary">Save goal</Button>
+            </>
+        ),
+    },
+    render: (args) => (
+        <Demo {...args} label="Edit goal">
             <TextField
                 label="Steps per day"
                 defaultValue="10,000"
@@ -138,38 +146,41 @@ export const Form: Story = {
 
 /** One primary action and one quiet one, centred. */
 export const Result: Story = {
-    render: () => (
-        <Demo
-            label="Finish workout"
-            align="center"
-            size="sm"
-            closeButton={false}
-            icon={<CheckIcon />}
-            status="success"
-            title="Workout saved"
-            description="42 minutes, 312 kcal. Your weekly ring is at 80%."
-            actions={
-                <>
-                    <Button variant="primary" size="large" data-autofocus>
-                        Back to dashboard
-                    </Button>
-                    <Button variant="ghost">View details</Button>
-                </>
-            }
-        />
-    ),
+    args: {
+        align: 'center',
+        size: 'sm',
+        closeButton: false,
+        icon: <CheckIcon />,
+        status: 'success',
+        title: 'Workout saved',
+        description: '42 minutes, 312 kcal. Your weekly ring is at 80%.',
+        actions: (
+            <>
+                <Button variant="primary" size="large" data-autofocus>
+                    Back to dashboard
+                </Button>
+                <Button variant="ghost">View details</Button>
+            </>
+        ),
+    },
+    render: (args) => <Demo {...args} label="Finish workout" />,
 };
 
 export const Sizes: Story = {
-    render: () => (
+    // Each trigger asks for its own size.
+    argTypes: { size: { table: { disable: true } } },
+    args: {
+        description: 'Max width 400, 520 or 640; narrower viewports shrink it.',
+    },
+    render: (args) => (
         <div style={{ display: 'flex', gap: 12 }}>
             {(['sm', 'md', 'lg'] as const).map((size) => (
                 <Demo
+                    {...args}
                     key={size}
                     label={size}
                     size={size}
                     title={`Size ${size}`}
-                    description="Max width 400, 520 or 640; narrower viewports shrink it."
                 />
             ))}
         </div>
