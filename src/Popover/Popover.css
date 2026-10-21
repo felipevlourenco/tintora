@@ -4,9 +4,10 @@
 }
 
 .tintora-popover {
+    /* Placed in viewport coordinates by the component; inset: auto drops the
+       UA's inset: 0 so top and left are the only anchors. */
     position: fixed;
-    left: 0px;
-    top: 48px;
+    inset: auto;
     overflow: visible;
     box-sizing: border-box;
     padding: 18px;
@@ -18,10 +19,11 @@
     flex-direction: column;
     gap: 12px;
     margin: 0;
-    transform-style: preserve-3d;
 }
 .tintora-popover--sm {
     width: fit-content;
+    padding: 16px;
+    border-radius: var(--tintora-radius-20);
 }
 .tintora-popover--md {
     width: 300px;

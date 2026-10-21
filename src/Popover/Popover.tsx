@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import {
     cloneElement,
-    CSSProperties,
+    useEffect,
     useId,
     useLayoutEffect,
     useRef,
+    type CSSProperties,
     type MouseEvent,
     type ReactElement,
     type ReactNode,
@@ -31,7 +32,7 @@ export interface PopoverProps {
      * element. Focus returns to it when the popover closes.
      */
     trigger: ReactElement<
-        Record<string, unknown> & { onClick: (event: MouseEvent) => void }
+        Record<string, unknown> & { onClick?: (event: MouseEvent) => void }
     >;
     /** Names the panel for assistive tech. Required: it has no visible label of its own. */
     title: string;
@@ -45,16 +46,22 @@ export interface PopoverProps {
     /** The side of the trigger it opens on; flips when there is no room. @default 'bottom' */
     placement?: PopoverPlacement;
     /**
-     * `md` is a 300px panel (radius 22, padding 18); `sm` fills its container
-     * (radius 20, padding 16).
+     * `md` is a 300px panel (radius 22, padding 18); `sm` is compact, sized by
+     * its content (radius 20, padding 16).
      * @default 'md'
      */
     size?: 'md' | 'sm';
     className?: string;
 }
 
-const FOCUSABLE =
-    'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE = [
+    'button:not([disabled])',
+    '[href]',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+].join(', ');
 
 export function Popover({
     open,
@@ -70,18 +77,9 @@ export function Popover({
     const id = useId();
     const rootRef = useRef<HTMLSpanElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
-    const triggerHasFocusRef = useRef<boolean>(null);
+    const wasOpen = useRef(false);
 
-    const close = () => {
-        onOpenChange(false);
-
-        if (
-            triggerHasFocusRef.current &&
-            rootRef.current?.firstElementChild instanceof HTMLElement
-        ) {
-            rootRef.current?.firstElementChild.focus();
-        }
-    };
+    const close = () => onOpenChange(false);
     // The popover is manual, so Esc and light dismiss are ours.
     useEscapeKey(open, close);
     useOutsidePress(open, rootRef, close);
@@ -126,22 +124,33 @@ export function Popover({
               }
             : { visibility: 'hidden' };
 
+    // Focus moves in once the panel is placed: before that it is hidden, and a
+    // hidden element cannot take focus. Placing again (scroll, resize) must not
+    // move it, so this depends on being placed, not on the position itself.
+    const placed = position !== null;
+
     useLayoutEffect(() => {
         const panel = panelRef.current;
-        const trigger = rootRef.current?.firstElementChild;
+        if (!open || !placed || !panel) return;
+        // The marked element, the first focusable one, or the panel itself.
+        (
+            panel.querySelector<HTMLElement>('[data-autofocus]') ??
+            panel.querySelector<HTMLElement>(FOCUSABLE) ??
+            panel
+        ).focus();
+    }, [open, placed]);
 
-        triggerHasFocusRef.current =
-            Boolean(trigger) && document.activeElement === trigger;
-
-        if (open && panel && position) {
-            // Focus moves in: the marked element, the first one, or the panel.
-            (
-                panel.querySelector<HTMLElement>('[data-autofocus]') ??
-                panel.querySelector<HTMLElement>(FOCUSABLE) ??
-                panel
-            ).focus();
+    // Back to the trigger when it closes, unless focus already went somewhere
+    // else (an outside press on another control).
+    useEffect(() => {
+        if (wasOpen.current && !open) {
+            const active = document.activeElement;
+            if (!active || active === document.body) {
+                rootRef.current?.querySelector<HTMLElement>('*')?.focus();
+            }
         }
-    }, [open, position]);
+        wasOpen.current = open;
+    }, [open]);
 
     return (
         <span ref={rootRef} className="tintora-popover-root">
@@ -162,7 +171,7 @@ export function Popover({
                     className={clsx(
                         'tintora-popover',
                         `tintora-popover--${size}`,
-                        `tintora-popover--${position?.placement}`,
+                        `tintora-popover--${position?.placement ?? placement}`,
                         className,
                     )}
                     style={style}
