@@ -44,7 +44,7 @@ export function Example() {
 }
 ```
 
-If your build setup supports CSS imports, you can also import the library stylesheet:
+The ESM build imports its own stylesheet, so a bundler with CSS support (Vite, Next.js, webpack with `css-loader`) needs nothing else. The CommonJS build does not; add this line there:
 
 ```tsx
 import 'tintora/style.css';
