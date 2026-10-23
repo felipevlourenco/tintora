@@ -30,6 +30,8 @@ export { Select } from './Select/Select';
 export { Skeleton, type SkeletonProps } from './Skeleton/Skeleton';
 export { Spinner } from './Spinner/Spinner';
 export { Switch, type SwitchProps } from './Switch/Switch';
+export { Tab, type TabProps } from './Tabs/Tab';
+export { Tabs, type TabsProps } from './Tabs/Tabs';
 export { Tag } from './Tag/Tag';
 export { TextField } from './TextField/TextField';
 export { Toast, type ToastProps } from './Toast/Toast';

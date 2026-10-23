@@ -1,0 +1,60 @@
+.tintora-tabs {
+    font-family: var(--tintora-font-family);
+}
+
+.tintora-tab {
+    border: 0;
+    background: transparent;
+    font: var(--tintora-font-button);
+    color: var(--tintora-text-nav-idle);
+    cursor: pointer;
+}
+.tintora-tab:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+.tintora-tab:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Segmented: a pill on a tray. */
+.tintora-tabs--segmented {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: var(--tintora-radius-22);
+    background: var(--tintora-fill-subtle);
+}
+.tintora-tabs--segmented .tintora-tab {
+    height: 36px;
+    padding: 0 18px;
+    border-radius: var(--tintora-radius-pill);
+}
+.tintora-tabs--segmented .tintora-tab:hover:not(:disabled) {
+    color: var(--tintora-text);
+}
+.tintora-tabs--segmented .tintora-tab[aria-selected='true'] {
+    color: var(--tintora-color-on-accent-deep);
+    background: var(--tintora-color-accent-deep);
+}
+
+/* Underline: a bar under the selected tab, over the row's own line. */
+.tintora-tabs--underline {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--tintora-line);
+}
+.tintora-tabs--underline .tintora-tab {
+    height: 40px;
+    padding: 0 2px;
+    margin-bottom: -1px;
+    border-bottom: 3px solid transparent;
+}
+.tintora-tabs--underline .tintora-tab:hover:not(:disabled) {
+    color: var(--tintora-text);
+}
+.tintora-tabs--underline .tintora-tab[aria-selected='true'] {
+    color: var(--tintora-text);
+    border-bottom-color: var(--tintora-control-fill);
+}
