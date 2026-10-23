@@ -27,6 +27,7 @@ export { Radio, type RadioProps } from './Radio/Radio';
 export { RadioGroup, type RadioGroupProps } from './Radio/RadioGroup';
 export { SearchInput } from './SearchInput/SearchInput';
 export { Select } from './Select/Select';
+export { SettingsRow, type SettingsRowProps } from './SettingsRow/SettingsRow';
 export { Skeleton, type SkeletonProps } from './Skeleton/Skeleton';
 export { Spinner } from './Spinner/Spinner';
 export { Switch, type SwitchProps } from './Switch/Switch';

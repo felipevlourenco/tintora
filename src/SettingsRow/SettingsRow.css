@@ -1,0 +1,40 @@
+.tintora-settings-row {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 56px;
+    padding: 10px 16px;
+    border-radius: var(--tintora-radius-18);
+    border: 1px solid var(--tintora-border-row);
+    background: var(--tintora-surface-row);
+    font-family: var(--tintora-font-family);
+    color: var(--tintora-text);
+}
+.tintora-settings-row--described {
+    min-height: 64px;
+}
+.tintora-settings-row--control-end {
+    justify-content: space-between;
+    gap: 12px;
+}
+.tintora-settings-row--control-start {
+    gap: 22px;
+}
+
+.tintora-settings-row__text {
+    min-width: 0px;
+}
+.tintora-settings-row__title {
+    font: var(--tintora-font-subtitle);
+}
+.tintora-settings-row__description {
+    margin-top: 2px;
+    font: var(--tintora-font-body);
+    font-weight: var(--tintora-font-weight-regular);
+    color: var(--tintora-text-faint);
+}
+
+/* The control keeps its own size beside a long title. */
+.tintora-settings-row--control-end > :not(.tintora-settings-row__text) {
+    flex: 0 0 auto;
+}
