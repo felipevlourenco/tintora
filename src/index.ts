@@ -2,6 +2,12 @@ import './tokens.css';
 
 export { Alert, type AlertProps } from './Alert/Alert';
 export { Avatar } from './Avatar/Avatar';
+export {
+    BottomSheet,
+    BottomSheetOption,
+    type BottomSheetOptionProps,
+    type BottomSheetProps,
+} from './BottomSheet/BottomSheet';
 export { Button } from './Button/Button';
 export {
     Card,
