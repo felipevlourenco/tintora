@@ -63,11 +63,29 @@ describe('Drawer', () => {
     });
 
     describe('dismissing', () => {
+        // jsdom has no layout: give the dialog a box to click outside of.
+        const withBox = (dialog: HTMLElement) => {
+            dialog.getBoundingClientRect = () =>
+                ({ left: 100, right: 500, top: 100, bottom: 400 }) as DOMRect;
+            return dialog;
+        };
+
         it('calls onClose on a backdrop click', () => {
             const { onClose } = setup();
-            // A click on the backdrop lands on the dialog element itself.
-            fireEvent.click(screen.getByRole('dialog'));
+            fireEvent.click(withBox(screen.getByRole('dialog')), {
+                clientX: 50,
+                clientY: 50,
+            });
             expect(onClose).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not call onClose on a click in its own empty space', () => {
+            const { onClose } = setup();
+            fireEvent.click(withBox(screen.getByRole('dialog')), {
+                clientX: 110,
+                clientY: 110,
+            });
+            expect(onClose).not.toHaveBeenCalled();
         });
 
         it('does not call onClose on a click inside', () => {

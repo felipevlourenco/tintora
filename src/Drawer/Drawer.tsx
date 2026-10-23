@@ -6,6 +6,7 @@ import {
     type DialogHTMLAttributes,
     type ReactNode,
 } from 'react';
+import { isOutsideElementClicked } from '../utils/outside';
 import './Drawer.css';
 
 const toCss = (value: number | string) =>
@@ -86,12 +87,7 @@ export function Drawer({
                 event.preventDefault();
                 onClose();
             }}
-            onClick={(event) => {
-                // A click on the scrim lands on the dialog element itself.
-                if (event.target === event.currentTarget) {
-                    onClose();
-                }
-            }}
+            onClick={(event) => isOutsideElementClicked(event, onClose)}
             style={style}
         >
             {children}

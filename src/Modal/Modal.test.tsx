@@ -60,17 +60,39 @@ describe('Modal', () => {
         expect(dialog).toHaveAttribute('open');
     });
 
+    // jsdom has no layout: give the dialog a box to click outside of.
+    const withBox = (dialog: HTMLElement) => {
+        dialog.getBoundingClientRect = () =>
+            ({ left: 100, right: 500, top: 100, bottom: 400 }) as DOMRect;
+        return dialog;
+    };
+
     it('closes on a scrim click, not on a click inside', async () => {
         const { onClose } = setup();
         await userEvent.click(screen.getByRole('button', { name: 'Inside' }));
         expect(onClose).not.toHaveBeenCalled();
-        await userEvent.click(screen.getByRole('dialog'));
+        fireEvent.click(withBox(screen.getByRole('dialog')), {
+            clientX: 50,
+            clientY: 50,
+        });
         expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('ignores scrim clicks for an alertdialog', async () => {
+    it('does not close on a click in its own padding', () => {
+        const { onClose } = setup();
+        fireEvent.click(withBox(screen.getByRole('dialog')), {
+            clientX: 110,
+            clientY: 110,
+        });
+        expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('ignores scrim clicks for an alertdialog', () => {
         const { onClose } = setup({ role: 'alertdialog' });
-        await userEvent.click(screen.getByRole('alertdialog'));
+        fireEvent.click(withBox(screen.getByRole('alertdialog')), {
+            clientX: 50,
+            clientY: 50,
+        });
         expect(onClose).not.toHaveBeenCalled();
     });
 
