@@ -12,6 +12,7 @@ export {
 export { Checkbox, type CheckboxProps } from './Checkbox/Checkbox';
 export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
+export { Drawer, type DrawerProps } from './Drawer/Drawer';
 export { IconButton } from './IconButton/IconButton';
 export { Modal, type ModalProps } from './Modal/Modal';
 export { Popover, type PopoverProps } from './Popover/Popover';

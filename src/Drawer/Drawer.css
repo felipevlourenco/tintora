@@ -1,0 +1,97 @@
+.tintora-drawer {
+    /* The UA's modal dialog is centred and capped at the viewport minus a
+       margin; both are undone, and each --from-* class pins an edge. */
+    position: fixed;
+    margin: 0;
+    box-sizing: border-box;
+    width: var(--tintora-drawer-width, 100vw);
+    height: var(--tintora-drawer-height, auto);
+    max-width: none;
+    max-height: none;
+    padding: 28px;
+    overflow: auto;
+    border: 1px solid var(--tintora-border-modal);
+    font-family: var(--tintora-font-family);
+    color: var(--tintora-text);
+    background: var(--tintora-surface-modal);
+    box-shadow: var(--tintora-shadow-modal);
+    /* Closed, it sits off-screen; each --from-* class sets the offset. */
+    transform: var(--tintora-drawer-offset);
+}
+.tintora-drawer[open] {
+    transform: none;
+}
+
+.tintora-drawer::backdrop {
+    background: var(--tintora-scrim);
+}
+
+.tintora-drawer--from-left,
+.tintora-drawer--from-right {
+    width: var(--tintora-drawer-width, 400px);
+    height: var(--tintora-drawer-height, 100vh);
+}
+
+/* Radius only on the corners facing the page. */
+.tintora-drawer--from-right {
+    inset: 0 0 0 auto;
+    border-radius: var(--tintora-radius-32) 0 0 var(--tintora-radius-32);
+    --tintora-drawer-offset: translateX(100%);
+}
+.tintora-drawer--from-left {
+    inset: 0 auto 0 0;
+    border-radius: 0 var(--tintora-radius-32) var(--tintora-radius-32) 0;
+    --tintora-drawer-offset: translateX(-100%);
+}
+.tintora-drawer--from-top {
+    inset: 0 0 auto 0;
+    border-radius: 0 0 var(--tintora-radius-32) var(--tintora-radius-32);
+    --tintora-drawer-offset: translateY(-100%);
+}
+.tintora-drawer--from-bottom {
+    inset: auto 0 0 0;
+    border-radius: var(--tintora-radius-32) var(--tintora-radius-32) 0 0;
+    --tintora-drawer-offset: translateY(100%);
+}
+
+/* Small screens: left and right drawers take the full width. */
+@media (max-width: 480px) {
+    .tintora-drawer--from-left,
+    .tintora-drawer--from-right {
+        width: 100vw;
+        border-radius: 0;
+    }
+}
+
+/* Slide and fade in and out. allow-discrete lets display and overlay (the top
+   layer) switch at the end, so the exit is visible; @starting-style gives the
+   enter its start. */
+@media (prefers-reduced-motion: no-preference) {
+    .tintora-drawer,
+    .tintora-drawer::backdrop {
+        transition:
+            transform 300ms ease,
+            opacity 300ms ease,
+            overlay 300ms allow-discrete,
+            display 300ms allow-discrete;
+    }
+    .tintora-drawer::backdrop {
+        opacity: 0;
+    }
+    .tintora-drawer[open]::backdrop {
+        opacity: 1;
+    }
+    @starting-style {
+        .tintora-drawer[open] {
+            transform: var(--tintora-drawer-offset);
+        }
+        .tintora-drawer[open]::backdrop {
+            opacity: 0;
+        }
+    }
+}
+
+/* The page behind a drawer does not scroll. */
+body:has(.tintora-drawer:modal) {
+    overflow: hidden;
+}
