@@ -1,0 +1,68 @@
+/* Two classes beat the Drawer's single class, whatever the load order. */
+.tintora-drawer.tintora-bottom-sheet {
+    flex-direction: column;
+    gap: 6px;
+    max-height: calc(100dvh - 48px);
+    padding: 10px 16px 16px;
+    border: 0;
+    border-top: 1px solid var(--tintora-border-popover);
+    border-radius: var(--tintora-radius-28) var(--tintora-radius-28) 0 0;
+    box-shadow: var(--tintora-shadow-sheet);
+}
+/* display on [open] only: on the bare class it would show a closed dialog.
+   The rest stays on the base rule so the layout survives the exit slide. */
+.tintora-drawer.tintora-bottom-sheet[open] {
+    display: flex;
+}
+
+.tintora-bottom-sheet__grabber {
+    flex: 0 0 auto;
+    align-self: center;
+    width: 36px;
+    height: 4px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-text-faint);
+}
+
+.tintora-bottom-sheet__title {
+    padding: 8px 4px 6px;
+    font: var(--tintora-font-heading);
+}
+
+.tintora-bottom-sheet__option {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: var(--tintora-radius-16);
+    font: var(--tintora-font-button);
+    font-weight: var(--tintora-font-weight-semibold);
+    text-align: left;
+    color: var(--tintora-text);
+    background: transparent;
+    cursor: pointer;
+}
+.tintora-bottom-sheet__option:hover {
+    background: var(--tintora-fill-subtle-hover);
+}
+.tintora-bottom-sheet__option:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+.tintora-bottom-sheet__option[aria-pressed='true'] {
+    background: var(--tintora-fill-subtle);
+}
+
+.tintora-bottom-sheet__check {
+    flex: 0 0 auto;
+    color: var(--tintora-control-fill);
+    opacity: 0;
+}
+.tintora-bottom-sheet__option[aria-pressed='true']
+    .tintora-bottom-sheet__check {
+    opacity: 1;
+}
