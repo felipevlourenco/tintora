@@ -7,6 +7,7 @@ import {
     type ReactNode,
 } from 'react';
 import { IconButton } from '../IconButton/IconButton';
+import { isOutsideElementClicked } from '../utils/outside';
 import './Modal.css';
 
 type ModalStatus = 'success' | 'error' | 'info' | 'warning';
@@ -110,9 +111,8 @@ export function Modal({
                 onClose();
             }}
             onClick={(event) => {
-                // A click on the scrim lands on the dialog element itself.
-                if (role === 'dialog' && event.target === event.currentTarget) {
-                    onClose();
+                if (role === 'dialog') {
+                    isOutsideElementClicked(event, onClose);
                 }
             }}
         >
