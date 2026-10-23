@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="509" height="104" viewBox="0 0 509 104" role="img" aria-label="Tintora">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#403c3b"/><stop offset="1" stop-color="#2a2726"/></linearGradient>
+    <linearGradient id="tint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f58a4a"/><stop offset="1" stop-color="#c94e0c"/></linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="clip"><rect width="104" height="104" rx="26"/></clipPath>
+  </defs>
+  <rect width="104" height="104" rx="26" fill="url(#tile)"/>
+  <g clip-path="url(#clip)"><rect width="104" height="52" fill="url(#sheen)"/></g>
+  <rect x="0.5" y="0.5" width="103" height="103" rx="25.5" fill="none" stroke="#fff" stroke-opacity="0.14"/>
+  <g fill="url(#tint)"><rect x="25" y="28" width="54" height="18" rx="9"/><rect x="43" y="28" width="18" height="51" rx="9"/></g>
+  <g transform="translate(152.4 40.0) scale(0.8)" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path transform="translate(16 0)" d="M0 -22V40A20 20 0 0 0 20 60M-16 0H22"/>
+    <path transform="translate(66 0)" d="M0 0V60"/>
+    <circle cx="66" cy="-28" r="9" fill="url(#tint)" stroke="none"/>
+    <path transform="translate(94 0)" d="M0 0V60M0 28A22 28 0 0 1 44 28V60"/>
+    <path transform="translate(182 0)" d="M0 -22V40A20 20 0 0 0 20 60M-16 0H22"/>
+    <path transform="translate(232 0)" d="M60 30A30 30 0 1 1 0 30A30 30 0 1 1 60 30"/>
+    <path transform="translate(320 0)" d="M0 0V60M0 32A26 32 0 0 1 26 0"/>
+    <path transform="translate(374 0)" d="M60 0V60M60 30A30 30 0 1 1 0 30A30 30 0 1 1 60 30"/>
+  </g>
+</svg>
