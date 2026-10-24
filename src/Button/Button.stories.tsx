@@ -123,6 +123,16 @@ export const Loading: Story = {
     ),
 };
 
+export const FullWidth: Story = {
+    render: (args) => (
+        <div style={{ ...row, width: '100%' }}>
+            <Button {...args} variant="primary" fullWidth>
+                Primary
+            </Button>
+        </div>
+    ),
+};
+
 export const States: Story = {
     parameters: {
         pseudo: {

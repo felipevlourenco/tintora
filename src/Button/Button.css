@@ -55,6 +55,10 @@
     padding-inline-end: calc(var(--tintora-button-padding-x) - 4px);
 }
 
+.tintora-button--full-width {
+    width: 100%;
+}
+
 /* Variants */
 .tintora-button--primary {
     --tintora-button-fg: var(--tintora-color-on-accent-deep);

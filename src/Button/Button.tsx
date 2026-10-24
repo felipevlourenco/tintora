@@ -12,18 +12,20 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     loading?: boolean;
     leadingIcon?: ReactNode;
     trailingIcon?: ReactNode;
+    fullWidth?: boolean;
 }
 
 export function Button({
     children,
     className,
     variant,
-    size = 'medium',
+    disabled,
     leadingIcon,
     trailingIcon,
+    size = 'medium',
     type = 'button',
     loading = false,
-    disabled,
+    fullWidth = false,
     ...props
 }: ButtonProps) {
     return (
@@ -37,6 +39,7 @@ export function Button({
                     'tintora-button--leading-icon': !!leadingIcon || loading,
                     'tintora-button--loading': loading,
                     'tintora-button--trailing-icon': !!trailingIcon,
+                    'tintora-button--full-width': fullWidth,
                 },
                 className,
             )}
