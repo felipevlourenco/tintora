@@ -198,6 +198,7 @@
 
     /* Focus and selection rings */
     --tintora-focus: var(--tintora-color-accent);
+    --tintora-link: var(--tintora-color-accent);
     --tintora-ring: var(--tintora-color-white);
 
     /* Elevation */
@@ -322,6 +323,7 @@
 
     /* Focus and selection rings */
     --tintora-focus: var(--tintora-color-accent-deep);
+    --tintora-link: var(--tintora-color-accent-deep);
     --tintora-ring: var(--tintora-color-ink);
 
     /* Elevation */
@@ -452,6 +454,7 @@
 
         /* Focus and selection rings */
         --tintora-focus: var(--tintora-color-accent-deep);
+        --tintora-link: var(--tintora-color-accent-deep);
         --tintora-ring: var(--tintora-color-ink);
 
         /* Elevation */

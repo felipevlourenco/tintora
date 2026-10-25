@@ -1,0 +1,29 @@
+.tintora-link {
+    color: var(--tintora-link-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    border-radius: 2px;
+}
+.tintora-link--accent {
+    --tintora-link-color: var(--tintora-link);
+}
+.tintora-link--white {
+    --tintora-link-color: var(--tintora-color-white);
+}
+.tintora-link--transparent {
+    --tintora-link-color: inherit;
+    /* Wraps blocks: an inline box around a block gets no focus outline. */
+    display: block;
+    text-decoration: none;
+}
+.tintora-link:hover {
+    text-decoration-thickness: 2px;
+}
+.tintora-link--transparent:hover {
+    text-decoration: none;
+}
+.tintora-link:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
