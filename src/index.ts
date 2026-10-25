@@ -20,6 +20,7 @@ export { Chip } from './Chip/Chip';
 export { Dot } from './Dot/Dot';
 export { Drawer, type DrawerProps } from './Drawer/Drawer';
 export { IconButton } from './IconButton/IconButton';
+export { Link, type LinkProps } from './Link/Link';
 export { Modal, type ModalProps } from './Modal/Modal';
 export { Popover, type PopoverProps } from './Popover/Popover';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';

@@ -70,7 +70,7 @@ Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`
 
 ### Server Components
 
-Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
 ```tsx
 // app/loading.tsx, a Server Component
@@ -128,6 +128,7 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | ------------ | ------------------------------------------------------------------------------ |
 | `Button`     | `primary`, `secondary`, `outline` and `ghost`, with icons and a loading state. |
 | `IconButton` | A round, field or nav button with an icon and a required `aria-label`.         |
+| `Link`       | An `<a>`, or any component via `as` (e.g. Next's `Link`), in Tintora's style.  |
 | `Chip`       | A pill button, or a toggle when `selected` is set.                             |
 | `Toggle`     | A two-option segmented control (`ToggleItem`), such as light and dark.         |
 | `Tabs`       | A tab list (`Tab`), as a segmented pill or an underline. Arrow-key navigation. |
