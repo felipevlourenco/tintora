@@ -1,4 +1,6 @@
-import clsx from 'clsx';
+'use client';
+
+import { clsx } from '../utils/clsx';
 import type { ButtonHTMLAttributes, MouseEvent } from 'react';
 import { useTabsContext } from './TabsContext';
 

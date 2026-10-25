@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from '../utils/clsx';
 import type { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 import './Card.css';
 

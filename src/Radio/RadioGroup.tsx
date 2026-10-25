@@ -1,4 +1,6 @@
-import clsx from 'clsx';
+'use client';
+
+import { clsx } from '../utils/clsx';
 import { useId, useState, type HTMLAttributes } from 'react';
 import { RadioContext } from './RadioContext';
 

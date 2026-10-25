@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from '../utils/clsx';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import './Chip.css';
 

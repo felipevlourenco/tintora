@@ -1,4 +1,6 @@
-import clsx from 'clsx';
+'use client';
+
+import { clsx } from '../utils/clsx';
 import { useId, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { Drawer, type DrawerProps } from '../Drawer/Drawer';
 import './BottomSheet.css';

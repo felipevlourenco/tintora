@@ -29,13 +29,30 @@ export default defineConfig({
         clearMocks: true,
     },
     build: {
-        lib: {
-            entry: 'src/index.ts',
-            formats: ['es', 'cjs'],
-            fileName: (f) => `index.${f === 'es' ? 'js' : 'cjs'}`,
-        },
+        lib: { entry: 'src/index.ts' },
         rollupOptions: {
             external: ['react', 'react-dom', 'react/jsx-runtime'],
+            // One file per source module, not one bundle. Importing a pure
+            // component (Spinner) must not run another one's module-scope
+            // createContext(), which throws in a React Server Component. The
+            // JS files are side-effect free (package.json "sideEffects"), so
+            // bundlers drop the modules an import does not use. The barrel is
+            // the exception: it imports the stylesheet, and a barrel flagged
+            // side-effect free is skipped, taking the CSS with it.
+            output: [
+                {
+                    format: 'es',
+                    preserveModules: true,
+                    preserveModulesRoot: 'src',
+                    entryFileNames: '[name].js',
+                },
+                {
+                    format: 'cjs',
+                    preserveModules: true,
+                    preserveModulesRoot: 'src',
+                    entryFileNames: '[name].cjs',
+                },
+            ],
         },
     },
 });
