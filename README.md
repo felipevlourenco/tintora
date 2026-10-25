@@ -68,6 +68,21 @@ Tintora is dark by default and follows the OS preference. Force a theme with `da
 
 Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`, so you can override them in your own CSS.
 
+### Server Components
+
+Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+
+```tsx
+// app/loading.tsx, a Server Component
+import { Spinner } from 'tintora';
+
+export default function Loading() {
+    return <Spinner />;
+}
+```
+
+Props passed from a Server Component must be serialisable, so event handlers (`onClick`, `onClose`) belong in a Client Component.
+
 ### Controlled overlays
 
 Modal, Drawer, BottomSheet and Popover are controlled: your state owns `open`.

@@ -1,4 +1,6 @@
-import clsx from 'clsx';
+'use client';
+
+import { clsx } from '../utils/clsx';
 import { useId, type InputHTMLAttributes } from 'react';
 import './TextField.css';
 

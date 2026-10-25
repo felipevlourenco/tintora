@@ -17,7 +17,9 @@
         "tintora"
     ],
     "sideEffects": [
-        "**/*.css"
+        "**/*.css",
+        "./dist/index.js",
+        "./dist/index.cjs"
     ],
     "files": [
         "dist"
@@ -41,7 +43,7 @@
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
         "test:watch": "vitest",
-        "lint": "eslint . && node scripts/check-tokens.mjs",
+        "lint": "eslint . && node scripts/check-tokens.mjs && node scripts/check-use-client.mjs",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "prepublishOnly": "pnpm lint && pnpm typecheck && pnpm build",
@@ -65,7 +67,6 @@
         "@types/react-dom": "^19.3.0",
         "@vitejs/plugin-react": "^6.1.2",
         "axe-core": "^4.14.0",
-        "clsx": "^2.1.1",
         "eslint": "^9.39.5",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-jsx-a11y": "^6.10.2",

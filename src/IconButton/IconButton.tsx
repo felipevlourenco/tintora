@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from '../utils/clsx';
 import type { ReactNode } from 'react';
 import { Button, type ButtonProps } from '../Button/Button';
 import './IconButton.css';

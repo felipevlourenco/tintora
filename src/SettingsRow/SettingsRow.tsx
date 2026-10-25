@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from '../utils/clsx';
 import type { HTMLAttributes, ReactNode } from 'react';
 import './SettingsRow.css';
 
