@@ -36,6 +36,14 @@ describe('Modal', () => {
         expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
+    it('takes a translated close button label', () => {
+        setup({ closeLabel: 'Fechar' });
+        expect(
+            screen.getByRole('button', { name: 'Fechar' }),
+        ).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Close' })).toBeNull();
+    });
+
     it('calls onClose from the close button and hides it when asked', async () => {
         const { onClose, rerender } = setup();
         await userEvent.click(screen.getByRole('button', { name: 'Close' }));

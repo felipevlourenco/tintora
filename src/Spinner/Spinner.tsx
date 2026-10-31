@@ -7,6 +7,8 @@ export interface SpinnerProps {
     size?: SpinnerSizes;
     /** `accent` uses the brand fill; `current` follows the surrounding text colour. */
     color?: SpinnerColors;
+    /** The accessible name; set it to translate the label. @default 'Loading' */
+    'aria-label'?: string;
 }
 
 // Stroke widths are in viewBox units, tuned so the line stays ~2-4px at every size.
@@ -16,7 +18,11 @@ export const SPINNER_SIZE_MAP = {
     large: { width: 40, height: 40, strokeWidth: 2.4 },
 } as const;
 
-export function Spinner({ size = 'medium', color = 'accent' }: SpinnerProps) {
+export function Spinner({
+    size = 'medium',
+    color = 'accent',
+    'aria-label': ariaLabel = 'Loading',
+}: SpinnerProps) {
     const { width, height, strokeWidth } = SPINNER_SIZE_MAP[size];
     return (
         <svg
@@ -26,7 +32,7 @@ export function Spinner({ size = 'medium', color = 'accent' }: SpinnerProps) {
             viewBox="0 0 24 24"
             fill="none"
             role="img"
-            aria-label="Loading"
+            aria-label={ariaLabel}
         >
             <circle
                 cx="12"

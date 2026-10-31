@@ -13,6 +13,14 @@ describe('Spinner', () => {
         ).toBeInTheDocument();
     });
 
+    it('takes a translated label', () => {
+        setup({ 'aria-label': 'Carregando' });
+        expect(
+            screen.getByRole('img', { name: 'Carregando' }),
+        ).toBeInTheDocument();
+        expect(screen.queryByRole('img', { name: 'Loading' })).toBeNull();
+    });
+
     it('defaults to the medium size', () => {
         setup();
         expect(screen.getByRole('img')).toHaveAttribute(
