@@ -1,21 +1,47 @@
 import { clsx } from '../utils/clsx';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
 import { Spinner } from '../Spinner/Spinner';
 import './Button.css';
 
 type ButtonVariants = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSizes = 'small' | 'medium' | 'large';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export type ButtonProps<C extends ElementType = 'button'> = {
+    /**
+     * What to render: `'button'`, `'a'`, or a router's link such as Next's
+     * `Link`. Its own props (`href`, `to`, ...) are then accepted and
+     * type-checked. @default 'button'
+     */
+    as?: C;
     variant: ButtonVariants;
     size?: ButtonSizes;
+    /**
+     * A `button` gets the `disabled` attribute. Anything else gets
+     * `aria-disabled`, is taken out of the tab order and ignores the pointer.
+     */
+    disabled?: boolean;
     loading?: boolean;
     leadingIcon?: ReactNode;
     trailingIcon?: ReactNode;
     fullWidth?: boolean;
-}
+    className?: string;
+    children?: ReactNode;
+} & Omit<
+    ComponentPropsWithoutRef<C>,
+    | 'as'
+    | 'variant'
+    | 'size'
+    | 'disabled'
+    | 'loading'
+    | 'leadingIcon'
+    | 'trailingIcon'
+    | 'fullWidth'
+    | 'className'
+    | 'children'
+>;
 
-export function Button({
+export function Button<C extends ElementType = 'button'>({
+    as,
     children,
     className,
     variant,
@@ -23,14 +49,14 @@ export function Button({
     leadingIcon,
     trailingIcon,
     size = 'medium',
-    type = 'button',
     loading = false,
     fullWidth = false,
     ...props
-}: ButtonProps) {
+}: ButtonProps<C>) {
+    const Component: ElementType = as ?? 'button';
+    const inactive = disabled || loading;
     return (
-        <button
-            type={type}
+        <Component
             className={clsx(
                 'tintora-button',
                 `tintora-button--${variant}`,
@@ -43,7 +69,9 @@ export function Button({
                 },
                 className,
             )}
-            disabled={disabled || loading}
+            {...(Component === 'button'
+                ? { type: 'button', disabled: inactive }
+                : inactive && { 'aria-disabled': true, tabIndex: -1 })}
             aria-busy={loading || undefined}
             {...props}
         >
@@ -63,6 +91,6 @@ export function Button({
                     {trailingIcon}
                 </span>
             )}
-        </button>
+        </Component>
     );
 }

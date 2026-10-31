@@ -18,6 +18,7 @@
     color: var(--tintora-button-fg);
     background-color: var(--tintora-button-bg);
     box-shadow: var(--tintora-button-shadow, none);
+    text-decoration: none;
 }
 
 /* Sizes */
@@ -90,13 +91,15 @@
 }
 
 /* States. Hover/pressed only apply while enabled, and :active comes after
-   :hover so pressed wins. Unset variables fall back to the resting value. */
-.tintora-button:enabled:hover {
+   :hover so pressed wins. Unset variables fall back to the resting value.
+   "Disabled" is `:disabled` on a button and `aria-disabled` on anything else
+   (an `<a>` has no `:disabled`, so `:enabled` would never match it). */
+.tintora-button:not(:disabled, [aria-disabled='true']):hover {
     color: var(--tintora-button-fg-hover, var(--tintora-button-fg));
     background-color: var(--tintora-button-bg-hover, var(--tintora-button-bg));
     filter: var(--tintora-button-filter-hover, none);
 }
-.tintora-button:enabled:active {
+.tintora-button:not(:disabled, [aria-disabled='true']):active {
     color: var(--tintora-button-fg-pressed, var(--tintora-button-fg));
     background-color: var(
         --tintora-button-bg-pressed,
@@ -108,13 +111,17 @@
 .tintora-button:focus-visible {
     outline: 2px solid var(--tintora-focus);
 }
-.tintora-button:disabled {
+.tintora-button:is(:disabled, [aria-disabled='true']) {
     opacity: var(--tintora-opacity-disabled);
     cursor: not-allowed;
     box-shadow: none;
 }
+/* Links have no native disabled state, so stop the pointer too. */
+.tintora-button[aria-disabled='true'] {
+    pointer-events: none;
+}
 /* Loading is disabled-but-not-dimmed: the spinner shows it's working. */
-.tintora-button--loading:disabled {
+.tintora-button--loading:is(:disabled, [aria-disabled='true']) {
     opacity: 0.85;
     cursor: progress;
 }

@@ -111,6 +111,32 @@ const states = [
     { label: 'Disabled', disabled: true },
 ];
 
+/**
+ * `as` renders a real `<a>`, or a router's link such as Next's `Link`, with
+ * the same hover, pressed and focus styles. With Next.js:
+ * `<Button as={NextLink} href="/requests" variant="primary">`.
+ */
+export const AsLink: Story = {
+    render: (args) => (
+        <div style={row}>
+            {variants.map((variant) => (
+                <Button
+                    key={variant}
+                    {...args}
+                    as="a"
+                    href="#"
+                    variant={variant}
+                >
+                    {variant}
+                </Button>
+            ))}
+            <Button {...args} as="a" href="#" disabled>
+                disabled
+            </Button>
+        </div>
+    ),
+};
+
 export const Loading: Story = {
     render: (args) => (
         <div style={row}>

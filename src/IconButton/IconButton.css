@@ -49,10 +49,10 @@
     --tintora-button-bg-pressed: var(--tintora-fill-subtle);
     --tintora-icon-button-icon-size: 18px;
 }
-.tintora-icon-button--field:enabled:hover {
+.tintora-icon-button--field:not(:disabled, [aria-disabled='true']):hover {
     border-color: var(--tintora-border-field-hover);
 }
-.tintora-icon-button--field:enabled:active {
+.tintora-icon-button--field:not(:disabled, [aria-disabled='true']):active {
     border-color: var(--tintora-border-field);
 }
 

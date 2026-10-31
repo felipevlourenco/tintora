@@ -126,7 +126,7 @@ Every component has a story with all its variants in the [Storybook](https://fel
 
 | Component    | What it is                                                                     |
 | ------------ | ------------------------------------------------------------------------------ |
-| `Button`     | `primary`, `secondary`, `outline` and `ghost`, with icons and a loading state. |
+| `Button`     | Four variants, icons, a loading state, and `as` to render a link.              |
 | `IconButton` | A round, field or nav button with an icon and a required `aria-label`.         |
 | `Link`       | An `<a>`, or any component via `as` (e.g. Next's `Link`), in Tintora's style.  |
 | `Chip`       | A pill button, or a toggle when `selected` is set.                             |
