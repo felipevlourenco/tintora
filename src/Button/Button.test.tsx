@@ -191,4 +191,101 @@ describe('Button', () => {
             await expectNoA11yViolations(container);
         });
     });
+
+    describe('as', () => {
+        // Stands in for a router link: its own `to` prop, and it renders the
+        // `className` and other props it is given.
+        function RouterLink({
+            to,
+            children,
+            ...props
+        }: { to: string } & React.ComponentProps<'a'>) {
+            return (
+                <a href={to} data-router="" {...props}>
+                    {children}
+                </a>
+            );
+        }
+
+        it('renders a real link with the button classes, and no button attributes', () => {
+            render(
+                <Button as="a" href="/requests" variant="primary" size="large">
+                    Requests
+                </Button>,
+            );
+            const link = screen.getByRole('link', { name: 'Requests' });
+            expect(link).toHaveAttribute('href', '/requests');
+            expect(link).toHaveClass(
+                'tintora-button',
+                'tintora-button--primary',
+                'tintora-button--large',
+            );
+            expect(link).not.toHaveAttribute('type');
+            expect(link).not.toHaveAttribute('disabled');
+        });
+
+        it('renders the given component with its own props', () => {
+            render(
+                <Button as={RouterLink} to="/requests" variant="primary">
+                    Requests
+                </Button>,
+            );
+            const link = screen.getByRole('link', { name: 'Requests' });
+            expect(link).toHaveAttribute('data-router');
+            expect(link).toHaveAttribute('href', '/requests');
+            expect(link).toHaveClass('tintora-button');
+        });
+
+        it('type-checks the props of the given component', () => {
+            render(
+                // @ts-expect-error `to` is required by RouterLink
+                <Button as={RouterLink} variant="primary">
+                    Missing destination
+                </Button>,
+            );
+        });
+
+        it('marks a disabled link with aria-disabled and takes it out of the tab order', () => {
+            render(
+                <Button as="a" href="/requests" variant="primary" disabled>
+                    Requests
+                </Button>,
+            );
+            const link = screen.getByRole('link', { name: 'Requests' });
+            expect(link).toHaveAttribute('aria-disabled', 'true');
+            expect(link).toHaveAttribute('tabindex', '-1');
+            expect(link).not.toHaveAttribute('disabled');
+        });
+
+        it('treats a loading link as busy and disabled', () => {
+            render(
+                <Button as="a" href="/requests" variant="primary" loading>
+                    Requests
+                </Button>,
+            );
+            const link = screen.getByRole('link', { name: 'Requests' });
+            expect(link).toHaveAttribute('aria-busy', 'true');
+            expect(link).toHaveAttribute('aria-disabled', 'true');
+        });
+
+        it('leaves an enabled link focusable and not aria-disabled', () => {
+            render(
+                <Button as="a" href="/requests" variant="primary">
+                    Requests
+                </Button>,
+            );
+            const link = screen.getByRole('link');
+            expect(link).not.toHaveAttribute('aria-disabled');
+            expect(link).not.toHaveAttribute('tabindex');
+        });
+
+        it('has no accessibility violations as a link', async () => {
+            const { container } = render(
+                <Button as="a" href="/requests" variant="primary" disabled>
+                    Requests
+                </Button>,
+            );
+            await expectNoA11yViolations(container);
+        });
+    });
 });
