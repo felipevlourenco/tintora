@@ -40,6 +40,12 @@ export interface ModalProps extends Omit<
     role?: 'dialog' | 'alertdialog';
     /** Show the corner close button. @default true */
     closeButton?: boolean;
+    /**
+     * The close button's accessible name; set it to translate the label. It is
+     * not `aria-label` because that would label the dialog itself.
+     * @default 'Close'
+     */
+    closeLabel?: string;
 }
 
 const CloseIcon = () => (
@@ -73,6 +79,7 @@ export function Modal({
     align = 'start',
     role = 'dialog',
     closeButton = true,
+    closeLabel = 'Close',
     className,
     children,
     ...props
@@ -146,7 +153,7 @@ export function Modal({
                 <IconButton
                     className="tintora-modal__close"
                     size="medium"
-                    aria-label="Close"
+                    aria-label={closeLabel}
                     icon={<CloseIcon />}
                     onClick={onClose}
                 />
