@@ -60,6 +60,34 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+/** A shop trail on the light page background, with chevrons. */
+export const ShopTrail: Story = {
+    args: {
+        separator: <Chevron />,
+        items: [
+            { label: 'Shop all', href: '#shop' },
+            { label: 'Lighting', href: '#lighting' },
+            { label: 'Alder desk lamp' },
+        ],
+    },
+    decorators: [
+        (Story) => (
+            <div
+                data-theme="light"
+                style={{
+                    padding: '20px 24px',
+                    background: 'var(--tintora-bg)',
+                    fontFamily: 'var(--tintora-font-family)',
+                    fontSize: 18,
+                    fontWeight: 500,
+                }}
+            >
+                <Story />
+            </div>
+        ),
+    ],
+};
+
 export const TwoLevels: Story = {
     args: {
         items: [{ label: 'Home', href: '#home' }, { label: 'Settings' }],

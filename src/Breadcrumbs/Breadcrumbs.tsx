@@ -44,9 +44,10 @@ export interface BreadcrumbsProps extends Omit<
 
 export function Breadcrumbs({
     items,
-    linkAs: BreadcrumbLink = Link,
-    'aria-label': ariaLabel = 'Breadcrumb',
+    linkAs,
+    separator,
     className,
+    'aria-label': ariaLabel = 'Breadcrumb',
     ...props
 }: BreadcrumbsProps): ReactNode {
     if (items.length < 1) {
@@ -59,25 +60,26 @@ export function Breadcrumbs({
             aria-label={ariaLabel}
             className={clsx('tintora-breadcrumbs', className)}
         >
-            <ol className="tintora-breadcrumbs-list">
+            <ol className="tintora-breadcrumbs__list">
                 {items.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} className="tintora-breadcrumbs__item">
                         {index === items.length - 1 ? (
                             <span aria-current="page">{item.label}</span>
                         ) : (
-                            <BreadcrumbLink
+                            <Link
+                                as={linkAs}
+                                variant="transparent"
                                 href={item.href}
-                                className="tintora-link"
                             >
                                 {item.label}
-                            </BreadcrumbLink>
+                            </Link>
                         )}
                         {index < items.length - 1 && (
                             <span
                                 aria-hidden="true"
                                 className="tintora-breadcrumbs__separator"
                             >
-                                {props.separator ?? '/'}
+                                {separator ?? '/'}
                             </span>
                         )}
                     </li>

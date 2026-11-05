@@ -162,6 +162,32 @@ describe('Breadcrumbs', () => {
         });
     });
 
+    describe('props', () => {
+        it('does not leak separator or linkAs to the nav element', () => {
+            render(
+                <Breadcrumbs items={items} separator="›" linkAs={RouterLink} />,
+            );
+            const nav = screen.getByRole('navigation');
+            expect(nav).not.toHaveAttribute('separator');
+            expect(nav).not.toHaveAttribute('linkas');
+        });
+    });
+
+    describe('link style', () => {
+        it('uses the transparent Link variant, so the trail sets its own colours', () => {
+            render(<Breadcrumbs items={items} />);
+            for (const link of screen.getAllByRole('link')) {
+                expect(link).toHaveClass(
+                    'tintora-link',
+                    'tintora-link--transparent',
+                );
+                expect(link.className.split(' ')).toEqual([
+                    ...new Set(link.className.split(' ')),
+                ]);
+            }
+        });
+    });
+
     describe('linkAs', () => {
         it('renders the links as the given component', () => {
             render(<Breadcrumbs items={items} linkAs={RouterLink} />);
@@ -169,7 +195,10 @@ describe('Breadcrumbs', () => {
             expect(links).toHaveLength(3);
             for (const link of links) {
                 expect(link).toHaveAttribute('data-router');
-                expect(link).toHaveClass('tintora-link');
+                expect(link).toHaveClass(
+                    'tintora-link',
+                    'tintora-link--transparent',
+                );
             }
             expect(links[1]).toHaveAttribute('href', '/shop');
         });
