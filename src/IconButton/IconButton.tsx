@@ -1,7 +1,15 @@
-import { clsx } from '../utils/clsx';
 import type { ReactNode } from 'react';
 import { Button, type ButtonProps } from '../Button/Button';
+import { clsx } from '../utils/clsx';
 import './IconButton.css';
+
+function normalizeBadge(badge: number) {
+    if (badge > 9) {
+        return '9+';
+    }
+
+    return badge;
+}
 
 type IconButtonSizes = NonNullable<ButtonProps['size']>;
 
@@ -25,6 +33,7 @@ type Shared = Omit<
     icon: ReactNode;
     /** There is no visible text, so an accessible name is required. */
     'aria-label': string;
+    badge?: number;
 };
 
 export type IconButtonProps = Shared &
@@ -57,6 +66,7 @@ export function IconButton({
     size,
     selected,
     className,
+    badge,
     ...props
 }: IconButtonProps) {
     // Field and nav have one fixed size each, so only round gets a size class.
@@ -77,6 +87,11 @@ export function IconButton({
             <span className="tintora-icon-button__icon" aria-hidden="true">
                 {icon}
             </span>
+            {badge && badge > 0 && (
+                <span className="tintora-icon-button__badge" aria-hidden="true">
+                    {normalizeBadge(badge)}
+                </span>
+            )}
         </Button>
     );
 }

@@ -49,6 +49,15 @@ export const Nav: Story = {
     args: { variant: 'nav', icon: <Grid />, 'aria-label': 'Dashboard' },
 };
 
+export const WithBadge: Story = {
+    args: {
+        variant: 'round',
+        icon: <Grid />,
+        'aria-label': 'Dashboard',
+        badge: 5,
+    },
+};
+
 export const NavSelected: Story = {
     args: { ...Nav.args, selected: true } as Story['args'],
 };

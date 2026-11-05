@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { IconButton, type IconButtonProps } from './IconButton';
 import { expectNoA11yViolations } from '../test-utils';
+import { IconButton, type IconButtonProps } from './IconButton';
 
 // The props are a union, so tests pass them loosely and let the component sort them out.
 type LooseProps = Partial<Record<keyof IconButtonProps, unknown>> &
@@ -33,6 +33,24 @@ describe('IconButton', () => {
             'aria-hidden',
             'true',
         );
+    });
+
+    it('renders a badge when given a number', () => {
+        setup({ badge: 5 });
+        expect(screen.getByText('5')).toBeInTheDocument();
+    });
+
+    it('does not render a badge when given 0 or a negative number', () => {
+        setup({ badge: 0 });
+        expect(screen.queryByText('0')).not.toBeInTheDocument();
+
+        setup({ badge: -1 });
+        expect(screen.queryByText('-1')).not.toBeInTheDocument();
+    });
+
+    it('renders "9+" when given a number greater than 9', () => {
+        setup({ badge: 10 });
+        expect(screen.getByText('9+')).toBeInTheDocument();
     });
 
     it('is a round, large button by default and never submits a form', () => {
