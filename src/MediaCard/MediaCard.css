@@ -1,0 +1,81 @@
+.tintora-media-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--tintora-radius-26);
+    color: var(--tintora-color-ink);
+    background: var(--tintora-surface-card);
+    border: 1px solid var(--tintora-border-card);
+    box-shadow: var(--tintora-shadow-card);
+}
+.tintora-media-card:has(.tintora-media-card__title a:focus-visible) {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: -2px;
+}
+
+.tintora-media-card__media {
+    position: relative;
+    overflow: hidden;
+    padding: 8px 8px 0 8px;
+
+    /* The picture only: the badge and the action are positioned overlays. */
+    > :not(.tintora-media-card__badge, .tintora-media-card__action) {
+        border-radius: var(--tintora-radius-20);
+        aspect-ratio: var(--tintora-media-card-ratio);
+        width: 100%;
+        display: block;
+        object-fit: cover;
+    }
+}
+.tintora-media-card__badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.tintora-media-card__action {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+.tintora-media-card__details {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px 4px 20px;
+}
+/* Without a footer the details are the last block: give them the footer's
+   bottom padding. */
+.tintora-media-card__details:last-child {
+    padding-bottom: 20px;
+}
+.tintora-media-card__eyebrow {
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-on-card-muted);
+}
+.tintora-media-card__title {
+    margin: 0;
+    font: var(--tintora-font-heading);
+}
+/* The card draws the focus ring; beats .tintora-link:focus-visible. */
+.tintora-media-card__title a:focus-visible {
+    outline: none;
+}
+.tintora-media-card__title a::after {
+    outline: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+.tintora-media-card__meta {
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-on-card-muted);
+}
+
+.tintora-media-card__footer {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px 20px 20px;
+    z-index: 1;
+}
