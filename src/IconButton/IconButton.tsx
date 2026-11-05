@@ -87,7 +87,7 @@ export function IconButton({
             <span className="tintora-icon-button__icon" aria-hidden="true">
                 {icon}
             </span>
-            {badge && badge > 0 && (
+            {badge !== undefined && badge > 0 && (
                 <span className="tintora-icon-button__badge" aria-hidden="true">
                     {normalizeBadge(badge)}
                 </span>
