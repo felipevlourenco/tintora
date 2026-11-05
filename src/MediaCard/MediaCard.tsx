@@ -1,4 +1,13 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import {
+    useId,
+    type CSSProperties,
+    type HTMLAttributes,
+    type ReactNode,
+} from 'react';
+import { clsx } from '../utils/clsx';
+import './MediaCard.css';
+
+type HeadingLevel = 2 | 3 | 4 | 5 | 6;
 
 export interface MediaCardProps extends Omit<
     HTMLAttributes<HTMLElement>,
@@ -33,7 +42,7 @@ export interface MediaCardProps extends Omit<
      * Heading level of the title, so the card fits the page outline.
      * @default 3
      */
-    headingLevel?: 2 | 3 | 4 | 5 | 6;
+    headingLevel?: HeadingLevel;
     /** A line under the title: a rating, a description, a size. */
     meta?: ReactNode;
     /** The bottom row: a price on the left and a button on the right. */
@@ -45,9 +54,60 @@ export interface MediaCardProps extends Omit<
  * it is shop-specific: every part is a slot, so it also fits recipes,
  * articles or people.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove with the stub
-export function MediaCard(props: MediaCardProps): ReactNode {
-    // TODO(human): implement. The tests in MediaCard.test.tsx describe the
-    // markup, the class names and the stylesheet rules it must produce.
-    throw new Error('MediaCard is not implemented yet');
+
+export function MediaCard({
+    as: Element = 'article',
+    headingLevel,
+    title,
+    eyebrow,
+    media,
+    meta,
+    footer,
+    badge,
+    action,
+    className,
+    mediaAspectRatio = '5 / 4',
+    ...props
+}: MediaCardProps): ReactNode {
+    const id = useId();
+    const Heading = `h${headingLevel ?? 3}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+    const ratio: CSSProperties & { '--tintora-media-card-ratio': string } = {
+        '--tintora-media-card-ratio': mediaAspectRatio,
+    };
+
+    return (
+        <Element
+            aria-labelledby={id}
+            data-testid="card"
+            className={clsx('tintora-media-card', className)}
+            {...props}
+        >
+            <div className="tintora-media-card__media" style={ratio}>
+                {media}
+                {badge && (
+                    <div className="tintora-media-card__badge">{badge}</div>
+                )}
+                {action && (
+                    <div className="tintora-media-card__action">{action}</div>
+                )}
+            </div>
+            <div className="tintora-media-card__details">
+                {eyebrow && (
+                    <span className="tintora-media-card__eyebrow">
+                        {eyebrow}
+                    </span>
+                )}
+                <Heading id={id} className="tintora-media-card__title">
+                    {title}
+                </Heading>
+                {meta && (
+                    <span className="tintora-media-card__meta">{meta}</span>
+                )}
+            </div>
+            {footer && (
+                <div className="tintora-media-card__footer">{footer}</div>
+            )}
+        </Element>
+    );
 }

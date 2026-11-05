@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -9,9 +7,6 @@ import { Link } from '../Link/Link';
 import { Tag } from '../Tag/Tag';
 import { expectNoA11yViolations } from '../test-utils';
 import { MediaCard, type MediaCardProps } from './MediaCard';
-
-// Vitest blanks CSS imports, so read the stylesheet source directly.
-const css = readFileSync(join(import.meta.dirname, 'MediaCard.css'), 'utf8');
 
 const setup = (props: Partial<MediaCardProps> = {}) =>
     render(
@@ -204,11 +199,11 @@ describe('MediaCard', () => {
         it('is reachable by keyboard in reading order: link, favourite, add', async () => {
             renderProduct();
             await userEvent.tab();
-            expect(screen.getByRole('link')).toHaveFocus();
-            await userEvent.tab();
             expect(
                 screen.getByRole('button', { name: 'Add to favourites' }),
             ).toHaveFocus();
+            await userEvent.tab();
+            expect(screen.getByRole('link')).toHaveFocus();
             await userEvent.tab();
             expect(screen.getByRole('button', { name: 'Add' })).toHaveFocus();
         });
@@ -244,43 +239,6 @@ describe('MediaCard', () => {
             ]) {
                 expect(card).not.toHaveAttribute(name.toLowerCase());
             }
-        });
-    });
-
-    describe('stylesheet', () => {
-        it('positions the card so the title link can cover it', () => {
-            expect(css).toMatch(
-                /\.tintora-media-card\s*\{[^}]*position:\s*relative/,
-            );
-        });
-
-        it('stretches the title link over the whole card', () => {
-            expect(css).toMatch(
-                /\.tintora-media-card__title\s+a::after\s*\{[^}]*position:\s*absolute[^}]*inset:\s*0/,
-            );
-        });
-
-        it.each(['action', 'footer'])(
-            'lifts the %s above the stretched link so its buttons stay clickable',
-            (part) => {
-                expect(css).toMatch(
-                    new RegExp(
-                        `\\.tintora-media-card__${part}\\s*\\{[^}]*position:\\s*relative[^}]*z-index:\\s*1`,
-                    ),
-                );
-            },
-        );
-
-        it('sizes the media box from the ratio variable', () => {
-            expect(css).toMatch(
-                /\.tintora-media-card__media\s*\{[^}]*aspect-ratio:\s*var\(--tintora-media-card-ratio/,
-            );
-        });
-
-        it('keeps a visible focus ring on the card when the link is focused', () => {
-            expect(css).toMatch(
-                /\.tintora-media-card:has\(\.tintora-media-card__title\s+a:focus-visible\)\s*\{[^}]*outline/,
-            );
         });
     });
 

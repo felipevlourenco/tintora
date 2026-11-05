@@ -1,2 +1,73 @@
-/* MediaCard styles: the rules MediaCard.test.tsx expects are listed under
-   its "stylesheet" block. */
+.tintora-media-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--tintora-radius-26);
+    color: var(--tintora-color-ink);
+    background: var(--tintora-surface-card);
+    border: 1px solid var(--tintora-border-card);
+    box-shadow: var(--tintora-shadow-card);
+}
+.tintora-media-card:has(a:focus-visible) {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: -2px;
+}
+
+.tintora-media-card__media {
+    position: relative;
+    overflow: hidden;
+    padding: 8px 8px 0 8px;
+
+    > * {
+        border-radius: var(--tintora-radius-20);
+    }
+
+    > img {
+        aspect-ratio: var(--tintora-media-card-ratio);
+    }
+}
+.tintora-media-card__badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.tintora-media-card__action {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+.tintora-media-card__details {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px 4px 20px;
+}
+.tintora-media-card__eyebrow {
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-on-card-muted);
+}
+.tintora-media-card__title {
+    margin: 0;
+    font: var(--tintora-font-heading);
+}
+.tintora-media-card__title a {
+    outline: none;
+}
+.tintora-media-card__title a::after {
+    outline: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+.tintora-media-card__meta {
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-on-card-muted);
+}
+
+.tintora-media-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px 20px 20px;
+    z-index: 1;
+}
