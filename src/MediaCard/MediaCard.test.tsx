@@ -253,12 +253,12 @@ describe('MediaCard', () => {
                 <ul>
                     <MediaCard
                         as="li"
-                        media={<img src="/a.png" alt="First" />}
+                        media={<img src="/a.png" alt="Brass lamp" />}
                         title="First"
                     />
                     <MediaCard
                         as="li"
-                        media={<img src="/b.png" alt="Second" />}
+                        media={<img src="/b.png" alt="Oak lamp" />}
                         title="Second"
                     />
                 </ul>,
