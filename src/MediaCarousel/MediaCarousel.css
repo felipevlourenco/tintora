@@ -1,0 +1,101 @@
+.tintora-media-carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+/* The picture box. The ratio keeps it from jumping between pictures. */
+.tintora-media-carousel__stage {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--tintora-radius-32);
+    aspect-ratio: var(--tintora-media-carousel-ratio);
+}
+.tintora-media-carousel__slide {
+    width: 100%;
+    height: 100%;
+}
+.tintora-media-carousel__slide > * {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tintora-media-carousel__badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+}
+
+/* Arrows float over the sides, semi-transparent until hovered or focused. */
+.tintora-media-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    translate: 0 -50%;
+    opacity: 0.6;
+}
+.tintora-media-carousel__arrow:hover:not(:disabled),
+.tintora-media-carousel__arrow:focus-visible {
+    opacity: 1;
+}
+.tintora-media-carousel__arrow:disabled {
+    opacity: 0.25;
+}
+.tintora-media-carousel__arrow--previous {
+    left: 8px;
+}
+.tintora-media-carousel__arrow--next {
+    right: 8px;
+}
+
+.tintora-media-carousel__thumbnails {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tintora-media-carousel__thumbnails > li {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.tintora-media-carousel__thumbnail {
+    display: block;
+    width: 100%;
+    aspect-ratio: 8 / 5;
+    padding: 0;
+    border: none;
+    border-radius: var(--tintora-radius-20);
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+}
+.tintora-media-carousel__thumbnail > * {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.tintora-media-carousel__thumbnail:hover {
+    outline: 2px solid var(--tintora-line);
+}
+.tintora-media-carousel__thumbnail:active {
+    outline: 2px solid var(--tintora-line-strong);
+}
+.tintora-media-carousel__thumbnail[aria-current='true'] {
+    outline: 2px solid var(--tintora-line-strong);
+}
+.tintora-media-carousel__thumbnail:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+}
+
+/* Small screens: the arrows are enough, hide the strip (as the Drawer does). */
+@media (max-width: 480px) {
+    .tintora-media-carousel__thumbnails {
+        display: none;
+    }
+}

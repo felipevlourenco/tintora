@@ -27,6 +27,11 @@ export { Drawer, type DrawerProps } from './Drawer/Drawer';
 export { IconButton } from './IconButton/IconButton';
 export { Link, type LinkProps } from './Link/Link';
 export { MediaCard, type MediaCardProps } from './MediaCard/MediaCard';
+export {
+    MediaCarousel,
+    type MediaCarouselItem,
+    type MediaCarouselProps,
+} from './MediaCarousel/MediaCarousel';
 export { Modal, type ModalProps } from './Modal/Modal';
 export { Popover, type PopoverProps } from './Popover/Popover';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';
