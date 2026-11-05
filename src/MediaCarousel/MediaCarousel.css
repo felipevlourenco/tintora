@@ -1,0 +1,60 @@
+.tintora-media-carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 480px;
+}
+
+.tintora-media-carousel__media-container {
+    position: relative;
+}
+.tintora-media-carousel__media-container *:not(button) {
+    border-radius: var(--tintora-radius-32);
+}
+.tintora-media-carousel__media-container__button {
+    position: absolute;
+    top: 50%;
+}
+.tintora-media-carousel__media-container__button--previous {
+    left: 8px;
+    transform: translateY(-50%) rotate(180deg) translateY(0px) !important;
+}
+.tintora-media-carousel__media-container__button--next {
+    right: 8px;
+    transform: translateY(-50%) translateY(0px) !important;
+}
+
+.tintora-media-carousel__thumbnails {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+
+    @media (max-width: 480px) {
+        display: none;
+    }
+}
+
+.tintora-media-carousel__thumbnails--item {
+    overflow: hidden;
+    border-radius: var(--tintora-radius-20);
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+}
+
+.tintora-media-carousel__thumbnails--item:hover {
+    outline: 2px solid var(--tintora-line);
+}
+.tintora-media-carousel__thumbnails--item:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+}
+.tintora-media-carousel__thumbnails--item:active {
+    outline: 2px solid var(--tintora-line-strong);
+}
+.tintora-media-carousel__thumbnails--item--selected {
+    outline: 2px solid var(--tintora-line-strong);
+}
