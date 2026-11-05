@@ -8,6 +8,7 @@ export {
     type BottomSheetOptionProps,
     type BottomSheetProps,
 } from './BottomSheet/BottomSheet';
+export { Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 export { Button } from './Button/Button';
 export {
     Card,

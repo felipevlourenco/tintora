@@ -1,0 +1,10 @@
+.tintora-breadcrumbs-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tintora-breadcrumbs__separator {
+    margin-left: 8px;
+}
