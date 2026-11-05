@@ -9,6 +9,7 @@
 .tintora-icon-button {
     width: var(--tintora-button-height);
     flex-shrink: 0;
+    position: relative;
 }
 
 .tintora-icon-button__icon {
@@ -31,6 +32,23 @@
 .tintora-icon-button.tintora-icon-button--large {
     --tintora-button-height: 44px;
     --tintora-icon-button-icon-size: 18px;
+}
+
+.tintora-icon-button__badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(25%, -25%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--tintora-radius-pill);
+    background-color: var(--tintora-color-accent);
+    color: var(--tintora-color-on-accent);
+    font-size: 10px;
+    font-weight: 600;
 }
 
 /* Round: the secondary Button, as a circle */
