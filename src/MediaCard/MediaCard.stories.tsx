@@ -10,6 +10,8 @@ const Lamp = () => (
         viewBox="0 0 200 160"
         role="img"
         aria-label="Desk lamp"
+        // Like object-fit: cover, so it fills any aspect ratio.
+        preserveAspectRatio="xMidYMid slice"
         style={{ width: '100%', height: '100%', display: 'block' }}
     >
         <rect width="200" height="160" fill="#eeeceb" />
@@ -60,11 +62,15 @@ const meta = {
     component: MediaCard,
     tags: ['autodocs'],
     decorators: [
-        (Story) => (
-            <div style={{ width: 280 }}>
+        // One card is 280px wide; a story with `fullWidth` brings its own width.
+        (Story, { parameters }) =>
+            parameters.fullWidth ? (
                 <Story />
-            </div>
-        ),
+            ) : (
+                <div style={{ width: 280 }}>
+                    <Story />
+                </div>
+            ),
     ],
     args: {
         media: <Lamp />,
@@ -118,13 +124,7 @@ export const Square: Story = { args: { mediaAspectRatio: '1 / 1' } };
 
 /** Cards as `li` items of a list, in a responsive grid. */
 export const Grid: Story = {
-    decorators: [
-        (Story) => (
-            <div style={{ width: 'min(900px, 100%)' }}>
-                <Story />
-            </div>
-        ),
-    ],
+    parameters: { fullWidth: true },
     render: (args) => (
         <ul
             style={{

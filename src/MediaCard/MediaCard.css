@@ -7,7 +7,7 @@
     border: 1px solid var(--tintora-border-card);
     box-shadow: var(--tintora-shadow-card);
 }
-.tintora-media-card:has(a:focus-visible) {
+.tintora-media-card:has(.tintora-media-card__title a:focus-visible) {
     outline: 2px solid var(--tintora-focus);
     outline-offset: -2px;
 }
@@ -17,12 +17,13 @@
     overflow: hidden;
     padding: 8px 8px 0 8px;
 
-    > * {
+    /* The picture only: the badge and the action are positioned overlays. */
+    > :not(.tintora-media-card__badge, .tintora-media-card__action) {
         border-radius: var(--tintora-radius-20);
-    }
-
-    > img {
         aspect-ratio: var(--tintora-media-card-ratio);
+        width: 100%;
+        display: block;
+        object-fit: cover;
     }
 }
 .tintora-media-card__badge {
@@ -42,6 +43,11 @@
     flex-direction: column;
     padding: 16px 20px 4px 20px;
 }
+/* Without a footer the details are the last block: give them the footer's
+   bottom padding. */
+.tintora-media-card__details:last-child {
+    padding-bottom: 20px;
+}
 .tintora-media-card__eyebrow {
     font: var(--tintora-font-body);
     color: var(--tintora-text-on-card-muted);
@@ -50,7 +56,8 @@
     margin: 0;
     font: var(--tintora-font-heading);
 }
-.tintora-media-card__title a {
+/* The card draws the focus ring; beats .tintora-link:focus-visible. */
+.tintora-media-card__title a:focus-visible {
     outline: none;
 }
 .tintora-media-card__title a::after {
@@ -65,6 +72,7 @@
 }
 
 .tintora-media-card__footer {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;

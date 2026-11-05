@@ -1,3 +1,5 @@
+'use client';
+
 import {
     useId,
     type CSSProperties,
@@ -79,7 +81,9 @@ export function MediaCard({
     return (
         <Element
             aria-labelledby={id}
-            data-testid="card"
+            // A light surface in both themes, so what is inside it uses the
+            // light tokens (Button fills, text, Tag).
+            data-theme="light"
             className={clsx('tintora-media-card', className)}
             {...props}
         >
