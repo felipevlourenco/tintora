@@ -1,0 +1,27 @@
+/* The size and font are inherited, like Link: set them where it is used. */
+.tintora-breadcrumbs__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+.tintora-breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--tintora-text-muted);
+}
+/* The current page */
+.tintora-breadcrumbs__item:last-child {
+    color: var(--tintora-text);
+    font-weight: var(--tintora-font-weight-semibold);
+}
+
+.tintora-breadcrumbs__separator {
+    display: inline-flex;
+    color: var(--tintora-text-muted);
+}
