@@ -1,29 +1,16 @@
 'use client';
 
-import { useState, type HTMLAttributes, type ReactNode } from 'react';
+import {
+    useState,
+    type CSSProperties,
+    type HTMLAttributes,
+    type ReactNode,
+} from 'react';
 import { IconButton } from '../IconButton/IconButton';
 import { clsx } from '../utils/clsx';
 import './MediaCarousel.css';
 
-function getNextItem(
-    items: MediaCarouselItem[],
-    currentId: string,
-): MediaCarouselItem {
-    const currentIndex = items.findIndex((item) => item.id === currentId);
-    const nextIndex = (currentIndex + 1) % items.length;
-    return items[nextIndex];
-}
-
-function getPreviousItem(
-    items: MediaCarouselItem[],
-    currentId: string,
-): MediaCarouselItem {
-    const currentIndex = items.findIndex((item) => item.id === currentId);
-    const previousIndex = (currentIndex - 1 + items.length) % items.length;
-    return items[previousIndex];
-}
-
-const Chevron = () => (
+const Chevron = ({ direction }: { direction: 'left' | 'right' }) => (
     <svg
         width="14"
         height="14"
@@ -34,7 +21,7 @@ const Chevron = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
     >
-        <path d="M9 6l6 6-6 6" />
+        <path d={direction === 'left' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'} />
     </svg>
 );
 
@@ -105,95 +92,98 @@ export type MediaCarouselProps = MediaCarouselBaseProps &
 export function MediaCarousel({
     items,
     value,
-    onValueChange,
     defaultValue,
+    onValueChange,
+    badge,
+    mediaAspectRatio = '8 / 7',
     className,
-    ['aria-label']: ariaLabel = 'Gallery',
+    'aria-label': ariaLabel = 'Gallery',
     previousLabel = 'Previous image',
     nextLabel = 'Next image',
     ...props
 }: MediaCarouselProps): ReactNode {
-    const [internalValue, setInternalValue] = useState<MediaCarouselItem>(
-        items.find((item) => item.id === defaultValue) ?? items[0],
-    );
-    const isControlled = value !== undefined;
-    // The props type guarantees exactly one of the two is set.
-    const selected = isControlled
-        ? (items.find((item) => item.id === value) ?? items[0])
-        : internalValue;
-
-    const handleValueChange = (id: string) => {
-        const newValue = items.find((item) => item.id === id);
-        if (newValue) {
-            setInternalValue(newValue);
-            onValueChange?.(id);
-        }
-    };
+    const [internalId, setInternalId] = useState(defaultValue);
 
     if (items.length < 1) {
         return null;
     }
 
-    const firstId = items[0].id;
-    const lastId = items[items.length - 1].id;
+    // The props type guarantees exactly one of `value` and `defaultValue`.
+    const currentId = value ?? internalId;
+    const index = Math.max(
+        items.findIndex((item) => item.id === currentId),
+        0,
+    );
+    const selected = items[index];
+
+    const select = (item: MediaCarouselItem) => {
+        if (value === undefined) setInternalId(item.id);
+        onValueChange?.(item.id);
+    };
+
+    const ratio: CSSProperties & { '--tintora-media-carousel-ratio': string } =
+        { '--tintora-media-carousel-ratio': mediaAspectRatio };
+    const hasMany = items.length > 1;
 
     return (
         <div
+            {...props}
             role="region"
             aria-label={ariaLabel}
             className={clsx('tintora-media-carousel', className)}
-            {...props}
         >
-            <div className="tintora-media-carousel__media-container">
-                <IconButton
-                    variant="round"
-                    aria-label={previousLabel}
-                    data-theme="light"
-                    className={clsx(
-                        'tintora-media-carousel__media-container__button',
-                        'tintora-media-carousel__media-container__button--previous',
-                    )}
-                    icon={<Chevron />}
-                    disabled={selected.id === firstId}
-                    onClick={() =>
-                        handleValueChange(
-                            getPreviousItem(items, selected.id).id,
-                        )
-                    }
-                />
-                {selected.media}
-                <IconButton
-                    variant="round"
-                    aria-label={nextLabel}
-                    data-theme="light"
-                    className={clsx(
-                        'tintora-media-carousel__media-container__button',
-                        'tintora-media-carousel__media-container__button--next',
-                    )}
-                    icon={<Chevron />}
-                    disabled={selected.id === lastId}
-                    onClick={() =>
-                        handleValueChange(getNextItem(items, selected.id).id)
-                    }
-                />
+            <div className="tintora-media-carousel__stage" style={ratio}>
+                <div
+                    className="tintora-media-carousel__slide"
+                    aria-live="polite"
+                >
+                    {selected.media}
+                </div>
+                {badge && (
+                    <div className="tintora-media-carousel__badge">{badge}</div>
+                )}
+                {hasMany && (
+                    <>
+                        <IconButton
+                            variant="round"
+                            data-theme="light"
+                            aria-label={previousLabel}
+                            icon={<Chevron direction="left" />}
+                            className="tintora-media-carousel__arrow tintora-media-carousel__arrow--previous"
+                            disabled={index === 0}
+                            onClick={() => select(items[index - 1])}
+                        />
+                        <IconButton
+                            variant="round"
+                            data-theme="light"
+                            aria-label={nextLabel}
+                            icon={<Chevron direction="right" />}
+                            className="tintora-media-carousel__arrow tintora-media-carousel__arrow--next"
+                            disabled={index === items.length - 1}
+                            onClick={() => select(items[index + 1])}
+                        />
+                    </>
+                )}
             </div>
-            <ul className="tintora-media-carousel__thumbnails">
-                {items.map((item) => (
-                    <button
-                        key={item.id}
-                        aria-live="polite"
-                        className={clsx(
-                            'tintora-media-carousel__thumbnails--item',
-                            item.id === selected.id &&
-                                'tintora-media-carousel__thumbnails--item--selected',
-                        )}
-                        aria-current={item.id === selected.id}
-                        onClick={() => handleValueChange(item.id)}
-                    >
-                        {item.thumbnail ?? item.media}
-                    </button>
-                ))}
-            </ul>
+            {hasMany && (
+                <ul className="tintora-media-carousel__thumbnails">
+                    {items.map((item) => (
+                        <li key={item.id}>
+                            <button
+                                type="button"
+                                aria-label={item.label}
+                                aria-current={
+                                    item.id === selected.id ? 'true' : undefined
+                                }
+                                className="tintora-media-carousel__thumbnail"
+                                onClick={() => select(item)}
+                            >
+                                {item.thumbnail ?? item.media}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 }
