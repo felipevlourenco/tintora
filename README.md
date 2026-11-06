@@ -70,7 +70,7 @@ Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`
 
 ### Server Components
 
-Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Breadcrumbs`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Breadcrumbs`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
 ```tsx
 // app/loading.tsx, a Server Component
@@ -165,6 +165,7 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `Toast`       | A short-lived message with an action, a timer bar and pause on hover. |
 | `ProgressBar` | Determinate or indeterminate progress.                                |
 | `Spinner`     | A loading indicator in three sizes.                                   |
+| `Stepper`     | Checkout-style progress: complete, current and upcoming steps.        |
 | `Skeleton`    | A shimmering placeholder.                                             |
 
 ### Overlays

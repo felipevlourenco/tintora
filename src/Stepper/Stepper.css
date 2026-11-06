@@ -1,0 +1,94 @@
+.tintora-stepper {
+    font-family: var(--tintora-font-family);
+    padding: 8px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-fill-subtle);
+}
+
+.tintora-stepper__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tintora-stepper__step {
+    position: relative; /* anchors the visually hidden status */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 8px 20px 8px 8px;
+    border-radius: var(--tintora-radius-pill);
+    font: var(--tintora-font-subtitle);
+    color: var(--tintora-text-muted);
+}
+
+.tintora-stepper__marker {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font: var(--tintora-font-subtitle);
+}
+
+.tintora-stepper__label {
+    min-width: 0;
+}
+
+/* Complete: an accent circle with a check. */
+.tintora-stepper__step--complete .tintora-stepper__marker {
+    background: var(--tintora-color-accent);
+    color: var(--tintora-color-on-accent);
+}
+
+/* Current: the whole step is an accent pill, with a dark circle. */
+.tintora-stepper__step--current {
+    background: var(--tintora-color-accent);
+    color: var(--tintora-color-on-accent);
+    font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-stepper__step--current .tintora-stepper__marker {
+    background: var(--tintora-color-on-accent);
+    color: var(--tintora-color-accent);
+}
+
+/* Upcoming: an outlined circle with its number. */
+.tintora-stepper__step--upcoming .tintora-stepper__marker {
+    border: 2px solid var(--tintora-line-strong);
+}
+
+/* Read by assistive tech only: it stands in for the check mark. */
+.tintora-stepper__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Small screens: only the current step keeps its label on screen, like the
+   Drawer breakpoint. The others are hidden visually, not with display: none,
+   so assistive tech still hears them. */
+@media (max-width: 480px) {
+    .tintora-stepper__step:not(.tintora-stepper__step--current)
+        .tintora-stepper__label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .tintora-stepper__step:not(.tintora-stepper__step--current) {
+        padding-right: 8px;
+    }
+}

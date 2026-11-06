@@ -42,6 +42,11 @@ export { Select, type SelectProps } from './Select/Select';
 export { SettingsRow, type SettingsRowProps } from './SettingsRow/SettingsRow';
 export { Skeleton, type SkeletonProps } from './Skeleton/Skeleton';
 export { Spinner } from './Spinner/Spinner';
+export {
+    Stepper,
+    type StepperProps,
+    type StepperStep,
+} from './Stepper/Stepper';
 export { Switch, type SwitchProps } from './Switch/Switch';
 export { Tab, type TabProps } from './Tabs/Tab';
 export { Tabs, type TabsProps } from './Tabs/Tabs';
