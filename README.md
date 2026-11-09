@@ -5,30 +5,34 @@
     </picture>
 </h1>
 
-<p align="center">
-    A lightweight React component library with a glassy, dark-first style.<br />
-    Small API surface, accessible by default, TypeScript included.
-</p>
+<h3 align="center">Glassy, dark-first React components</h3>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/tintora"><img alt="npm version" src="https://img.shields.io/npm/v/tintora?color=c94e0c&labelColor=2a2726" /></a>
-    <a href="https://github.com/felipevlourenco/tintora/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/felipevlourenco/tintora/ci.yml?branch=main&label=CI&labelColor=2a2726" /></a>
-    <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/npm/l/tintora?color=c94e0c&labelColor=2a2726" /></a>
-    <a href="https://felipevlourenco.github.io/tintora/"><img alt="Storybook" src="https://img.shields.io/badge/Storybook-live-c94e0c?labelColor=2a2726" /></a>
+    <a href="https://www.npmjs.com/package/tintora"><img alt="npm version" src="https://img.shields.io/npm/v/tintora?color=c94e0c&labelColor=2a2726&style=flat-square&logo=npm&logoColor=white" /></a>
+    <a href="https://www.npmjs.com/package/tintora"><img alt="npm downloads" src="https://img.shields.io/npm/dm/tintora?color=c94e0c&labelColor=2a2726&style=flat-square&label=downloads" /></a>
+    <a href="https://github.com/felipevlourenco/tintora/actions/workflows/release.yml"><img alt="Release" src="https://img.shields.io/github/actions/workflow/status/felipevlourenco/tintora/release.yml?branch=main&label=release&labelColor=2a2726&style=flat-square&logo=github" /></a>
+    <a href="https://www.npmjs.com/package/tintora"><img alt="Types included" src="https://img.shields.io/npm/types/tintora?color=c94e0c&labelColor=2a2726&style=flat-square&label=types" /></a>
+    <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/npm/l/tintora?color=c94e0c&labelColor=2a2726&style=flat-square" /></a>
+    <a href="https://github.com/felipevlourenco/tintora/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/felipevlourenco/tintora?color=c94e0c&labelColor=2a2726&style=flat-square&logo=github" /></a>
+    <a href="https://felipevlourenco.github.io/tintora/"><img alt="Storybook" src="https://img.shields.io/badge/Storybook-live-c94e0c?labelColor=2a2726&style=flat-square&logo=storybook&logoColor=white" /></a>
 </p>
 
-**[Live Storybook →](https://felipevlourenco.github.io/tintora/)**
+Tintora is a lightweight React component library with a glassy, dark-first style. It has a small API surface, is accessible by default, and ships its own TypeScript types. Use it to build polished interfaces without writing the CSS for every button, dialog and menu yourself.
 
-## Features
+📚 [**Storybook**](https://felipevlourenco.github.io/tintora/) · 📦 [**npm**](https://www.npmjs.com/package/tintora) · 🗒️ [**Releases**](https://github.com/felipevlourenco/tintora/releases) · 🐛 [**Issues**](https://github.com/felipevlourenco/tintora/issues)
 
-- **25+ components**: buttons, form controls, feedback and overlays.
-- **Accessible by default**: real roles and labels, keyboard support, focus handling, reduced motion respected, covered by axe checks in the tests.
+## 💎 Why Tintora?
+
+- **40+ components**: actions, form controls, data display, feedback and overlays, each with a story for every variant.
+- **Accessible by default**: real roles and labels, keyboard support, focus handling and reduced motion respected, checked with axe in the tests.
 - **Dark and light themes** from one set of design tokens, following the OS or forced with an attribute.
 - **TypeScript-first**: every component exports its props type.
 - **Native platform features** where they exist: `<dialog>` for modals and drawers, the top layer for popovers, CSS for animation.
-- **Self-contained styles**: the ESM build imports its own CSS.
+- **Server Components friendly**: components without hooks ship plain, so they work in Next.js without a directive.
+- **Self-contained styles**: the ESM build imports its own CSS, with no provider or setup file.
+- **Tested in a real browser** as well as jsdom: layout checks run against Storybook in CI.
 
-## Installation
+## 🚀 Getting Started
 
 ```bash
 pnpm add tintora
@@ -38,27 +42,31 @@ pnpm add tintora
 
 Requires React 18 or newer.
 
-## Usage
+### Example usage
 
 ```tsx
+import { useState } from 'react';
 import { Button } from 'tintora';
 
 export function Example() {
+    const [count, setCount] = useState(0);
+
     return (
-        <Button variant="primary" onClick={() => alert('Hello from Tintora!')}>
-            Click me
+        <Button variant="primary" onClick={() => setCount(count + 1)}>
+            {count === 0 ? 'Click me' : `Clicked ${count} times`}
         </Button>
     );
 }
 ```
 
-The ESM build imports its own stylesheet, so a bundler with CSS support (Vite, Next.js, webpack with `css-loader`) needs nothing else. The CommonJS build does not; add this line there:
+> [!NOTE]
+> The ESM build imports its own stylesheet, so a bundler with CSS support (Vite, Next.js, webpack with `css-loader`) needs nothing else. The CommonJS build does not; add this line there:
+>
+> ```tsx
+> import 'tintora/style.css';
+> ```
 
-```tsx
-import 'tintora/style.css';
-```
-
-### Theming
+## 🎨 Theming
 
 Tintora is dark by default and follows the OS preference. Force a theme with `data-theme` on `<html>` or on any wrapper:
 
@@ -68,7 +76,7 @@ Tintora is dark by default and follows the OS preference. Force a theme with `da
 
 Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`, so you can override them in your own CSS.
 
-### Server Components
+## ⚡ Server Components
 
 Components that use hooks or context ship with `'use client'`, and the rest (`Accordion`, `Alert`, `Button`, `Card`, `Chip`, `Dot`, `EmptyState`, `IconButton`, `Link`, `MediaCardSkeleton`, `Pagination`, `Price`, `Rating`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Table`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
@@ -83,7 +91,7 @@ export default function Loading() {
 
 Props passed from a Server Component must be serialisable, so event handlers (`onClick`, `onClose`) belong in a Client Component.
 
-### Controlled overlays
+## 🪟 Controlled overlays
 
 Modal, Drawer, BottomSheet and Popover are controlled: your state owns `open`.
 
@@ -118,7 +126,7 @@ export function DeleteWorkout() {
 }
 ```
 
-## Components
+## 🧩 Components
 
 Every component has a story with all its variants in the [Storybook](https://felipevlourenco.github.io/tintora/).
 
@@ -191,16 +199,20 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.                                                  |
 | `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows.                                       |
 
-## Development
+## 🛠️ Development
 
 ```bash
 pnpm install       # dependencies
 pnpm storybook     # Storybook on http://localhost:6006
 pnpm test          # unit tests (Vitest, Testing Library, axe)
+pnpm test:layout   # layout checks in a real browser (Playwright, against Storybook)
 pnpm lint          # ESLint and token check
 pnpm typecheck     # TypeScript
 pnpm build         # library build in dist/
 ```
+
+> [!NOTE]
+> `pnpm test:layout` starts Storybook on its own. Install the browser once with `pnpm exec playwright install chromium`.
 
 ### Project structure
 
@@ -216,13 +228,20 @@ src/
   tokens.css                 design tokens, dark and light
   index.ts                   public exports
 docs/                        Storybook documentation pages and assets
+e2e/                         layout checks that need a real browser
+scripts/                     lint checks for tokens and 'use client'
 ```
 
-### Contributing
+## 🤝 Contributing
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/), checked by a hook. `main` is protected, so work on a branch and open a pull request.
+Contributions are welcome.
 
-## Releases
+- 🌿 `main` is protected, so work on a branch and open a pull request.
+- ✍️ Commits follow [Conventional Commits](https://www.conventionalcommits.org/), checked by a hook. The commit type decides the next version (see [Releases](#-releases)).
+- 🧪 A new component comes with tests, a story for every variant and a row in the [component tables](#-components). A layout bug that jsdom cannot see gets a check in `e2e/`.
+- 🐛 Found a bug or want a component? [Open an issue](https://github.com/felipevlourenco/tintora/issues).
+
+## 📦 Releases
 
 Versions are published automatically on every merge to `main` with [semantic-release](https://semantic-release.gitbook.io/), from the commit messages:
 
@@ -233,6 +252,6 @@ Versions are published automatically on every merge to `main` with [semantic-rel
 | `BREAKING CHANGE:` footer, or `feat!:`  | major   |
 | `docs:`, `chore:`, `style:`, `test:`    | none    |
 
-## License
+## 📄 License
 
 [MIT](LICENSE)
