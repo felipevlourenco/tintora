@@ -1,8 +1,21 @@
 import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../test-utils';
 import { Breadcrumbs, type BreadcrumbItem } from './Breadcrumbs';
+
+const longTrail: BreadcrumbItem[] = [
+    { label: 'Home', href: '/' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'Home and living', href: '/shop/living' },
+    { label: 'Lighting', href: '/shop/living/lighting' },
+    { label: 'Alder desk lamp' },
+];
+const labels = () =>
+    screen
+        .getAllByRole('listitem')
+        .map((li) => li.textContent?.replace(/[/›]/g, '').trim());
 
 const items: BreadcrumbItem[] = [
     { label: 'Home', href: '/' },
@@ -185,6 +198,123 @@ describe('Breadcrumbs', () => {
                     ...new Set(link.className.split(' ')),
                 ]);
             }
+        });
+    });
+
+    describe('maxItems', () => {
+        const expand = () =>
+            screen.getByRole('button', { name: 'Show full path' });
+
+        it('shows every crumb without it', () => {
+            render(<Breadcrumbs items={longTrail} />);
+            expect(screen.getAllByRole('listitem')).toHaveLength(5);
+            expect(screen.queryByRole('button')).toBeNull();
+        });
+
+        it('shows every crumb when the trail is not longer than the limit', () => {
+            render(<Breadcrumbs items={longTrail} maxItems={5} />);
+            expect(screen.getAllByRole('listitem')).toHaveLength(5);
+            expect(screen.queryByRole('button')).toBeNull();
+        });
+
+        it('keeps the first crumb and the last ones, with a button between', () => {
+            render(<Breadcrumbs items={longTrail} maxItems={3} />);
+            expect(labels()).toEqual([
+                'Home',
+                '…',
+                'Lighting',
+                'Alder desk lamp',
+            ]);
+            expect(screen.queryByText('Shop')).toBeNull();
+            expect(screen.queryByText('Home and living')).toBeNull();
+        });
+
+        it('treats a limit below 2 as 2: the first and the last crumb', () => {
+            render(<Breadcrumbs items={longTrail} maxItems={1} />);
+            expect(labels()).toEqual(['Home', '…', 'Alder desk lamp']);
+        });
+
+        it('keeps the last crumb as the current page', () => {
+            render(<Breadcrumbs items={longTrail} maxItems={3} />);
+            expect(screen.getByText('Alder desk lamp')).toHaveAttribute(
+                'aria-current',
+                'page',
+            );
+        });
+
+        it('draws a separator after every visible crumb but the last', () => {
+            const { container } = render(
+                <Breadcrumbs items={longTrail} maxItems={3} />,
+            );
+            expect(
+                container.querySelectorAll('.tintora-breadcrumbs__separator'),
+            ).toHaveLength(3);
+        });
+
+        it('names the button, and takes a translated name', () => {
+            const { unmount } = render(
+                <Breadcrumbs items={longTrail} maxItems={3} />,
+            );
+            expect(expand()).toHaveAttribute('type', 'button');
+            unmount();
+            render(
+                <Breadcrumbs
+                    items={longTrail}
+                    maxItems={3}
+                    expandLabel="Chemin complet"
+                />,
+            );
+            expect(
+                screen.getByRole('button', { name: 'Chemin complet' }),
+            ).toBeInTheDocument();
+        });
+
+        it('shows the whole trail on click, and the button goes away', async () => {
+            render(<Breadcrumbs items={longTrail} maxItems={3} />);
+            await userEvent.click(expand());
+            expect(labels()).toEqual([
+                'Home',
+                'Shop',
+                'Home and living',
+                'Lighting',
+                'Alder desk lamp',
+            ]);
+            expect(screen.queryByRole('button')).toBeNull();
+        });
+
+        it('moves focus to the first revealed crumb, so it is not lost', async () => {
+            render(<Breadcrumbs items={longTrail} maxItems={3} />);
+            await userEvent.click(expand());
+            expect(screen.getByRole('link', { name: 'Shop' })).toHaveFocus();
+        });
+
+        it('works from the keyboard', async () => {
+            render(<Breadcrumbs items={longTrail} maxItems={3} />);
+            await userEvent.tab();
+            await userEvent.tab();
+            expect(expand()).toHaveFocus();
+            await userEvent.keyboard('{Enter}');
+            expect(screen.getByRole('link', { name: 'Shop' })).toHaveFocus();
+        });
+
+        it('does not leak maxItems or expandLabel to the nav element', () => {
+            render(
+                <Breadcrumbs
+                    items={longTrail}
+                    maxItems={3}
+                    expandLabel="Chemin"
+                />,
+            );
+            const nav = screen.getByRole('navigation');
+            expect(nav).not.toHaveAttribute('maxitems');
+            expect(nav).not.toHaveAttribute('expandlabel');
+        });
+
+        it('has no accessibility violations when collapsed', async () => {
+            const { container } = render(
+                <Breadcrumbs items={longTrail} maxItems={3} />,
+            );
+            await expectNoA11yViolations(container);
         });
     });
 

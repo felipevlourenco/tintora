@@ -132,3 +132,17 @@ export const LongTrail: Story = {
 
 /** Links are rendered by the router, so navigation stays client-side. */
 export const AsRouterLink: Story = { args: { linkAs: RouterLink } };
+
+/** Over `maxItems`, the middle collapses behind a button that shows the whole trail. */
+export const Collapsed: Story = {
+    args: {
+        maxItems: 3,
+        items: [
+            { label: 'Home', href: '#home' },
+            { label: 'Shop', href: '#shop' },
+            { label: 'Home and living', href: '#living' },
+            { label: 'Lighting', href: '#lighting' },
+            { label: 'Alder desk lamp' },
+        ],
+    },
+};
