@@ -30,13 +30,19 @@ export interface StepperProps extends Omit<
      * @default 'Completed'
      */
     completedLabel?: string;
+    /**
+     * Makes the complete steps buttons, so the user can go back to one. It
+     * gets the step's index. The current and upcoming steps stay plain: there
+     * is no skipping ahead. Without it nothing is interactive.
+     */
+    onStepClick?: (index: number) => void;
 }
 
 /**
  * A progress indicator for a flow such as a checkout: a `<nav>` with an
  * ordered list, one item per step. Complete steps show a check, the current
  * step is `aria-current="step"`, upcoming steps show their number. It is not
- * interactive. On small screens only the current step keeps its label on
+ * interactive unless `onStepClick` is set. On small screens only the current step keeps its label on
  * screen (the same `max-width: 480px` breakpoint as `Drawer`).
  */
 
@@ -44,6 +50,7 @@ export function Stepper({
     steps,
     current,
     completedLabel = 'Completed',
+    onStepClick,
     className,
     'aria-label': ariaLabel = 'Progress',
     ...props
@@ -69,6 +76,27 @@ export function Stepper({
                             : index === active
                               ? 'current'
                               : 'upcoming';
+                    const content = (
+                        <>
+                            <span
+                                className="tintora-stepper__marker"
+                                aria-hidden="true"
+                            >
+                                {state === 'complete' ? <Check /> : index + 1}
+                            </span>
+                            {state === 'complete' && (
+                                <>
+                                    <span className="tintora-stepper__status">
+                                        {completedLabel}
+                                    </span>
+                                    {/* A space, so the name reads "Completed Cart". */}{' '}
+                                </>
+                            )}
+                            <span className="tintora-stepper__label">
+                                {step.label}
+                            </span>
+                        </>
+                    );
                     return (
                         <li
                             key={index}
@@ -80,20 +108,19 @@ export function Stepper({
                                 state === 'current' ? 'step' : undefined
                             }
                         >
-                            <span
-                                className="tintora-stepper__marker"
-                                aria-hidden="true"
-                            >
-                                {state === 'complete' ? <Check /> : index + 1}
-                            </span>
-                            {state === 'complete' && (
-                                <span className="tintora-stepper__status">
-                                    {completedLabel}
+                            {state === 'complete' && onStepClick ? (
+                                <button
+                                    type="button"
+                                    className="tintora-stepper__content tintora-stepper__button"
+                                    onClick={() => onStepClick(index)}
+                                >
+                                    {content}
+                                </button>
+                            ) : (
+                                <span className="tintora-stepper__content">
+                                    {content}
                                 </span>
                             )}
-                            <span className="tintora-stepper__label">
-                                {step.label}
-                            </span>
                         </li>
                     );
                 })}
