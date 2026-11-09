@@ -60,6 +60,22 @@
     background: var(--tintora-tooltip-kbd-bg);
 }
 
+.tintora-tooltip__content--no-arrow::before {
+    display: none;
+}
+
+.tintora-tooltip__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+.tintora-tooltip__icon > svg {
+    width: 16px;
+    height: 16px;
+}
+.tintora-tooltip__content--with-icon {
+    gap: 8px;
+}
+
 /* Rich: a title over wrapping body text, 220px wide. */
 .tintora-tooltip__content--rich {
     display: block;
@@ -85,6 +101,27 @@
 .tintora-tooltip__content--rich .tintora-tooltip__shortcut {
     display: inline-block;
     margin-top: 8px;
+}
+
+/* Rich with an icon: the icon beside the whole stack, not above it. */
+.tintora-tooltip__content--rich.tintora-tooltip__content--with-icon {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 8px;
+    /* Not the base `center`: the icon belongs level with the title. */
+    align-items: start;
+}
+.tintora-tooltip__content--rich.tintora-tooltip__content--with-icon
+    > :not(.tintora-tooltip__icon) {
+    grid-column: 2;
+}
+.tintora-tooltip__content--rich .tintora-tooltip__icon {
+    grid-row: 1 / span 3;
+    margin-top: 1px;
+}
+.tintora-tooltip__content--rich.tintora-tooltip__content--with-icon
+    .tintora-tooltip__shortcut {
+    justify-self: start;
 }
 
 @media (prefers-reduced-motion: no-preference) {

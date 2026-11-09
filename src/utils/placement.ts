@@ -1,6 +1,12 @@
 /** Where to put a popup (tooltip, popover) next to its trigger. */
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
 
+/**
+ * Where the popup sits along the trigger's edge: lined up with its start (left,
+ * or top for a popup on the left or right), its end, or centred.
+ */
+export type Alignment = 'start' | 'center' | 'end';
+
 export interface PlacementOptions {
     /** Space between the anchor and the popup (an arrow sits inside it). */
     gap: number;
@@ -8,9 +14,16 @@ export interface PlacementOptions {
     margin: number;
     /** Keeps the arrow clear of the popup's rounded corners. */
     arrowInset: number;
+    /** @default 'center' */
+    align: Alignment;
 }
 
-const DEFAULTS: PlacementOptions = { gap: 10, margin: 8, arrowInset: 12 };
+const DEFAULTS: PlacementOptions = {
+    gap: 10,
+    margin: 8,
+    arrowInset: 12,
+    align: 'center',
+};
 
 export interface Size {
     width: number;
@@ -69,6 +82,19 @@ function pickPlacement(
         : OPPOSITE[placement];
 }
 
+/** Where a popup of `size` starts along an anchor edge that starts at `start`. */
+const along = (
+    start: number,
+    anchorSize: number,
+    size: number,
+    align: Alignment,
+) =>
+    align === 'start'
+        ? start
+        : align === 'end'
+          ? start + anchorSize - size
+          : start + anchorSize / 2 - size / 2;
+
 /**
  * Viewport coordinates for the popup's top-left corner, given the trigger's
  * rect, the popup's own size, the side it should open on and the viewport.
@@ -84,27 +110,30 @@ export function getPosition(
     options: Partial<PlacementOptions> = {},
 ): Position {
     const opts = { ...DEFAULTS, ...options };
-    const { gap, margin, arrowInset } = opts;
+    const { gap, margin, arrowInset, align } = opts;
     const placement = pickPlacement(anchor, tooltip, requested, viewport, opts);
     const vertical = placement === 'top' || placement === 'bottom';
 
+    // The side settles one coordinate, the alignment the other.
+    const alignedLeft = along(anchor.x, anchor.width, tooltip.width, align);
+    const alignedTop = along(anchor.y, anchor.height, tooltip.height, align);
     let top: number;
     let left: number;
     switch (placement) {
         case 'top':
             top = anchor.y - tooltip.height - gap;
-            left = anchor.x + anchor.width / 2 - tooltip.width / 2;
+            left = alignedLeft;
             break;
         case 'bottom':
             top = anchor.y + anchor.height + gap;
-            left = anchor.x + anchor.width / 2 - tooltip.width / 2;
+            left = alignedLeft;
             break;
         case 'left':
-            top = anchor.y + anchor.height / 2 - tooltip.height / 2;
+            top = alignedTop;
             left = anchor.x - tooltip.width - gap;
             break;
         case 'right':
-            top = anchor.y + anchor.height / 2 - tooltip.height / 2;
+            top = alignedTop;
             left = anchor.x + anchor.width + gap;
             break;
     }

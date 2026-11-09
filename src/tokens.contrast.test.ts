@@ -76,6 +76,8 @@ const pairs: [string, string, number][] = [
     ['--tintora-text-on-card-muted', '--tintora-menu-bg', 4.5],
     ['--tintora-chip-fg', '--tintora-chip-bg', 4.5],
     ['--tintora-chip-selected-fg', '--tintora-chip-selected-bg', 4.5],
+    ['--tintora-text-on-tooltip', '--tintora-surface-tooltip', 4.5],
+    ['--tintora-text-on-tooltip-muted', '--tintora-surface-tooltip', 4.5],
     // The primary button's hover and pressed fills, under the same white label.
     [
         '--tintora-color-on-accent-deep',

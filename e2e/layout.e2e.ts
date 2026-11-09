@@ -7,8 +7,10 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
  * Storybook draws it, and a late web font moves things a pixel or two, which a
  * popup measured before the swap would not follow.
  */
-const open = async (page: Page, id: string) => {
-    await page.goto(`/iframe.html?id=${id}&viewMode=story`);
+const open = async (page: Page, id: string, theme?: 'light' | 'dark') => {
+    await page.goto(
+        `/iframe.html?id=${id}&viewMode=story${theme ? `&globals=theme:${theme}` : ''}`,
+    );
     await page.locator('body.sb-show-main').waitFor();
     await page.locator('#storybook-root > *').first().waitFor();
     await page.evaluate(() => document.fonts.ready);
@@ -221,5 +223,109 @@ test.describe('Menu', () => {
             rect(popup),
         ]);
         expect(p.right).toBeCloseTo(a.right, 0);
+    });
+});
+
+test.describe('Tooltip', () => {
+    // A tooltip is the inverse of its page, so "auto" is dark on a light page.
+    const LIGHT = 'rgb(251, 250, 249)';
+    const DARK = 'rgb(42, 40, 39)';
+
+    for (const theme of ['dark', 'light'] as const) {
+        test(`a fixed tone keeps its colour on a ${theme} page, and auto follows the page`, async ({
+            page,
+        }) => {
+            await open(page, 'components-tooltip--tones', theme);
+            await expect(page.locator('[role="tooltip"]')).toHaveCount(3);
+            const background = (name: string) =>
+                page
+                    .locator('[role="tooltip"]', { hasText: name })
+                    .evaluate((el) => getComputedStyle(el).backgroundColor);
+            expect(await background('Light')).toBe(LIGHT);
+            expect(await background('Dark')).toBe(DARK);
+            expect(await background('Auto')).toBe(
+                theme === 'dark' ? LIGHT : DARK,
+            );
+        });
+    }
+
+    test('alignment lines the tooltip up with the trigger edge, on the right side', async ({
+        page,
+    }) => {
+        // Tall enough that the screen edge cannot move any of the eight.
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await open(page, 'components-tooltip--alignments');
+        await expect(page.locator('[role="tooltip"]')).toHaveCount(8);
+        const near = (a: number, b: number) =>
+            expect(Math.abs(a - b)).toBeLessThan(1);
+
+        for (const placement of [
+            'top-start',
+            'top-end',
+            'bottom-start',
+            'bottom-end',
+            'left-start',
+            'left-end',
+            'right-start',
+            'right-end',
+        ]) {
+            const trigger = page.getByRole('button', { name: placement });
+            const tooltip = trigger.locator(
+                'xpath=following-sibling::*[@role="tooltip"]',
+            );
+            const [t, p] = await Promise.all([rect(trigger), rect(tooltip)]);
+            const [side, align] = placement.split('-');
+
+            if (side === 'top') expect(p.bottom).toBeLessThanOrEqual(t.top);
+            if (side === 'bottom')
+                expect(p.top).toBeGreaterThanOrEqual(t.bottom);
+            if (side === 'left') expect(p.right).toBeLessThanOrEqual(t.left);
+            if (side === 'right')
+                expect(p.left).toBeGreaterThanOrEqual(t.right);
+
+            if (side === 'top' || side === 'bottom') {
+                near(
+                    align === 'start' ? p.left : p.right,
+                    align === 'start' ? t.left : t.right,
+                );
+            } else {
+                near(
+                    align === 'start' ? p.top : p.bottom,
+                    align === 'start' ? t.top : t.bottom,
+                );
+            }
+        }
+    });
+
+    test('a rich tooltip puts its icon beside the text, not above it', async ({
+        page,
+    }) => {
+        await open(page, 'components-tooltip--rich-with-icon');
+        const tooltip = page.locator('[role="tooltip"]');
+        await expect(tooltip).toBeVisible();
+        const [icon, title, text] = await Promise.all([
+            rect(tooltip.locator('.tintora-tooltip__icon')),
+            rect(tooltip.locator('.tintora-tooltip__title')),
+            rect(tooltip.locator('.tintora-tooltip__text')),
+        ]);
+        expect(icon.right).toBeLessThanOrEqual(title.left);
+        // Level with the title, and the text lines up under it.
+        expect(Math.abs(icon.top - title.top)).toBeLessThan(6);
+        expect(Math.abs(text.left - title.left)).toBeLessThan(1);
+    });
+
+    test('without an arrow it has none and sits closer to the trigger', async ({
+        page,
+    }) => {
+        await open(page, 'components-tooltip--no-arrow');
+        const tooltip = page.locator('[role="tooltip"]');
+        await expect(tooltip).toBeVisible();
+        const [t, p, arrow] = await Promise.all([
+            rect(page.getByRole('button', { name: 'Hover me' })),
+            rect(tooltip),
+            tooltip.evaluate((el) => getComputedStyle(el, '::before').display),
+        ]);
+        expect(arrow).toBe('none');
+        expect(p.top - t.bottom).toBeCloseTo(6, 0);
     });
 });

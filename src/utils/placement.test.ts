@@ -18,6 +18,82 @@ describe('getPosition', () => {
         );
     });
 
+    describe('alignment', () => {
+        // The trigger is 60 wide and 40 tall; the tooltip 100 wide and 30 tall,
+        // so lining up with one edge or the other gives different numbers.
+        it.each([
+            ['top', 'start', { top: 60, left: 200 }],
+            ['top', 'end', { top: 60, left: 160 }],
+            ['bottom', 'start', { top: 150, left: 200 }],
+            ['bottom', 'end', { top: 150, left: 160 }],
+            ['left', 'start', { top: 100, left: 90 }],
+            ['left', 'end', { top: 110, left: 90 }],
+            ['right', 'start', { top: 100, left: 270 }],
+            ['right', 'end', { top: 110, left: 270 }],
+        ] as const)(
+            'lines up %s-%s with the trigger edge',
+            (placement, align, expected) => {
+                expect(
+                    getPosition(anchor, tooltip, placement, viewport, {
+                        align,
+                    }),
+                ).toMatchObject({ ...expected, placement });
+            },
+        );
+
+        it('centres when no alignment is given, or when it is "center"', () => {
+            const centred = getPosition(anchor, tooltip, 'top', viewport);
+            expect(
+                getPosition(anchor, tooltip, 'top', viewport, {
+                    align: 'center',
+                }),
+            ).toEqual(centred);
+            expect(centred.left).toBe(180);
+        });
+
+        it('keeps the alignment when it flips to the other side', () => {
+            const nearTop = new DOMRect(200, 20, 60, 40);
+            expect(
+                getPosition(nearTop, tooltip, 'top', viewport, {
+                    align: 'end',
+                }),
+            ).toMatchObject({ placement: 'bottom', left: 160 });
+        });
+
+        it('is still kept inside the viewport', () => {
+            // End-aligned to a trigger at the left edge would start at -40.
+            const atEdge = new DOMRect(0, 400, 60, 40);
+            expect(
+                getPosition(atEdge, tooltip, 'top', viewport, { align: 'end' })
+                    .left,
+            ).toBe(8);
+        });
+
+        it('points the arrow at the trigger centre', () => {
+            // Centre of the trigger is x=230: 30 from the left edge of a
+            // start-aligned tooltip, 70 from an end-aligned one.
+            expect(
+                getPosition(anchor, tooltip, 'top', viewport, {
+                    align: 'start',
+                }).arrowOffset,
+            ).toBe(30);
+            expect(
+                getPosition(anchor, tooltip, 'top', viewport, { align: 'end' })
+                    .arrowOffset,
+            ).toBe(70);
+        });
+
+        it('keeps the arrow on the tooltip when the trigger is much wider', () => {
+            // The trigger centre is 150 from the tooltip's edge, past its 100
+            // width, so the arrow stops 12 short of the end.
+            const wide = new DOMRect(200, 100, 300, 40);
+            expect(
+                getPosition(wide, tooltip, 'top', viewport, { align: 'start' })
+                    .arrowOffset,
+            ).toBe(88);
+        });
+    });
+
     describe('flipping to the opposite side', () => {
         const side = (
             rect: DOMRect,
