@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getPosition } from './placement';
+import { dropdownTop, getPosition } from './placement';
 
 describe('getPosition', () => {
     // A trigger and a tooltip with different heights, so mixing them up shows.
@@ -94,5 +94,31 @@ describe('getPosition', () => {
                 getPosition(anchor, tooltip, 'top', viewport).arrowOffset,
             ).toBe(50);
         });
+    });
+});
+
+describe('dropdownTop', () => {
+    const below = { top: 60, bottom: 100 };
+    const nearBottom = { top: 700, bottom: 740 };
+
+    it('opens below the trigger when it fits', () => {
+        expect(dropdownTop(below, 200, 768)).toBe(104);
+    });
+
+    it('opens above the trigger when it does not fit below but fits above', () => {
+        expect(dropdownTop(nearBottom, 200, 768)).toBe(496);
+    });
+
+    it('opens below when it fits neither way, where the page can scroll to it', () => {
+        expect(dropdownTop({ top: 100, bottom: 140 }, 300, 200)).toBe(144);
+    });
+
+    it('counts an exact fit as fitting', () => {
+        expect(dropdownTop({ top: 400, bottom: 440 }, 324, 768)).toBe(444);
+        expect(dropdownTop({ top: 204, bottom: 740 }, 200, 768)).toBe(0);
+    });
+
+    it('takes the gap as an option', () => {
+        expect(dropdownTop(below, 200, 768, 10)).toBe(110);
     });
 });

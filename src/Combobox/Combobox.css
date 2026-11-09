@@ -1,0 +1,32 @@
+.tintora-combobox__control {
+    position: relative;
+    display: flex;
+}
+
+/* Room on the right for the chevron. The doubled class beats TextField's
+   padding whatever order the two stylesheets load in. */
+.tintora-textfield__input.tintora-combobox__input {
+    flex: 1;
+    min-width: 0;
+    padding-right: 40px;
+    text-overflow: ellipsis;
+}
+
+.tintora-combobox__chevron {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 16px;
+    margin-block: auto;
+    color: var(--tintora-text-muted);
+    pointer-events: none;
+}
+.tintora-combobox__input[aria-expanded='true'] + .tintora-combobox__chevron {
+    rotate: 180deg;
+}
+
+/* Shown inside the popup, which is white with ink text in both themes. */
+.tintora-combobox__empty {
+    padding: 8px 10px;
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-on-card-muted);
+}

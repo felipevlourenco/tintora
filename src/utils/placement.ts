@@ -128,3 +128,21 @@ export function getPosition(
         arrowOffset: clamp(arrowOffset, arrowInset, size - arrowInset),
     };
 }
+
+/**
+ * Top edge for a dropdown under its trigger: below it, or above it when the
+ * dropdown does not fit below but does fit above. When it fits neither way it
+ * goes below, where the page can scroll to it.
+ */
+export function dropdownTop(
+    anchor: Pick<DOMRect, 'top' | 'bottom'>,
+    height: number,
+    viewportHeight = window.innerHeight,
+    gap = 4,
+): number {
+    const fitsBelow = anchor.bottom + gap + height <= viewportHeight;
+    const fitsAbove = anchor.top - gap - height >= 0;
+    return fitsBelow || !fitsAbove
+        ? anchor.bottom + gap
+        : anchor.top - gap - height;
+}

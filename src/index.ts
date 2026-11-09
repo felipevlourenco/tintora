@@ -28,6 +28,7 @@ export {
 } from './Card/Card';
 export { Checkbox, type CheckboxProps } from './Checkbox/Checkbox';
 export { Chip } from './Chip/Chip';
+export { Combobox, type ComboboxProps } from './Combobox/Combobox';
 export { Dot } from './Dot/Dot';
 export { Drawer, type DrawerProps } from './Drawer/Drawer';
 export { EmptyState, type EmptyStateProps } from './EmptyState/EmptyState';
