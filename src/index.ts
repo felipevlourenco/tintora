@@ -43,9 +43,12 @@ export {
     type MediaCarouselItem,
     type MediaCarouselProps,
 } from './MediaCarousel/MediaCarousel';
+export { Menu, type MenuProps } from './Menu/Menu';
+export { MenuItem, MenuSeparator, type MenuItemProps } from './Menu/MenuItem';
 export { Modal, type ModalProps } from './Modal/Modal';
 export { Pagination, type PaginationProps } from './Pagination/Pagination';
 export { Popover, type PopoverProps } from './Popover/Popover';
+export { Price, type PriceProps } from './Price/Price';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar/ProgressBar';
 export {
     QuantityInput,
@@ -69,6 +72,7 @@ export {
 export { Switch, type SwitchProps } from './Switch/Switch';
 export { Tab, type TabProps } from './Tabs/Tab';
 export { Tabs, type TabsProps } from './Tabs/Tabs';
+export { Table, type TableProps } from './Table/Table';
 export { Tag } from './Tag/Tag';
 export { Textarea, type TextareaProps } from './Textarea/Textarea';
 export { TextField } from './TextField/TextField';

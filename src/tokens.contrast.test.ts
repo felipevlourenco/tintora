@@ -71,6 +71,9 @@ const pairs: [string, string, number][] = [
     ['--tintora-text-on-toast', '--tintora-surface-toast', 4.5],
     ['--tintora-text-on-toast-muted', '--tintora-surface-toast', 4.5],
     ['--tintora-toast-action', '--tintora-surface-toast', 4.5],
+    ['--tintora-color-ink', '--tintora-menu-bg', 4.5],
+    ['--tintora-menu-item-destructive', '--tintora-menu-bg', 4.5],
+    ['--tintora-text-on-card-muted', '--tintora-menu-bg', 4.5],
     ['--tintora-chip-fg', '--tintora-chip-bg', 4.5],
     ['--tintora-chip-selected-fg', '--tintora-chip-selected-bg', 4.5],
 ];

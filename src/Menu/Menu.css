@@ -1,0 +1,95 @@
+.tintora-menu-root {
+    display: inline-block;
+}
+
+/* A popover: fixed to the viewport, placed by the component. */
+.tintora-menu {
+    box-sizing: border-box;
+    inset: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    /* At least 180px, and as wide as the trigger (set by the component). */
+    min-width: max(180px, var(--tintora-menu-trigger-width, 0px));
+    max-height: 60vh;
+    padding: 6px;
+    overflow-y: auto;
+    border: 1px solid var(--tintora-menu-border);
+    border-radius: var(--tintora-radius-14);
+    color: var(--tintora-color-ink);
+    background: var(--tintora-menu-bg);
+    box-shadow: var(--tintora-menu-shadow);
+    font-family: var(--tintora-font-family);
+}
+.tintora-menu:focus {
+    outline: none;
+}
+
+.tintora-menu__item {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 36px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: var(--tintora-radius-10);
+    background: transparent;
+    font: var(--tintora-font-body);
+    font-size: 0.8125rem;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+    user-select: none;
+}
+/* Focus and hover share one highlight: the pointer moves focus to the item. */
+.tintora-menu__item:focus {
+    outline: none;
+    background: var(--tintora-menu-item-hover);
+}
+.tintora-menu__item:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: -2px;
+}
+.tintora-menu__item[aria-disabled='true'] {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}
+.tintora-menu__item--destructive {
+    color: var(--tintora-menu-item-destructive);
+}
+
+.tintora-menu__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--tintora-text-on-card-muted);
+}
+.tintora-menu__item--destructive .tintora-menu__icon {
+    color: inherit;
+}
+.tintora-menu__icon > svg {
+    width: 18px;
+    height: 18px;
+}
+
+.tintora-menu__separator {
+    height: 1px;
+    margin: 4px 6px;
+    background: var(--tintora-menu-border);
+}
+
+@media (pointer: coarse) {
+    .tintora-menu__item {
+        min-height: 44px;
+    }
+}
+
+/* Forced colors drops backgrounds, so mark the highlighted item by outline. */
+@media (forced-colors: active) {
+    .tintora-menu__item:focus {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+}

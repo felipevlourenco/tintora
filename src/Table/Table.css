@@ -1,0 +1,79 @@
+/* The wrapper scrolls sideways, so a wide table never widens the page. */
+.tintora-table-scroll {
+    overflow-x: auto;
+    border-radius: var(--tintora-radius-14);
+}
+.tintora-table-scroll:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+
+.tintora-table {
+    --tintora-table-cell-y: 14px;
+    --tintora-table-cell-x: 16px;
+    width: 100%;
+    border-collapse: collapse;
+    font: var(--tintora-font-body);
+    font-size: 0.8125rem;
+    color: var(--tintora-text);
+}
+.tintora-table--compact {
+    --tintora-table-cell-y: 8px;
+    --tintora-table-cell-x: 12px;
+}
+
+.tintora-table__caption {
+    padding: 0 var(--tintora-table-cell-x) 12px;
+    font: var(--tintora-font-title);
+    text-align: start;
+}
+.tintora-table__caption--hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.tintora-table th,
+.tintora-table td {
+    padding: var(--tintora-table-cell-y) var(--tintora-table-cell-x);
+    text-align: start;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Header: small, muted capitals over a stronger line. */
+.tintora-table thead th {
+    font: var(--tintora-font-label);
+    letter-spacing: var(--tintora-tracking-wide);
+    text-transform: uppercase;
+    color: var(--tintora-text-muted);
+    border-bottom: 1px solid var(--tintora-line-strong);
+}
+
+.tintora-table tbody th {
+    font-weight: var(--tintora-font-weight-semibold);
+}
+.tintora-table tbody tr + tr > * {
+    border-top: 1px solid var(--tintora-line);
+}
+.tintora-table tbody tr:hover > * {
+    background: var(--tintora-fill-ghost-hover);
+}
+
+.tintora-table tfoot td,
+.tintora-table tfoot th {
+    border-top: 1px solid var(--tintora-line-strong);
+    font-weight: var(--tintora-font-weight-bold);
+}
+
+/* A number lines up on its right edge, in a font with equal-width digits. */
+.tintora-table [data-align='end'] {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}
+.tintora-table [data-align='center'] {
+    text-align: center;
+}
