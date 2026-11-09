@@ -239,7 +239,8 @@
     --tintora-surface-toast: #fbfaf9;
     --tintora-text-on-toast: var(--tintora-color-ink);
     --tintora-text-on-toast-muted: #5a5754;
-    --tintora-toast-action: var(--tintora-color-accent-deep);
+    /* Darker than accent-deep: that is 4.4:1 on this surface, short of 4.5. */
+    --tintora-toast-action: #b94809;
     --tintora-shadow-toast: 0 16px 36px rgba(0, 0, 0, 0.4);
     --tintora-toast-icon-success: var(--tintora-color-steps);
     --tintora-toast-icon-error: var(--tintora-color-destructive);

@@ -70,7 +70,7 @@ Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`
 
 ### Server Components
 
-Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `MediaCardSkeleton`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
 ```tsx
 // app/loading.tsx, a Server Component
@@ -148,14 +148,15 @@ Every component has a story with all its variants in the [Storybook](https://fel
 
 ### Display
 
-| Component       | What it is                                                                                     |
-| --------------- | ---------------------------------------------------------------------------------------------- |
-| `Avatar`        | An image with an initials fallback.                                                            |
-| `Card`          | A surface or list-row card, and a selectable variant (`SelectableCard`).                       |
-| `MediaCard`     | A card of slots: media, badge, action, title, meta and footer. The title link covers the card. |
-| `MediaCarousel` | A picture with floating arrows and a strip of thumbnails (hidden on small screens).            |
-| `Tag`           | A small label in `neutral`, `success`, `accent` or `card`.                                     |
-| `Dot`           | An unread, read or section-tick marker.                                                        |
+| Component           | What it is                                                                                     |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| `Avatar`            | An image with an initials fallback.                                                            |
+| `Card`              | A surface or list-row card, and a selectable variant (`SelectableCard`).                       |
+| `MediaCard`         | A card of slots: media, badge, action, title, meta and footer. The title link covers the card. |
+| `MediaCardSkeleton` | A shimmering placeholder with a `MediaCard`'s layout, for loading grids.                       |
+| `MediaCarousel`     | A picture with floating arrows and a strip of thumbnails (hidden on small screens).            |
+| `Tag`               | A small label in `neutral`, `success`, `accent` or `card`.                                     |
+| `Dot`               | An unread, read or section-tick marker.                                                        |
 
 ### Feedback
 

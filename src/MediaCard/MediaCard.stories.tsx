@@ -4,6 +4,7 @@ import { IconButton } from '../IconButton/IconButton';
 import { Link } from '../Link/Link';
 import { Tag } from '../Tag/Tag';
 import { MediaCard } from './MediaCard';
+import { MediaCardSkeleton } from './MediaCardSkeleton';
 
 const Lamp = () => (
     <svg
@@ -150,6 +151,34 @@ export const Grid: Story = {
                     />
                 ),
             )}
+        </ul>
+    ),
+};
+
+/** The placeholder shown while the cards load: same size, so the grid holds. */
+export const Loading: Story = {
+    render: () => <MediaCardSkeleton />,
+};
+
+/** A loading grid, as a list marked busy. */
+export const LoadingGrid: Story = {
+    parameters: { fullWidth: true },
+    render: () => (
+        <ul
+            aria-busy="true"
+            aria-label="Loading products"
+            style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+                display: 'grid',
+                gap: 16,
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+            }}
+        >
+            {[0, 1, 2].map((key) => (
+                <MediaCardSkeleton key={key} as="li" />
+            ))}
         </ul>
     ),
 };

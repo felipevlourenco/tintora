@@ -39,6 +39,31 @@ const light = () => screen.getByRole('button', { name: 'Light' });
 const dark = () => screen.getByRole('button', { name: 'Dark' });
 
 describe('Toggle', () => {
+    it('marks text items, so they get dark text on the accent fill', () => {
+        render(
+            <Toggle<Theme>
+                {...({
+                    'aria-label': 'View',
+                    defaultValue: 'light',
+                    children: [
+                        <ToggleItem key="light" value="light">
+                            Day
+                        </ToggleItem>,
+                        <ToggleItem key="dark" value="dark" aria-label="Night">
+                            <svg />
+                        </ToggleItem>,
+                    ],
+                } as unknown as ToggleProps<Theme>)}
+            />,
+        );
+        expect(screen.getByRole('button', { name: 'Day' })).toHaveClass(
+            'tintora-toggle__item--text',
+        );
+        expect(screen.getByRole('button', { name: 'Night' })).not.toHaveClass(
+            'tintora-toggle__item--text',
+        );
+    });
+
     it('is a named group of two buttons', () => {
         setup();
         expect(

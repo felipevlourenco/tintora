@@ -28,6 +28,10 @@ export { IconButton } from './IconButton/IconButton';
 export { Link, type LinkProps } from './Link/Link';
 export { MediaCard, type MediaCardProps } from './MediaCard/MediaCard';
 export {
+    MediaCardSkeleton,
+    type MediaCardSkeletonProps,
+} from './MediaCard/MediaCardSkeleton';
+export {
     MediaCarousel,
     type MediaCarouselItem,
     type MediaCarouselProps,
