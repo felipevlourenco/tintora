@@ -21,6 +21,13 @@ Tintora is a lightweight React component library with a glassy, dark-first style
 
 📚 [**Storybook**](https://felipevlourenco.github.io/tintora/) · 📦 [**npm**](https://www.npmjs.com/package/tintora) · 🗒️ [**Releases**](https://github.com/felipevlourenco/tintora/releases) · 🐛 [**Issues**](https://github.com/felipevlourenco/tintora/issues)
 
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/hero-dark.png" />
+        <img src="docs/assets/hero-light.png" alt="Tabs, a text field, buttons, chips, an alert, a card, a progress bar, a switch and a slider in Tintora" width="720" />
+    </picture>
+</p>
+
 ## 💎 Why Tintora?
 
 - **40+ components**: actions, form controls, data display, feedback and overlays, each with a story for every variant.

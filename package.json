@@ -44,6 +44,7 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "test:layout": "playwright test",
+        "readme:hero": "node scripts/readme-hero.mjs",
         "lint": "eslint . && node scripts/check-tokens.mjs && node scripts/check-use-client.mjs",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
