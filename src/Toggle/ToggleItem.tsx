@@ -34,7 +34,11 @@ export function ToggleItem<T extends string>({
         <button
             {...props}
             type="button"
-            className={clsx('tintora-toggle__item', className)}
+            className={clsx(
+                'tintora-toggle__item',
+                typeof children === 'string' && 'tintora-toggle__item--text',
+                className,
+            )}
             aria-pressed={toggle.value === value}
             disabled={disabled || toggle.disabled}
             onClick={onClickHandler}

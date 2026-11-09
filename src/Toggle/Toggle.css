@@ -31,9 +31,12 @@
 }
 
 /* The design uses white on the accent for icons. Text on this fill would only
-   reach about 3.1:1, so text items should use --tintora-color-on-accent. */
+   reach about 3.1:1, so text items use --tintora-color-on-accent (6:1). */
 .tintora-toggle__item[aria-pressed='true'] {
     color: #ffffff;
+}
+.tintora-toggle__item--text[aria-pressed='true'] {
+    color: var(--tintora-color-on-accent);
 }
 
 .tintora-toggle__thumb {

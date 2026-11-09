@@ -54,8 +54,8 @@ export const SecondSelected: Story = {
     args: { defaultValue: 'dark', children: [themeItems[0], themeItems[1]] },
 };
 
-/** Text items take their name from the text. On the accent fill, text is
-    dimmer than the icons; see the note in Toggle.css. */
+/** Text items take their name from the text. On the accent fill they use dark
+    text, for contrast; icons stay white. See the note in Toggle.css. */
 export const WithText: Story = {
     args: {
         'aria-label': 'View',

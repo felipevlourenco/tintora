@@ -22,8 +22,10 @@ const views = [
 const Lamp = ({ box, label }: { box: string; label: string }) => (
     <svg
         viewBox={box}
-        role="img"
-        aria-label={label}
+        // A thumbnail sits in a button that is already named: hide it.
+        {...(label
+            ? { role: 'img', 'aria-label': label }
+            : { 'aria-hidden': true })}
         preserveAspectRatio="xMidYMid slice"
         style={{ width: '100%', height: '100%', display: 'block' }}
     >
