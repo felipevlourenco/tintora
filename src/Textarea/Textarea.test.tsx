@@ -108,4 +108,20 @@ describe('Textarea', () => {
         const { container } = setup({ error: 'Required' });
         await expectNoA11yViolations(container);
     });
+
+    describe('required marker', () => {
+        it('shows a * after the label when required, hidden from assistive tech', () => {
+            setup({ required: true });
+            const mark = screen.getByText('*');
+            expect(mark).toHaveAttribute('aria-hidden', 'true');
+            // The accessible name stays the plain label, and the input is required.
+            expect(field()).toBeRequired();
+        });
+
+        it('shows no marker when the field is optional', () => {
+            setup();
+            expect(screen.queryByText('*')).not.toBeInTheDocument();
+            expect(field()).not.toBeRequired();
+        });
+    });
 });

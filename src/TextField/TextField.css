@@ -56,3 +56,8 @@
 .tintora-textfield__hint--error {
     color: var(--tintora-text-error);
 }
+
+/* Inherits the label's colour and weight; only a little air before it. */
+.tintora-textfield__required {
+    margin-inline-start: 2px;
+}

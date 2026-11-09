@@ -2,6 +2,7 @@
 
 import { useId, type TextareaHTMLAttributes } from 'react';
 import { clsx } from '../utils/clsx';
+import { RequiredMark } from '../TextField/RequiredMark';
 import '../TextField/TextField.css';
 import './Textarea.css';
 
@@ -24,6 +25,7 @@ export function Textarea({
     id,
     className,
     disabled,
+    required,
     rows = 4,
     'aria-describedby': describedBy,
     'aria-invalid': ariaInvalid,
@@ -45,12 +47,14 @@ export function Textarea({
         >
             <label htmlFor={fieldId} className="tintora-textfield__label">
                 {label}
+                <RequiredMark show={required} />
             </label>
             <textarea
                 {...props}
                 id={fieldId}
                 rows={rows}
                 disabled={disabled}
+                required={required}
                 className="tintora-textfield__input tintora-textarea__field"
                 aria-invalid={error ? true : ariaInvalid}
                 aria-describedby={

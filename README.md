@@ -152,20 +152,20 @@ Every component has a story with all its variants in the [Storybook](https://fel
 
 ### Forms
 
-| Component       | What it is                                                                      |
-| --------------- | ------------------------------------------------------------------------------- |
-| `TextField`     | A labelled input with hint and error messages. `type="date"` for a date picker. |
-| `Combobox`      | A `Select` you type into: the list narrows to what matches.                     |
-| `SearchInput`   | A search field with a search icon and a required `aria-label`.                  |
-| `Select`        | A select with a listbox popup that can submit with a form.                      |
-| `Switch`        | An on/off switch.                                                               |
-| `Checkbox`      | A checkbox with an indeterminate state.                                         |
-| `Radio`         | A radio, grouped with `RadioGroup`.                                             |
-| `SettingsRow`   | A row for one setting: title, description and a control on the side.            |
-| `QuantityInput` | A whole number with minus and plus buttons, for a cart.                         |
-| `Slider`        | A range input with the filled track in the accent.                              |
-| `Textarea`      | A labelled multi-line field with hint and error, like `TextField`.              |
-| `RatingInput`   | A star rating the user sets: radio buttons drawn as stars.                      |
+| Component       | What it is                                                                                    |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| `TextField`     | A labelled input with hint, error and a `*` when `required`. `type="date"` for a date picker. |
+| `Combobox`      | A `Select` you type into: the list narrows to what matches. `required` adds a `*`.            |
+| `SearchInput`   | A search field with a search icon and a required `aria-label`.                                |
+| `Select`        | A select with a listbox popup that can submit with a form.                                    |
+| `Switch`        | An on/off switch.                                                                             |
+| `Checkbox`      | A checkbox with an indeterminate state.                                                       |
+| `Radio`         | A radio, grouped with `RadioGroup`, which can show a `label` above the options.               |
+| `SettingsRow`   | A row for one setting: title, description and a control on the side.                          |
+| `QuantityInput` | A whole number with minus and plus buttons, for a cart.                                       |
+| `Slider`        | A range input with the filled track in the accent.                                            |
+| `Textarea`      | A labelled multi-line field with hint, error and `required`, like `TextField`.                |
+| `RatingInput`   | A star rating the user sets: radio buttons drawn as stars.                                    |
 
 ### Display
 

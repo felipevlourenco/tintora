@@ -134,4 +134,24 @@ describe('TextField', () => {
         const props: TextFieldProps = {};
         expect(props).toBeDefined();
     });
+
+    describe('required marker', () => {
+        it('shows a * after the label when required, hidden from assistive tech', () => {
+            setup({ required: true });
+            const mark = screen.getByText('*');
+            expect(mark).toHaveAttribute('aria-hidden', 'true');
+            // The accessible name stays the plain label, and the input is required.
+            expect(
+                screen.getByRole('textbox', { name: 'Full name' }),
+            ).toBeRequired();
+        });
+
+        it('shows no marker when the field is optional', () => {
+            setup();
+            expect(screen.queryByText('*')).not.toBeInTheDocument();
+            expect(
+                screen.getByRole('textbox', { name: 'Full name' }),
+            ).not.toBeRequired();
+        });
+    });
 });

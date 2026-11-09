@@ -69,3 +69,16 @@
         transition: none;
     }
 }
+
+/* A group with a visible label: the label sits above the options. */
+.tintora-radio-field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tintora-radio-field__label {
+    font: var(--tintora-font-body);
+    font-weight: var(--tintora-font-weight-semibold);
+    color: var(--tintora-text);
+}

@@ -2,6 +2,7 @@
 
 import { clsx } from '../utils/clsx';
 import { useId, type InputHTMLAttributes } from 'react';
+import { RequiredMark } from './RequiredMark';
 import './TextField.css';
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -19,6 +20,7 @@ export function TextField({
     id,
     className,
     disabled,
+    required,
     'aria-describedby': describedBy,
     'aria-invalid': ariaInvalid,
     ...props
@@ -38,11 +40,13 @@ export function TextField({
         >
             <label htmlFor={inputId} className="tintora-textfield__label">
                 {label}
+                <RequiredMark show={required} />
             </label>
             <input
                 {...props}
                 id={inputId}
                 disabled={disabled}
+                required={required}
                 className="tintora-textfield__input"
                 aria-invalid={error ? true : ariaInvalid}
                 aria-describedby={

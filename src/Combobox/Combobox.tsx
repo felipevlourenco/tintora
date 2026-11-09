@@ -19,6 +19,7 @@ import { clsx } from '../utils/clsx';
 import { dropdownTop } from '../utils/placement';
 // The field and the popup look like a TextField and a Select's list.
 import '../Select/Select.css';
+import { RequiredMark } from '../TextField/RequiredMark';
 import '../TextField/TextField.css';
 import './Combobox.css';
 
@@ -84,6 +85,7 @@ export function Combobox<T extends string>({
     id,
     className,
     disabled,
+    required,
     'aria-describedby': describedBy,
     'aria-invalid': ariaInvalid,
     onBlur,
@@ -249,6 +251,7 @@ export function Combobox<T extends string>({
             >
                 <label htmlFor={inputId} className="tintora-textfield__label">
                     {label}
+                    <RequiredMark show={required} />
                 </label>
                 <div className="tintora-combobox__control">
                     <input
@@ -273,6 +276,7 @@ export function Combobox<T extends string>({
                             clsx(message && messageId, describedBy) || undefined
                         }
                         disabled={disabled}
+                        required={required}
                         className="tintora-textfield__input tintora-combobox__input"
                         value={query ?? selectedOption?.label ?? ''}
                         onChange={handleChange}
