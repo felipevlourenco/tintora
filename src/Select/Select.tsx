@@ -13,6 +13,7 @@ import {
 } from 'react';
 import { useOutsidePress } from '../hooks/useOutsidePress';
 import { useTopLayerPosition } from '../hooks/useTopLayerPosition';
+import { dropdownTop } from '../utils/placement';
 import './Select.css';
 import { SelectContext } from './SelectContext';
 import { SelectOption } from './SelectOption';
@@ -44,8 +45,6 @@ interface UncontrolledProps<T extends string> {
 
 export type SelectProps<T extends string = string> = SelectBaseProps<T> &
     (ControlledProps<T> | UncontrolledProps<T>);
-
-const MENU_GAP = 4;
 
 export function Select<T extends string>({
     defaultValue,
@@ -166,14 +165,8 @@ export function Select<T extends string>({
             if (!menu || !trigger) return null;
             const rect = trigger.getBoundingClientRect();
             const height = menu.offsetHeight;
-            const fitsBelow =
-                rect.bottom + MENU_GAP + height <= window.innerHeight;
-            const fitsAbove = rect.top - MENU_GAP - height >= 0;
             return {
-                top:
-                    fitsBelow || !fitsAbove
-                        ? rect.bottom + MENU_GAP
-                        : rect.top - MENU_GAP - height,
+                top: dropdownTop(rect, height),
                 left: rect.left,
                 minWidth: rect.width,
             };

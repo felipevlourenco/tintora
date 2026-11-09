@@ -64,9 +64,9 @@
 .tintora-button--primary {
     --tintora-button-fg: var(--tintora-color-on-accent-deep);
     --tintora-button-bg: var(--tintora-color-accent-deep);
+    --tintora-button-bg-hover: var(--tintora-color-accent-deep-hover);
+    --tintora-button-bg-pressed: var(--tintora-color-accent-deep-pressed);
     --tintora-button-shadow: var(--tintora-shadow-primary);
-    --tintora-button-filter-hover: brightness(1.14);
-    --tintora-button-filter-pressed: brightness(0.9);
 }
 .tintora-button--secondary {
     --tintora-button-fg: var(--tintora-text);
@@ -97,7 +97,6 @@
 .tintora-button:not(:disabled, [aria-disabled='true']):hover {
     color: var(--tintora-button-fg-hover, var(--tintora-button-fg));
     background-color: var(--tintora-button-bg-hover, var(--tintora-button-bg));
-    filter: var(--tintora-button-filter-hover, none);
 }
 .tintora-button:not(:disabled, [aria-disabled='true']):active {
     color: var(--tintora-button-fg-pressed, var(--tintora-button-fg));
@@ -105,7 +104,6 @@
         --tintora-button-bg-pressed,
         var(--tintora-button-bg)
     );
-    filter: var(--tintora-button-filter-pressed, none);
     transform: translateY(1px);
 }
 .tintora-button:focus-visible {

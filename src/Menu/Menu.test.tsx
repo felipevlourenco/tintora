@@ -193,6 +193,108 @@ describe('Menu', () => {
         });
     });
 
+    describe('typeahead', () => {
+        const setupMany = (onSelectCopy = vi.fn()) =>
+            render(
+                <Menu
+                    aria-label="Order actions"
+                    trigger={<Button variant="secondary">Actions</Button>}
+                >
+                    <MenuItem onSelect={onSelectCopy}>Copy link</MenuItem>
+                    <MenuItem>Copy text</MenuItem>
+                    <MenuItem>Duplicate</MenuItem>
+                    <MenuItem disabled>Download</MenuItem>
+                    <MenuItem>Delete</MenuItem>
+                    <MenuItem>Details</MenuItem>
+                </Menu>,
+            );
+
+        it('focuses the next item that starts with the typed letter', async () => {
+            const user = userEvent.setup();
+            setupMany();
+            await user.click(trigger());
+            await user.keyboard('d');
+            expect(item('Duplicate')).toHaveFocus();
+            await user.keyboard('d');
+            expect(item('Delete')).toHaveFocus();
+        });
+
+        it('skips disabled items and wraps around', async () => {
+            const user = userEvent.setup();
+            setupMany();
+            await user.click(trigger());
+            await user.keyboard('ddd');
+            expect(item('Details')).toHaveFocus();
+            await user.keyboard('d');
+            expect(item('Duplicate')).toHaveFocus();
+        });
+
+        it('narrows the match as more letters are typed', async () => {
+            const user = userEvent.setup();
+            setupMany();
+            await user.click(trigger());
+            await user.keyboard('det');
+            expect(item('Details')).toHaveFocus();
+        });
+
+        it('starts a new search after a pause', async () => {
+            // shouldAdvanceTime: Testing Library waits on a real timer, which
+            // would never fire on a frozen clock (it only knows Jest's).
+            vi.useFakeTimers({ shouldAdvanceTime: true });
+            try {
+                const user = userEvent.setup({
+                    advanceTimers: vi.advanceTimersByTime,
+                });
+                setupMany();
+                await user.click(trigger());
+                await user.keyboard('d');
+                expect(item('Duplicate')).toHaveFocus();
+                await vi.advanceTimersByTimeAsync(1000);
+                // Without the pause this would read "de" and land on Delete.
+                await user.keyboard('c');
+                expect(item('Copy link')).toHaveFocus();
+            } finally {
+                vi.useRealTimers();
+            }
+        });
+
+        it('counts a space inside a search as a letter, not as a choice', async () => {
+            const user = userEvent.setup();
+            const onSelect = vi.fn();
+            setupMany(onSelect);
+            await user.click(trigger());
+            await user.keyboard('copy t');
+            expect(item('Copy text')).toHaveFocus();
+            expect(onSelect).not.toHaveBeenCalled();
+            expect(menu()).toBeInTheDocument();
+        });
+
+        it('still chooses with Space when no search is under way', async () => {
+            const user = userEvent.setup();
+            const onSelect = vi.fn();
+            setupMany(onSelect);
+            await user.click(trigger());
+            await user.keyboard(' ');
+            expect(onSelect).toHaveBeenCalledTimes(1);
+        });
+
+        it('stays where it is when nothing matches', async () => {
+            const user = userEvent.setup();
+            setupMany();
+            await user.click(trigger());
+            await user.keyboard('z');
+            expect(item('Copy link')).toHaveFocus();
+        });
+
+        it('ignores keys pressed with a shortcut modifier', async () => {
+            const user = userEvent.setup();
+            setupMany();
+            await user.click(trigger());
+            await user.keyboard('{Control>}d{/Control}');
+            expect(item('Copy link')).toHaveFocus();
+        });
+    });
+
     describe('items', () => {
         it('call onSelect, close the menu and return focus to the trigger', async () => {
             const onSelect = vi.fn();

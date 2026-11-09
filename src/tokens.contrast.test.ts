@@ -76,7 +76,20 @@ const pairs: [string, string, number][] = [
     ['--tintora-text-on-card-muted', '--tintora-menu-bg', 4.5],
     ['--tintora-chip-fg', '--tintora-chip-bg', 4.5],
     ['--tintora-chip-selected-fg', '--tintora-chip-selected-bg', 4.5],
+    // The primary button's hover and pressed fills, under the same white label.
+    [
+        '--tintora-color-on-accent-deep',
+        '--tintora-color-accent-deep-hover',
+        4.5,
+    ],
+    [
+        '--tintora-color-on-accent-deep',
+        '--tintora-color-accent-deep-pressed',
+        4.5,
+    ],
 ];
+
+const hex = /^#[0-9a-f]{6}$/i;
 
 describe('token contrast', () => {
     it('parses both themes', () => {
@@ -84,12 +97,25 @@ describe('token contrast', () => {
         expect(themes.light['--tintora-surface-card']).toBeDefined();
     });
 
+    // A pair whose tokens are missing is skipped below, so a typo or a rename
+    // would quietly drop its guard. This makes that loud.
+    it('has every pair defined as hex colours in at least one theme', () => {
+        const undefinedPairs = pairs.filter(
+            ([fg, bg]) =>
+                !Object.values(themes).some((tokens) => {
+                    const a = resolve(tokens, fg);
+                    const b = resolve(tokens, bg);
+                    return !!a && !!b && hex.test(a) && hex.test(b);
+                }),
+        );
+        expect(undefinedPairs).toEqual([]);
+    });
+
     for (const [theme, tokens] of Object.entries(themes)) {
         for (const [fg, bg, min] of pairs) {
             const a = resolve(tokens, fg);
             const b = resolve(tokens, bg);
             // Skip a pair a theme does not define as opaque hex colours.
-            const hex = /^#[0-9a-f]{6}$/i;
             if (!a || !b || !hex.test(a) || !hex.test(b)) continue;
 
             it(`${theme}: ${fg} on ${bg} is at least ${min}:1`, () => {

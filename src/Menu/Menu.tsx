@@ -17,6 +17,8 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useOutsidePress } from '../hooks/useOutsidePress';
 import { useTopLayerPosition } from '../hooks/useTopLayerPosition';
 import { clsx } from '../utils/clsx';
+import { dropdownTop } from '../utils/placement';
+import { findTypeaheadMatch } from '../utils/typeahead';
 import './Menu.css';
 import { MenuContext } from './MenuContext';
 
@@ -48,8 +50,9 @@ export interface MenuProps {
     className?: string;
 }
 
-const MENU_GAP = 4;
 const VIEWPORT_MARGIN = 8;
+/** A pause this long starts a new typeahead search. */
+const TYPEAHEAD_RESET_MS = 500;
 
 /**
  * A menu of actions that opens from a button (the "menu button" pattern).
@@ -71,6 +74,10 @@ export function Menu({
     // Which item gets focus when the menu opens: ArrowUp opens on the last.
     const [firstFocus, setFirstFocus] = useState<'first' | 'last'>('first');
     const wasOpen = useRef(false);
+    // What has been typed to jump to an item, forgotten after a pause.
+    const typed = useRef('');
+    const typedTimer = useRef<number>(undefined);
+    useEffect(() => () => window.clearTimeout(typedTimer.current), []);
 
     const setOpen = (next: boolean) => {
         setOpenState(next);
@@ -101,15 +108,9 @@ export function Menu({
             // --tintora-menu-trigger-width min-width in the CSS).
             const width = Math.max(menu.offsetWidth, rect.width);
             const height = menu.offsetHeight;
-            const fitsBelow =
-                rect.bottom + MENU_GAP + height <= window.innerHeight;
-            const fitsAbove = rect.top - MENU_GAP - height >= 0;
             const left = align === 'end' ? rect.right - width : rect.left;
             return {
-                top:
-                    fitsBelow || !fitsAbove
-                        ? rect.bottom + MENU_GAP
-                        : rect.top - MENU_GAP - height,
+                top: dropdownTop(rect, height),
                 left: Math.min(
                     Math.max(left, VIEWPORT_MARGIN),
                     Math.max(
@@ -170,6 +171,30 @@ export function Menu({
         }
         const list = items();
         const current = list.indexOf(document.activeElement as HTMLElement);
+
+        // Typeahead. A space only counts once a search is under way, so Space
+        // still chooses an item the rest of the time.
+        const isTyping =
+            event.key.length === 1 &&
+            !event.ctrlKey &&
+            !event.metaKey &&
+            !event.altKey &&
+            (event.key !== ' ' || typed.current !== '');
+        if (isTyping) {
+            event.preventDefault();
+            typed.current += event.key;
+            window.clearTimeout(typedTimer.current);
+            typedTimer.current = window.setTimeout(() => {
+                typed.current = '';
+            }, TYPEAHEAD_RESET_MS);
+            const labels = list.map(
+                (el) =>
+                    el.querySelector('.tintora-menu__label')?.textContent ?? '',
+            );
+            list[findTypeaheadMatch(labels, typed.current, current)]?.focus();
+            return;
+        }
+
         let next: number;
         switch (event.key) {
             case 'ArrowDown':
@@ -189,6 +214,12 @@ export function Menu({
         }
         event.preventDefault();
         list[next]?.focus();
+    };
+
+    // A button clicks on Space's keyup, but a Space that belongs to a search
+    // was already handled on keydown.
+    const handleMenuKeyUp = (event: KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === ' ' && typed.current !== '') event.preventDefault();
     };
 
     return (
@@ -212,6 +243,7 @@ export function Menu({
                         className={clsx('tintora-menu', className)}
                         style={position ?? { visibility: 'hidden' }}
                         onKeyDown={handleMenuKeyDown}
+                        onKeyUp={handleMenuKeyUp}
                     >
                         {children}
                     </div>

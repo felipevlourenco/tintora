@@ -13,6 +13,10 @@
     /* ---------- Colour palette (constants) ---------- */
     --tintora-color-accent: #ee6b25;
     --tintora-color-accent-deep: #c94e0c;
+    /* Darker steps of accent-deep for a button's hover and pressed. Darker, not
+       lighter: the white label is only 4.6:1 on accent-deep itself. */
+    --tintora-color-accent-deep-hover: #bd490b;
+    --tintora-color-accent-deep-pressed: #ad430a;
     --tintora-color-success: #4cc56b;
     --tintora-color-planned: #f2698c;
     --tintora-color-heart: #c42a56;

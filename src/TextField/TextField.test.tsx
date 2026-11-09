@@ -74,6 +74,20 @@ describe('TextField', () => {
         );
     });
 
+    it('is a date picker with type="date": the browser supplies the calendar', () => {
+        setup({
+            type: 'date',
+            min: '2026-01-01',
+            max: '2026-12-31',
+            defaultValue: '2026-06-15',
+        });
+        const input = screen.getByLabelText('Full name');
+        expect(input).toHaveAttribute('type', 'date');
+        expect(input).toHaveAttribute('min', '2026-01-01');
+        expect(input).toHaveAttribute('max', '2026-12-31');
+        expect(input).toHaveValue('2026-06-15');
+    });
+
     it('accepts native input props and lets the user type', async () => {
         const onChange = vi.fn();
         setup({ type: 'email', placeholder: 'you@example.com', onChange });

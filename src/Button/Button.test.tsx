@@ -1,7 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 import { expectNoA11yViolations } from '../test-utils';
+
+// Vitest blanks CSS imports, so read the stylesheet source directly.
+const css = readFileSync(join(import.meta.dirname, 'Button.css'), 'utf8');
 
 const setup = (props: Partial<React.ComponentProps<typeof Button>> = {}) =>
     render(
@@ -286,6 +291,26 @@ describe('Button', () => {
                 </Button>,
             );
             await expectNoA11yViolations(container);
+        });
+    });
+    describe('stylesheet', () => {
+        it('never filters the whole button for hover or pressed, since that dims the label too', () => {
+            // brightness() on the primary button took white on the accent from
+            // 4.58:1 to 3.64:1 (hover) and 4.35:1 (pressed).
+            expect(css).not.toMatch(/\bfilter\s*:/);
+            expect(css).not.toMatch(/--tintora-button-filter/);
+        });
+
+        it('gives the primary variant its own hover and pressed fills, which the token contrast test checks', () => {
+            const primary = css.match(
+                /\.tintora-button--primary \{[^}]*\}/,
+            )?.[0];
+            expect(primary).toContain(
+                '--tintora-button-bg-hover: var(--tintora-color-accent-deep-hover)',
+            );
+            expect(primary).toContain(
+                '--tintora-button-bg-pressed: var(--tintora-color-accent-deep-pressed)',
+            );
         });
     });
 });

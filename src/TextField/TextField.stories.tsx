@@ -19,6 +19,21 @@ export const WithPlaceholder: Story = {
     args: { placeholder: 'Your name', hint: undefined },
 };
 
+/**
+ * `type="date"` is the date picker: the browser draws the calendar, in the
+ * user's language, with the keyboard and screen reader support it already has.
+ * `min` and `max` limit the choice.
+ */
+export const DateInput: Story = {
+    args: {
+        label: 'Delivery date',
+        type: 'date',
+        hint: 'We deliver on weekdays',
+        min: '2026-01-01',
+        max: '2026-12-31',
+    },
+};
+
 export const Error: Story = {
     args: { defaultValue: 'A', error: 'Use at least 2 characters' },
 };
