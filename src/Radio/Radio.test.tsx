@@ -172,4 +172,43 @@ describe('Radio', () => {
             await expectNoA11yViolations(container);
         });
     });
+
+    describe('visible label', () => {
+        const withLabel = () =>
+            render(
+                <RadioGroup label="Shipping method">
+                    <Radio value="standard" aria-label="Standard" />
+                    <Radio value="express" aria-label="Express" />
+                </RadioGroup>,
+            );
+
+        it('shows the label and names the group with it', () => {
+            withLabel();
+            expect(screen.getByText('Shipping method')).toBeVisible();
+            expect(
+                screen.getByRole('radiogroup', { name: 'Shipping method' }),
+            ).toBeInTheDocument();
+        });
+
+        it('has no axe violations', async () => {
+            const { container } = withLabel();
+            await expectNoA11yViolations(container);
+        });
+
+        it('adds nothing around the group when there is only an aria-label', () => {
+            const { container } = setup();
+            expect(container.firstElementChild).toHaveAttribute(
+                'role',
+                'radiogroup',
+            );
+        });
+
+        it('rejects a group with both a label and an aria-label, or neither', () => {
+            // @ts-expect-error a group is named one way, not two
+            const both = <RadioGroup label="A" aria-label="B" />;
+            // @ts-expect-error a group must be named
+            const neither = <RadioGroup />;
+            expect([both, neither]).toBeDefined();
+        });
+    });
 });

@@ -386,6 +386,26 @@ describe('Combobox', () => {
             await expectNoA11yViolations(container);
         });
     });
+
+    describe('required marker', () => {
+        it('shows a * after the label when required, hidden from assistive tech', () => {
+            setup({ required: true });
+            const mark = screen.getByText('*');
+            expect(mark).toHaveAttribute('aria-hidden', 'true');
+            // The accessible name stays the plain label, and the input is required.
+            expect(
+                screen.getByRole('combobox', { name: 'City' }),
+            ).toBeRequired();
+        });
+
+        it('shows no marker when the field is optional', () => {
+            setup();
+            expect(screen.queryByText('*')).not.toBeInTheDocument();
+            expect(
+                screen.getByRole('combobox', { name: 'City' }),
+            ).not.toBeRequired();
+        });
+    });
 });
 
 // Compile-time checks: these only need to type-check, never to run.

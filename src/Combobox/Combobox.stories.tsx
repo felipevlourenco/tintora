@@ -33,6 +33,13 @@ type Story = StoryObj<ComboboxProps<City>>;
 /** Type to narrow the list. Accents and case do not matter: "sao" finds São Paulo. */
 export const Default: Story = {};
 
+/**
+ * `required` adds a `*` after the label. Screen readers hear "required" from
+ * the input, not the asterisk, so tell sighted users what it means, e.g.
+ * "* Required" above the form.
+ */
+export const Required: Story = { args: { required: true } };
+
 export const WithValue: Story = { args: { defaultValue: 'rj' } };
 
 export const WithHint: Story = {

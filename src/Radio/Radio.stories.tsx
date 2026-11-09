@@ -33,12 +33,12 @@ export const Disabled: Story = {
 };
 
 export const Controlled: Story = {
-    render: (args) => {
+    render: () => {
         const [value, setValue] = useState<string | null>('Metric');
         return (
             <>
                 <RadioGroup
-                    aria-label={args['aria-label']}
+                    aria-label="Units"
                     value={value}
                     onValueChange={setValue}
                     style={{ display: 'flex', gap: 16 }}
@@ -54,4 +54,26 @@ export const Controlled: Story = {
             </>
         );
     },
+};
+
+/**
+ * `label` shows text above the options and names the group with it, so what a
+ * sighted user reads is what a screen reader announces. Use `aria-label`
+ * instead when the page already has a heading nearby.
+ */
+export const WithLabel: Story = {
+    render: () => (
+        <RadioGroup label="Shipping method" defaultValue="standard">
+            {[
+                ['standard', 'Standard delivery'],
+                ['express', 'Express delivery'],
+                ['pickup', 'Pick up at a service point'],
+            ].map(([value, text]) => (
+                <label key={value} style={{ display: 'flex', gap: 12 }}>
+                    <Radio value={value} aria-label={text} />
+                    {text}
+                </label>
+            ))}
+        </RadioGroup>
+    ),
 };
