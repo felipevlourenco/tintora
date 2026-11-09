@@ -1,10 +1,12 @@
 'use client';
 
 import {
+    useRef,
     useState,
     type CSSProperties,
     type HTMLAttributes,
     type KeyboardEvent,
+    type PointerEvent,
     type ReactNode,
 } from 'react';
 import { IconButton } from '../IconButton/IconButton';
@@ -90,6 +92,10 @@ export type MediaCarouselProps = MediaCarouselBaseProps &
  * At the first and last picture the matching arrow is disabled.
  */
 
+// A swipe is a horizontal drag of at least this many px, and more horizontal
+// than vertical, so a tap or a page scroll does not count.
+const SWIPE_DISTANCE = 50;
+
 export function MediaCarousel({
     items,
     value,
@@ -104,6 +110,7 @@ export function MediaCarousel({
     ...props
 }: MediaCarouselProps): ReactNode {
     const [internalId, setInternalId] = useState(defaultValue);
+    const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
     if (items.length < 1) {
         return null;
@@ -125,6 +132,28 @@ export function MediaCarousel({
     const ratio: CSSProperties & { '--tintora-media-carousel-ratio': string } =
         { '--tintora-media-carousel-ratio': mediaAspectRatio };
     const hasMany = items.length > 1;
+
+    // Touch and pen only: a mouse drag would fight the browser's image drag.
+    const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+        swipeStart.current =
+            event.pointerType === 'mouse'
+                ? null
+                : { x: event.clientX, y: event.clientY };
+    };
+    const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
+        const start = swipeStart.current;
+        swipeStart.current = null;
+        if (!start || !hasMany) return;
+
+        const dx = event.clientX - start.x;
+        const dy = event.clientY - start.y;
+        if (Math.abs(dx) < SWIPE_DISTANCE || Math.abs(dx) < Math.abs(dy))
+            return;
+
+        // Swiping left reveals the next picture, like dragging the strip.
+        const target = items[dx < 0 ? index + 1 : index - 1];
+        if (target) select(target);
+    };
 
     // Arrow keys, Home and End move between thumbnails: one tab stop for the
     // strip (the current thumbnail), selection following focus. No wrapping,
@@ -158,7 +187,13 @@ export function MediaCarousel({
             aria-label={ariaLabel}
             className={clsx('tintora-media-carousel', className)}
         >
-            <div className="tintora-media-carousel__stage" style={ratio}>
+            <div
+                className="tintora-media-carousel__stage"
+                style={ratio}
+                onPointerDown={handlePointerDown}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={() => (swipeStart.current = null)}
+            >
                 <div
                     className="tintora-media-carousel__slide"
                     aria-live="polite"
