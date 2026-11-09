@@ -1,17 +1,42 @@
-import { fireEvent, renderHook } from '@testing-library/react';
+import { act, fireEvent, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTopLayerPosition } from './useTopLayerPosition';
 
 let popup: HTMLElement;
 let inner: HTMLElement;
 
+/** Records what is observed, and lets a test say "that element resized". */
+class FakeResizeObserver {
+    static all: FakeResizeObserver[] = [];
+    observed = new Set<Element>();
+    disconnected = false;
+    constructor(private callback: () => void) {
+        FakeResizeObserver.all.push(this);
+    }
+    observe(element: Element) {
+        this.observed.add(element);
+    }
+    disconnect() {
+        this.disconnected = true;
+    }
+    resize() {
+        this.callback();
+    }
+}
+const observers = () => FakeResizeObserver.all;
+
 beforeEach(() => {
+    FakeResizeObserver.all = [];
+    vi.stubGlobal('ResizeObserver', FakeResizeObserver);
     popup = document.createElement('div');
     inner = document.createElement('div');
     popup.append(inner);
     document.body.append(popup);
 });
-afterEach(() => popup.remove());
+afterEach(() => {
+    popup.remove();
+    vi.unstubAllGlobals();
+});
 
 const setup = (open = true, deps: unknown[] = []) => {
     const place = vi.fn(() => ({ top: 1, left: 2 }));
@@ -94,5 +119,46 @@ describe('useTopLayerPosition', () => {
         unmount();
         fireEvent(window, new Event('resize'));
         expect(place).toHaveBeenCalledTimes(2);
+    });
+
+    describe('when something it depends on changes size', () => {
+        it('watches the popup, the component around it, and the page', () => {
+            setup();
+            const watched = observers().flatMap((o) => [...o.observed]);
+            // A resized trigger lives in the parent; a web font that swaps in
+            // reflows the page without resizing either of them.
+            expect(watched).toEqual(
+                expect.arrayContaining([
+                    popup,
+                    popup.parentElement,
+                    document.documentElement,
+                ]),
+            );
+        });
+
+        it('places again when any of them resizes', () => {
+            const { place } = setup();
+            act(() => observers()[0].resize());
+            expect(place).toHaveBeenCalledTimes(2);
+        });
+
+        it('stops watching when it closes and on unmount', () => {
+            const { rerender, unmount } = setup();
+            rerender({ open: false, deps: [] });
+            expect(observers().every((o) => o.disconnected)).toBe(true);
+            rerender({ open: true, deps: [] });
+            const reopened = observers().filter((o) => !o.disconnected);
+            expect(reopened.length).toBeGreaterThan(0);
+            unmount();
+            expect(observers().every((o) => o.disconnected)).toBe(true);
+        });
+
+        it('still works where there is no ResizeObserver', () => {
+            vi.stubGlobal('ResizeObserver', undefined);
+            const { result, place } = setup();
+            expect(result.current).toEqual({ top: 1, left: 2 });
+            fireEvent(window, new Event('resize'));
+            expect(place).toHaveBeenCalledTimes(2);
+        });
     });
 });

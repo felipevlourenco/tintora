@@ -204,6 +204,34 @@ for (const dropdown of dropdowns) {
             expect(p.bottom).toBeLessThanOrEqual(a.top);
             expect(p.top).toBeGreaterThanOrEqual(0);
         });
+
+        test('follows its trigger when the page reflows while it is open', async ({
+            page,
+        }) => {
+            // A late web font or image pushes the trigger down without a scroll
+            // or a window resize, the only things a popup used to listen for.
+            await open(page, dropdown.story);
+            await dropdown.open(page);
+            const popup = page.locator(dropdown.popup);
+            await expect(popup).toBeVisible();
+            await page
+                .locator(dropdown.root)
+                .first()
+                .evaluate((el) => {
+                    const spacer = document.createElement('div');
+                    spacer.style.height = '48px';
+                    el.parentElement?.insertBefore(spacer, el);
+                });
+            await expect
+                .poll(async () => {
+                    const [a, p] = await Promise.all([
+                        rect(page.locator(dropdown.anchor)),
+                        rect(popup),
+                    ]);
+                    return p.top - a.bottom;
+                })
+                .toBeCloseTo(4, 0);
+        });
     });
 }
 
