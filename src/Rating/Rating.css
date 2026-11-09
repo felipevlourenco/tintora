@@ -1,0 +1,79 @@
+/* Stars take the font size and the accent; the empty ones are a faint line. */
+.tintora-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-muted);
+}
+
+.tintora-rating__stars {
+    position: relative;
+    display: inline-block;
+    font-size: 1.25em;
+    line-height: 0;
+}
+.tintora-rating__track,
+.tintora-rating__fill {
+    display: inline-flex;
+    white-space: nowrap;
+}
+.tintora-rating__track {
+    color: var(--tintora-line-strong);
+}
+/* Never let a star shrink: the fill is narrower than its stars, and squeezed
+   ones would drift off the track. */
+.tintora-rating__track > svg,
+.tintora-rating__fill > svg {
+    flex-shrink: 0;
+}
+/* The same stars on top, cut off at the score. */
+.tintora-rating__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: var(--tintora-color-accent);
+}
+
+/* Input: radios inside a fieldset, drawn as stars. */
+.tintora-rating-input {
+    display: inline-flex;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 1.75rem;
+}
+.tintora-rating-input__star {
+    position: relative;
+    display: inline-flex;
+    padding: 2px;
+    border-radius: var(--tintora-radius-8);
+    color: var(--tintora-line-strong);
+    cursor: pointer;
+}
+.tintora-rating-input__star--filled {
+    color: var(--tintora-color-accent);
+}
+.tintora-rating-input__star:hover {
+    color: var(--tintora-color-accent);
+}
+.tintora-rating-input__star:has(:focus-visible) {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+/* The native radio stays for keyboard and screen readers, not for the eye. */
+.tintora-rating-input__radio {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+}
+.tintora-rating-input--disabled {
+    opacity: var(--tintora-opacity-disabled);
+}
+.tintora-rating-input--disabled .tintora-rating-input__star {
+    cursor: not-allowed;
+}

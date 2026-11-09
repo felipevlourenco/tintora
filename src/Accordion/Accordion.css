@@ -1,0 +1,76 @@
+.tintora-accordion {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--tintora-font-family);
+    color: var(--tintora-text);
+}
+
+.tintora-accordion__item {
+    border-bottom: 1px solid var(--tintora-line);
+}
+.tintora-accordion__item:first-child {
+    border-top: 1px solid var(--tintora-line);
+}
+
+.tintora-accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 4px;
+    font: var(--tintora-font-subtitle);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--tintora-radius-8);
+}
+/* Hide the native marker in Safari too. */
+.tintora-accordion__summary::-webkit-details-marker {
+    display: none;
+}
+.tintora-accordion__summary:hover {
+    color: var(--tintora-color-accent);
+}
+.tintora-accordion__summary:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+
+.tintora-accordion__chevron {
+    flex-shrink: 0;
+    color: var(--tintora-text-muted);
+    transition: transform 200ms ease;
+}
+.tintora-accordion__item[open] .tintora-accordion__chevron {
+    transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+    .tintora-accordion__chevron {
+        transition: none;
+    }
+}
+
+/* Open and close with a height transition. `::details-content` and
+   `interpolate-size` are recent (Chrome 131+): elsewhere the panel simply
+   opens and closes at once. */
+@media (prefers-reduced-motion: no-preference) {
+    .tintora-accordion__item {
+        interpolate-size: allow-keywords;
+    }
+    .tintora-accordion__item::details-content {
+        block-size: 0;
+        overflow: clip;
+        transition:
+            block-size 250ms ease,
+            content-visibility 250ms allow-discrete;
+    }
+    .tintora-accordion__item[open]::details-content {
+        block-size: auto;
+    }
+}
+
+.tintora-accordion__panel {
+    padding: 0 4px 16px;
+    font: var(--tintora-font-body);
+    color: var(--tintora-text-muted);
+    line-height: 1.5;
+}

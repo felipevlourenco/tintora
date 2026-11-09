@@ -1,0 +1,63 @@
+.tintora-pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: var(--tintora-font-button);
+}
+
+.tintora-pagination__control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: var(--tintora-radius-pill);
+    background: transparent;
+    font: inherit;
+    color: var(--tintora-text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+}
+.tintora-pagination__control:hover:not(:disabled, [aria-disabled='true']) {
+    background: var(--tintora-fill-ghost-hover);
+    color: var(--tintora-text);
+}
+.tintora-pagination__control:active:not(:disabled, [aria-disabled='true']) {
+    background: var(--tintora-fill-subtle);
+}
+.tintora-pagination__control:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+
+/* The current page: the accent pill, like the Stepper's current step. */
+.tintora-pagination__control--current {
+    background: var(--tintora-color-accent);
+    color: var(--tintora-color-on-accent);
+    font-weight: var(--tintora-font-weight-bold);
+}
+.tintora-pagination__control--current:hover:not(:disabled) {
+    background: var(--tintora-color-accent);
+    color: var(--tintora-color-on-accent);
+}
+
+.tintora-pagination__control:disabled,
+.tintora-pagination__control--disabled {
+    opacity: var(--tintora-opacity-disabled);
+    cursor: not-allowed;
+}
+
+.tintora-pagination__ellipsis {
+    min-width: 24px;
+    text-align: center;
+    color: var(--tintora-text-muted);
+}

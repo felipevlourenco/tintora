@@ -70,7 +70,7 @@ Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`
 
 ### Server Components
 
-Components that use hooks or context ship with `'use client'`, and the rest (`Alert`, `Button`, `Card`, `Chip`, `Dot`, `IconButton`, `Link`, `MediaCardSkeleton`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+Components that use hooks or context ship with `'use client'`, and the rest (`Accordion`, `Alert`, `Button`, `Card`, `Chip`, `Dot`, `EmptyState`, `IconButton`, `Link`, `MediaCardSkeleton`, `Pagination`, `Rating`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
 ```tsx
 // app/loading.tsx, a Server Component
@@ -132,19 +132,24 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `Chip`        | A pill button, or a toggle when `selected` is set.                                 |
 | `Toggle`      | A two-option segmented control (`ToggleItem`), such as light and dark.             |
 | `Tabs`        | A tab list (`Tab`), as a segmented pill or an underline. Arrow-key navigation.     |
+| `Pagination`  | Page numbers with previous and next. Buttons, or links with `getHref`.             |
 | `Breadcrumbs` | The trail to the current page. `linkAs` for a router link, `maxItems` to collapse. |
 
 ### Forms
 
-| Component     | What it is                                                           |
-| ------------- | -------------------------------------------------------------------- |
-| `TextField`   | A labelled input with hint and error messages.                       |
-| `SearchInput` | A search field with a search icon and a required `aria-label`.       |
-| `Select`      | A select with a listbox popup that can submit with a form.           |
-| `Switch`      | An on/off switch.                                                    |
-| `Checkbox`    | A checkbox with an indeterminate state.                              |
-| `Radio`       | A radio, grouped with `RadioGroup`.                                  |
-| `SettingsRow` | A row for one setting: title, description and a control on the side. |
+| Component       | What it is                                                           |
+| --------------- | -------------------------------------------------------------------- |
+| `TextField`     | A labelled input with hint and error messages.                       |
+| `SearchInput`   | A search field with a search icon and a required `aria-label`.       |
+| `Select`        | A select with a listbox popup that can submit with a form.           |
+| `Switch`        | An on/off switch.                                                    |
+| `Checkbox`      | A checkbox with an indeterminate state.                              |
+| `Radio`         | A radio, grouped with `RadioGroup`.                                  |
+| `SettingsRow`   | A row for one setting: title, description and a control on the side. |
+| `QuantityInput` | A whole number with minus and plus buttons, for a cart.              |
+| `Slider`        | A range input with the filled track in the accent.                   |
+| `Textarea`      | A labelled multi-line field with hint and error, like `TextField`.   |
+| `RatingInput`   | A star rating the user sets: radio buttons drawn as stars.           |
 
 ### Display
 
@@ -157,6 +162,9 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `MediaCarousel`     | A picture with floating arrows and a strip of thumbnails (hidden on small screens).            |
 | `Tag`               | A small label in `neutral`, `success`, `accent` or `card`.                                     |
 | `Dot`               | An unread, read or section-tick marker.                                                        |
+| `Rating`            | A read-only star rating, with fractions and an optional count.                                 |
+| `Accordion`         | Sections that open and close (`AccordionItem`), on native `<details>`.                         |
+| `EmptyState`        | An icon, a title, a line of text and an action for a list with nothing in it.                  |
 
 ### Feedback
 

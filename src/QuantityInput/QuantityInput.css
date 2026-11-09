@@ -1,0 +1,32 @@
+.tintora-quantity {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border-radius: var(--tintora-radius-pill);
+    background: var(--tintora-fill-subtle);
+}
+.tintora-quantity--disabled {
+    opacity: var(--tintora-opacity-disabled);
+}
+
+.tintora-quantity__input {
+    box-sizing: border-box;
+    width: 3ch;
+    min-width: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--tintora-radius-8);
+    background: transparent;
+    font: var(--tintora-font-button);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--tintora-text);
+}
+.tintora-quantity__input:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
+.tintora-quantity__input:disabled {
+    cursor: not-allowed;
+}
