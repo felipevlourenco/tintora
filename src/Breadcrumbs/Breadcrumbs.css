@@ -25,3 +25,21 @@
     display: inline-flex;
     color: var(--tintora-text-muted);
 }
+
+/* The button that stands in for the hidden crumbs. */
+.tintora-breadcrumbs__expand {
+    padding: 0 4px;
+    border: 0;
+    border-radius: var(--tintora-radius-pill);
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.tintora-breadcrumbs__expand:hover {
+    color: var(--tintora-text);
+}
+.tintora-breadcrumbs__expand:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 2px;
+}
