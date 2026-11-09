@@ -182,14 +182,14 @@ Every component has a story with all its variants in the [Storybook](https://fel
 
 ### Overlays
 
-| Component     | What it is                                                                                                |
-| ------------- | --------------------------------------------------------------------------------------------------------- |
-| `Tooltip`     | A hint on hover and focus, with an optional title and keyboard shortcut.                                  |
-| `Popover`     | A small floating panel anchored to a trigger. Flips at the viewport edge.                                 |
-| `Menu`        | A menu of actions (`MenuItem`, `MenuSeparator`) that opens from a button. Arrow keys, Esc, outside click. |
-| `Modal`       | A dialog on native `<dialog>`: focus trap, Esc, scrim click, scroll lock.                                 |
-| `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.                                     |
-| `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows.                          |
+| Component     | What it is                                                                                                             |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Tooltip`     | A hint on hover and focus: optional title, shortcut and icon, start/end alignment, fixed light or dark tone, no arrow. |
+| `Popover`     | A small floating panel anchored to a trigger. Flips at the viewport edge.                                              |
+| `Menu`        | A menu of actions (`MenuItem`, `MenuSeparator`) that opens from a button. Arrow keys, Esc, outside click.              |
+| `Modal`       | A dialog on native `<dialog>`: focus trap, Esc, scrim click, scroll lock.                                              |
+| `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.                                                  |
+| `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows.                                       |
 
 ## Development
 

@@ -1,8 +1,13 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Tooltip, type TooltipProps } from './Tooltip';
 import { expectNoA11yViolations } from '../test-utils';
+
+// Vitest blanks CSS imports, so read the stylesheet source directly.
+const css = readFileSync(join(import.meta.dirname, 'Tooltip.css'), 'utf8');
 
 const setup = (props: Partial<TooltipProps> = {}) =>
     render(
@@ -159,6 +164,185 @@ describe('Tooltip', () => {
                 top: '150px',
                 left: '180px',
             });
+        });
+    });
+
+    describe('alignment', () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        // A 100x30 tooltip next to a 60x40 trigger whose corner is (200, 100).
+        const place = async (placement: TooltipProps['placement']) => {
+            vi.spyOn(
+                HTMLElement.prototype,
+                'offsetWidth',
+                'get',
+            ).mockReturnValue(100);
+            vi.spyOn(
+                HTMLElement.prototype,
+                'offsetHeight',
+                'get',
+            ).mockReturnValue(30);
+            setup({ placement });
+            vi.spyOn(trigger(), 'getBoundingClientRect').mockReturnValue(
+                new DOMRect(200, 100, 60, 40),
+            );
+            await userEvent.hover(trigger());
+            return screen.getByRole('tooltip');
+        };
+
+        it('lines up with the start of the trigger', async () => {
+            expect(await place('bottom-start')).toHaveStyle({
+                top: '150px',
+                left: '200px',
+            });
+        });
+
+        it('lines up with the end of the trigger', async () => {
+            expect(await place('bottom-end')).toHaveStyle({
+                top: '150px',
+                left: '160px',
+            });
+        });
+
+        it('lines up top, not left, on a tooltip beside the trigger', async () => {
+            expect(await place('right-end')).toHaveStyle({
+                top: '110px',
+                left: '270px',
+            });
+        });
+
+        it('keeps the side as its class, so the arrow is on the right edge', async () => {
+            expect(await place('top-end')).toHaveClass(
+                'tintora-tooltip__content--top',
+            );
+        });
+    });
+
+    describe('tone', () => {
+        it('follows the page theme by default', async () => {
+            setup();
+            await userEvent.hover(trigger());
+            expect(screen.getByRole('tooltip')).not.toHaveAttribute(
+                'data-theme',
+            );
+        });
+
+        it('is the same as "auto" when that is given', async () => {
+            setup({ tone: 'auto' });
+            await userEvent.hover(trigger());
+            expect(screen.getByRole('tooltip')).not.toHaveAttribute(
+                'data-theme',
+            );
+        });
+
+        // A tooltip is the inverse of its page: dark on a light page, light on
+        // a dark one, so its light colours are in the dark theme's tokens.
+        it.each([
+            ['light', 'dark'],
+            ['dark', 'light'],
+        ] as const)(
+            'tone "%s" takes the tooltip colours of the %s theme, whatever the page theme',
+            async (tone, theme) => {
+                setup({ tone });
+                await userEvent.hover(trigger());
+                expect(screen.getByRole('tooltip')).toHaveAttribute(
+                    'data-theme',
+                    theme,
+                );
+            },
+        );
+    });
+
+    describe('icon', () => {
+        const icon = <svg data-testid="icon" />;
+
+        it('shows before the text, hidden from assistive tech', async () => {
+            setup({ icon });
+            await userEvent.hover(trigger());
+            const tooltip = screen.getByRole('tooltip');
+            const box = screen.getByTestId('icon').parentElement;
+            expect(box).toHaveClass('tintora-tooltip__icon');
+            expect(box).toHaveAttribute('aria-hidden', 'true');
+            expect(tooltip.firstElementChild).toBe(box);
+            expect(tooltip).toHaveClass('tintora-tooltip__content--with-icon');
+        });
+
+        it('does not change what describes the trigger', async () => {
+            setup({
+                icon: (
+                    <svg data-testid="icon">
+                        <title>Info</title>
+                    </svg>
+                ),
+            });
+            await userEvent.hover(trigger());
+            expect(trigger()).toHaveAccessibleDescription('Heart rate');
+        });
+
+        it('sits beside the title and text in the rich variant', async () => {
+            setup({ icon, title: 'Heart rate zone', content: 'Last 7 days.' });
+            await userEvent.hover(trigger());
+            const tooltip = screen.getByRole('tooltip');
+            expect(tooltip).toHaveClass(
+                'tintora-tooltip__content--rich',
+                'tintora-tooltip__content--with-icon',
+            );
+            expect(tooltip.firstElementChild).toHaveClass(
+                'tintora-tooltip__icon',
+            );
+        });
+
+        it('adds nothing without an icon', async () => {
+            setup();
+            await userEvent.hover(trigger());
+            const tooltip = screen.getByRole('tooltip');
+            expect(tooltip.querySelector('.tintora-tooltip__icon')).toBeNull();
+            expect(tooltip).not.toHaveClass(
+                'tintora-tooltip__content--with-icon',
+            );
+        });
+    });
+
+    describe('arrow', () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it('has one by default', async () => {
+            setup();
+            await userEvent.hover(trigger());
+            expect(screen.getByRole('tooltip')).not.toHaveClass(
+                'tintora-tooltip__content--no-arrow',
+            );
+        });
+
+        it('is removed with arrow={false}', async () => {
+            setup({ arrow: false });
+            await userEvent.hover(trigger());
+            expect(screen.getByRole('tooltip')).toHaveClass(
+                'tintora-tooltip__content--no-arrow',
+            );
+            expect(css).toMatch(
+                /\.tintora-tooltip__content--no-arrow::before\s*\{\s*display:\s*none/,
+            );
+        });
+
+        it('sits closer to the trigger without it, since no arrow needs the room', async () => {
+            vi.spyOn(
+                HTMLElement.prototype,
+                'offsetWidth',
+                'get',
+            ).mockReturnValue(100);
+            vi.spyOn(
+                HTMLElement.prototype,
+                'offsetHeight',
+                'get',
+            ).mockReturnValue(30);
+            setup({ placement: 'bottom', arrow: false });
+            vi.spyOn(trigger(), 'getBoundingClientRect').mockReturnValue(
+                new DOMRect(200, 100, 60, 40),
+            );
+            await userEvent.hover(trigger());
+            // With the arrow it is 10px below the trigger (see "placement").
+            expect(screen.getByRole('tooltip')).toHaveStyle({ top: '146px' });
         });
     });
 

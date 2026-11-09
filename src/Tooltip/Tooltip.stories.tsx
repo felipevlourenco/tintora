@@ -8,7 +8,6 @@ const Trigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
         {...props}
         type="button"
         style={{
-            ...props.style,
             width: 96,
             height: 36,
             padding: 0,
@@ -17,9 +16,11 @@ const Trigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
             font: 'var(--tintora-font-label)',
             color: 'var(--tintora-text)',
             background: 'var(--tintora-fill-subtle)',
+            // After the defaults, so a story can size or place its trigger.
+            ...props.style,
         }}
     >
-        Hover me
+        {props.children ?? 'Hover me'}
     </button>
 );
 
@@ -34,13 +35,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** A dashed 260×120 zone, as in the design, with room on every side. */
-const Zone = ({ children }: { children: React.ReactNode }) => (
+const Zone = ({
+    children,
+    width = 260,
+    height = 120,
+}: {
+    children: React.ReactNode;
+    width?: number;
+    height?: number;
+}) => (
     <div
         style={{
             display: 'grid',
             placeItems: 'center',
-            width: 260,
-            height: 120,
+            width,
+            height,
             boxSizing: 'border-box',
             border: '1px dashed var(--tintora-line-strong)',
             borderRadius: 'var(--tintora-radius-16)',
@@ -83,6 +92,133 @@ export const Rich: Story = {
         content: 'Average over your last 7 workouts.',
         placement: 'right',
     },
+    render: Default.render,
+};
+
+/**
+ * Opens every tooltip on the page, as hovering would: a focusin, not .focus(),
+ * so it works without window focus. It waits for the fonts first: an open
+ * tooltip is not placed again when a late font changes its width.
+ */
+const openAll = async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await document.fonts.ready;
+    canvasElement
+        .querySelectorAll('button')
+        .forEach((button) =>
+            button.dispatchEvent(new FocusEvent('focusin', { bubbles: true })),
+        );
+};
+
+/**
+ * Where along the trigger's edge the tooltip sits. `top-start` lines up with
+ * the trigger's left edge, `top-end` with its right; beside the trigger,
+ * `-start` is the top edge and `-end` the bottom. The arrow still points at
+ * the trigger. All eight are open here.
+ */
+export const Alignments: Story = {
+    parameters: {
+        docs: { story: { inline: false, height: '600px' } },
+    },
+    play: openAll,
+    render: (args) => (
+        <div
+            style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 300px)',
+                gap: 24,
+            }}
+        >
+            {(
+                ['top-start', 'top-end', 'bottom-start', 'bottom-end'] as const
+            ).map((placement) => (
+                <Zone key={placement} width={300} height={120}>
+                    <Tooltip {...args} placement={placement}>
+                        <Trigger style={{ width: 200 }}>{placement}</Trigger>
+                    </Tooltip>
+                </Zone>
+            ))}
+            {(
+                ['left-start', 'left-end', 'right-start', 'right-end'] as const
+            ).map((placement) => (
+                <Zone key={placement} width={300} height={120}>
+                    <Tooltip {...args} placement={placement}>
+                        <Trigger style={{ height: 96 }}>{placement}</Trigger>
+                    </Tooltip>
+                </Zone>
+            ))}
+        </div>
+    ),
+};
+
+/**
+ * `tone` fixes the tooltip's own colour. Switch the Storybook theme: only
+ * "Auto" follows it (a tooltip is dark on a light page and light on a dark
+ * one), "Light" and "Dark" stay as they are. For a tooltip over a surface that
+ * does not follow the page theme, such as a photo or a card.
+ */
+export const Tones: Story = {
+    parameters: { docs: { story: { inline: false, height: '200px' } } },
+    play: openAll,
+    render: (args) => (
+        <div style={{ display: 'flex', gap: 16 }}>
+            {(['auto', 'light', 'dark'] as const).map((tone) => (
+                <Zone key={tone}>
+                    <Tooltip
+                        {...args}
+                        tone={tone}
+                        content={tone[0].toUpperCase() + tone.slice(1)}
+                    />
+                </Zone>
+            ))}
+        </div>
+    ),
+};
+
+const Info = () => (
+    <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4M12 8h.01" />
+    </svg>
+);
+
+/** A decorative icon before the text. It is hidden from screen readers. */
+export const WithIcon: Story = {
+    args: {
+        content: 'Syncs every 15 minutes',
+        icon: <Info />,
+        placement: 'bottom',
+    },
+    parameters: { docs: { story: { inline: false, height: '200px' } } },
+    play: openAll,
+    render: Default.render,
+};
+
+/** In the rich variant the icon sits beside the whole stack. */
+export const RichWithIcon: Story = {
+    args: {
+        icon: <Info />,
+        title: 'Heart rate zone',
+        content: 'Average over your last 7 workouts.',
+        shortcut: 'Ctrl H',
+        placement: 'right',
+    },
+    parameters: { docs: { story: { inline: false, height: '240px' } } },
+    play: openAll,
+    render: Default.render,
+};
+
+/** Without an arrow it sits closer to the trigger. */
+export const NoArrow: Story = {
+    args: { arrow: false, placement: 'bottom' },
+    parameters: { docs: { story: { inline: false, height: '200px' } } },
+    play: openAll,
     render: Default.render,
 };
 
