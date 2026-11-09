@@ -70,7 +70,7 @@ Colours, radii, type and shadows are CSS custom properties prefixed `--tintora-`
 
 ### Server Components
 
-Components that use hooks or context ship with `'use client'`, and the rest (`Accordion`, `Alert`, `Button`, `Card`, `Chip`, `Dot`, `EmptyState`, `IconButton`, `Link`, `MediaCardSkeleton`, `Pagination`, `Rating`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
+Components that use hooks or context ship with `'use client'`, and the rest (`Accordion`, `Alert`, `Button`, `Card`, `Chip`, `Dot`, `EmptyState`, `IconButton`, `Link`, `MediaCardSkeleton`, `Pagination`, `Price`, `Rating`, `SearchInput`, `SettingsRow`, `Skeleton`, `Spinner`, `Stepper`, `Table`, `Tag`) are plain. So you can import any of them in a Next.js Server Component without adding the directive yourself:
 
 ```tsx
 // app/loading.tsx, a Server Component
@@ -163,6 +163,8 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `Tag`               | A small label in `neutral`, `success`, `accent` or `card`.                                     |
 | `Dot`               | An unread, read or section-tick marker.                                                        |
 | `Rating`            | A read-only star rating, with fractions and an optional count.                                 |
+| `Price`             | A formatted price, with the original struck through when on sale.                              |
+| `Table`             | Styles native table markup, with a scroll box, density and aligned numbers.                    |
 | `Accordion`         | Sections that open and close (`AccordionItem`), on native `<details>`.                         |
 | `EmptyState`        | An icon, a title, a line of text and an action for a list with nothing in it.                  |
 
@@ -179,13 +181,14 @@ Every component has a story with all its variants in the [Storybook](https://fel
 
 ### Overlays
 
-| Component     | What it is                                                                       |
-| ------------- | -------------------------------------------------------------------------------- |
-| `Tooltip`     | A hint on hover and focus, with an optional title and keyboard shortcut.         |
-| `Popover`     | A small floating panel anchored to a trigger. Flips at the viewport edge.        |
-| `Modal`       | A dialog on native `<dialog>`: focus trap, Esc, scrim click, scroll lock.        |
-| `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.            |
-| `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows. |
+| Component     | What it is                                                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| `Tooltip`     | A hint on hover and focus, with an optional title and keyboard shortcut.                                  |
+| `Popover`     | A small floating panel anchored to a trigger. Flips at the viewport edge.                                 |
+| `Menu`        | A menu of actions (`MenuItem`, `MenuSeparator`) that opens from a button. Arrow keys, Esc, outside click. |
+| `Modal`       | A dialog on native `<dialog>`: focus trap, Esc, scrim click, scroll lock.                                 |
+| `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.                                     |
+| `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows.                          |
 
 ## Development
 

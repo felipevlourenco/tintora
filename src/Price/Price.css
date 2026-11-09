@@ -1,0 +1,27 @@
+.tintora-price {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5em;
+    font-variant-numeric: tabular-nums;
+}
+
+.tintora-price__current {
+    font-weight: var(--tintora-font-weight-bold);
+}
+
+.tintora-price__compare {
+    font-size: 0.8em;
+    color: var(--tintora-text-muted);
+    text-decoration: line-through;
+}
+
+/* Read by assistive tech only: "Sale price $54.00 Original price $62.00". */
+.tintora-price__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
