@@ -44,6 +44,8 @@ export interface ToastProps extends Omit<
     duration?: number;
     /** Show the 4px bar for the time left. Needs a `duration` above 0. @default false */
     timerBar?: boolean;
+    /** The close button's accessible name. Set it to translate it. @default 'Dismiss' */
+    dismissLabel?: string;
 }
 
 const STATUS_ICON_MAP: Record<ToastStatus, ReactNode> = {
@@ -60,6 +62,7 @@ export function Toast({
     onDismiss,
     duration = 5000,
     timerBar = false,
+    dismissLabel = 'Dismiss',
     className,
     ...props
 }: ToastProps) {
@@ -138,7 +141,7 @@ export function Toast({
             <button
                 type="button"
                 className="tintora-toast__close"
-                aria-label="Dismiss"
+                aria-label={dismissLabel}
                 onClick={onDismiss}
             >
                 <CloseIcon />

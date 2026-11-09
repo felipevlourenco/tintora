@@ -18,6 +18,8 @@ export interface AlertProps extends Omit<
     action?: { label: string; onClick: () => void };
     /** Shows the dismiss button. */
     onDismiss?: () => void;
+    /** The dismiss button's accessible name. Set it to translate it. @default 'Dismiss' */
+    dismissLabel?: string;
 }
 
 const ALERT_ICONS: Record<AlertStatus, ReactNode> = {
@@ -59,6 +61,7 @@ export function Alert({
     children,
     action,
     onDismiss,
+    dismissLabel = 'Dismiss',
     className,
     ...props
 }: AlertProps) {
@@ -111,7 +114,7 @@ export function Alert({
             {variant === 'alert' && onDismiss && (
                 <button
                     type="button"
-                    aria-label="Dismiss"
+                    aria-label={dismissLabel}
                     className="tintora-alert__close"
                     onClick={onDismiss}
                 >

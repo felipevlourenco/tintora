@@ -54,6 +54,14 @@ describe('Toast', () => {
         expect(onDismiss).toHaveBeenCalledTimes(1);
     });
 
+    it('takes a translated name for the close button', () => {
+        setup({ dismissLabel: 'Fermer' });
+        expect(
+            screen.getByRole('button', { name: 'Fermer' }),
+        ).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Dismiss' })).toBeNull();
+    });
+
     it('buttons do not submit a surrounding form', () => {
         setup({ action: { label: 'Undo', onClick: () => {} } });
         for (const button of screen.getAllByRole('button')) {
