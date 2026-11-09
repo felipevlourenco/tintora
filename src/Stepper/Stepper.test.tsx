@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../test-utils';
 import { Stepper, type StepperProps } from './Stepper';
 
@@ -155,6 +156,80 @@ describe('Stepper', () => {
         });
     });
 
+    describe('onStepClick', () => {
+        it('has no buttons without it', () => {
+            setup({ current: 2 });
+            expect(screen.queryByRole('button')).toBeNull();
+        });
+
+        it('turns the complete steps into buttons, and only those', () => {
+            setup({ current: 2, onStepClick: () => {} });
+            expect(screen.getAllByRole('button')).toHaveLength(2);
+            expect(within(items()[0]).getByRole('button')).toBeInTheDocument();
+            expect(within(items()[1]).getByRole('button')).toBeInTheDocument();
+            expect(within(items()[2]).queryByRole('button')).toBeNull();
+        });
+
+        it('has no button on the first step when it is the current one', () => {
+            setup({ current: 0, onStepClick: () => {} });
+            expect(screen.queryByRole('button')).toBeNull();
+        });
+
+        it('makes every step a button once all are complete', () => {
+            setup({ current: 3, onStepClick: () => {} });
+            expect(screen.getAllByRole('button')).toHaveLength(3);
+        });
+
+        it('names the button by the label, after Completed', () => {
+            setup({ current: 1, onStepClick: () => {} });
+            expect(
+                screen.getByRole('button', { name: 'Completed Cart' }),
+            ).toBeInTheDocument();
+        });
+
+        it('calls onStepClick with the index of the clicked step', async () => {
+            const onStepClick = vi.fn();
+            setup({ current: 2, onStepClick });
+            await userEvent.click(items()[1].querySelector('button')!);
+            expect(onStepClick).toHaveBeenCalledOnce();
+            expect(onStepClick).toHaveBeenCalledWith(1);
+            await userEvent.click(items()[0].querySelector('button')!);
+            expect(onStepClick).toHaveBeenLastCalledWith(0);
+        });
+
+        it('works from the keyboard', async () => {
+            const onStepClick = vi.fn();
+            setup({ current: 1, onStepClick });
+            await userEvent.tab();
+            expect(screen.getByRole('button')).toHaveFocus();
+            await userEvent.keyboard('{Enter}');
+            expect(onStepClick).toHaveBeenCalledWith(0);
+        });
+
+        it('is a plain button, so it does not submit a parent form', () => {
+            setup({ current: 1, onStepClick: () => {} });
+            expect(screen.getByRole('button')).toHaveAttribute(
+                'type',
+                'button',
+            );
+        });
+
+        it('keeps aria-current on the current step, not on a button', () => {
+            setup({ current: 1, onStepClick: () => {} });
+            expect(items()[1]).toHaveAttribute('aria-current', 'step');
+            expect(screen.getByRole('button')).not.toHaveAttribute(
+                'aria-current',
+            );
+        });
+
+        it('does not leak onStepClick to the nav element', () => {
+            setup({ onStepClick: () => {} });
+            expect(screen.getByRole('navigation')).not.toHaveAttribute(
+                'onstepclick',
+            );
+        });
+    });
+
     describe('stylesheet', () => {
         it('keeps only the current label on screen on small screens, like the Drawer breakpoint', () => {
             expect(css).toMatch(
@@ -171,9 +246,25 @@ describe('Stepper', () => {
         });
     });
 
+    describe('stylesheet: clickable steps', () => {
+        it('shows a pointer and a focus ring on the step button', () => {
+            expect(css).toMatch(
+                /\.tintora-stepper__button\s*\{[^}]*cursor:\s*pointer/,
+            );
+            expect(css).toMatch(
+                /\.tintora-stepper__button:focus-visible\s*\{[^}]*outline/,
+            );
+        });
+    });
+
     describe('accessibility', () => {
         it('has no violations', async () => {
             const { container } = setup();
+            await expectNoA11yViolations(container);
+        });
+
+        it('has no violations with clickable steps', async () => {
+            const { container } = setup({ current: 2, onStepClick: () => {} });
             await expectNoA11yViolations(container);
         });
 

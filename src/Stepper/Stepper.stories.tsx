@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { Button } from '../Button/Button';
 import { Stepper } from './Stepper';
 
 const checkout = [
@@ -46,3 +48,28 @@ export const FiveSteps: Story = {
         ],
     },
 };
+
+function ClickableDemo() {
+    const [current, setCurrent] = useState(1);
+    return (
+        <div style={{ display: 'grid', gap: 16 }}>
+            <Stepper
+                steps={checkout}
+                current={current}
+                onStepClick={setCurrent}
+            />
+            <div>
+                <Button
+                    variant="primary"
+                    disabled={current >= checkout.length}
+                    onClick={() => setCurrent(current + 1)}
+                >
+                    Continue
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+/** With `onStepClick`, a complete step is a button that goes back to it. */
+export const ClickableSteps: Story = { render: () => <ClickableDemo /> };
