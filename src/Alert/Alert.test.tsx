@@ -107,6 +107,16 @@ describe('Alert', () => {
             expect(onClick).toHaveBeenCalledOnce();
         });
 
+        it('takes a translated name for the dismiss button', () => {
+            setup({ onDismiss: () => {}, dismissLabel: 'Fermer' });
+            expect(
+                screen.getByRole('button', { name: 'Fermer' }),
+            ).toBeInTheDocument();
+            expect(
+                screen.queryByRole('button', { name: 'Dismiss' }),
+            ).toBeNull();
+        });
+
         it('is a plain button, so it does not submit a parent form', () => {
             setup({ action: { label: 'Try again', onClick: () => {} } });
             expect(
