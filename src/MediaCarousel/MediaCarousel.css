@@ -11,6 +11,8 @@
     overflow: hidden;
     border-radius: var(--tintora-radius-32);
     aspect-ratio: var(--tintora-media-carousel-ratio);
+    /* Vertical scrolling stays with the page; horizontal drags are swipes. */
+    touch-action: pan-y;
 }
 .tintora-media-carousel__slide {
     width: 100%;

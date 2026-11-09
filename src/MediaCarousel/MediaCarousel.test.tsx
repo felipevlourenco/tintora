@@ -344,6 +344,108 @@ describe('MediaCarousel', () => {
         });
     });
 
+    describe('swipe', () => {
+        const stage = (container: HTMLElement) =>
+            container.querySelector<HTMLElement>(
+                '.tintora-media-carousel__stage',
+            )!;
+
+        // A touch drag from (x, y) to (x + dx, y + dy).
+        const swipe = (
+            element: HTMLElement,
+            dx: number,
+            dy = 0,
+            pointerType = 'touch',
+        ) => {
+            fireEvent.pointerDown(element, {
+                pointerId: 1,
+                pointerType,
+                clientX: 200,
+                clientY: 100,
+            });
+            fireEvent.pointerUp(element, {
+                pointerId: 1,
+                pointerType,
+                clientX: 200 + dx,
+                clientY: 100 + dy,
+            });
+        };
+
+        it('goes to the next picture on a swipe left', () => {
+            const { container } = setup();
+            swipe(stage(container), -80);
+            expect(screen.getByAltText('Lamp, side')).toBeInTheDocument();
+        });
+
+        it('goes to the previous picture on a swipe right', () => {
+            const { container } = setup({ defaultValue: 'side' });
+            swipe(stage(container), 80);
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('reports the new id once', () => {
+            const onValueChange = vi.fn();
+            const { container } = setup({ onValueChange });
+            swipe(stage(container), -80);
+            expect(onValueChange).toHaveBeenCalledOnce();
+            expect(onValueChange).toHaveBeenCalledWith('side');
+        });
+
+        it('ignores a short drag, so a tap is not a swipe', () => {
+            const { container } = setup();
+            swipe(stage(container), -20);
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('ignores a mostly vertical drag, which is a page scroll', () => {
+            const { container } = setup();
+            swipe(stage(container), -60, 120);
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('stops at the ends', () => {
+            const { container } = setup();
+            swipe(stage(container), 80);
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('stops at the last picture', () => {
+            const { container } = setup({ defaultValue: 'top' });
+            swipe(stage(container), -80);
+            expect(screen.getByAltText('Lamp, top')).toBeInTheDocument();
+        });
+
+        it('ignores a mouse drag, which would fight the image drag', () => {
+            const { container } = setup();
+            swipe(stage(container), -80, 0, 'mouse');
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('forgets a cancelled gesture', () => {
+            const { container } = setup();
+            fireEvent.pointerDown(stage(container), {
+                pointerId: 1,
+                pointerType: 'touch',
+                clientX: 200,
+                clientY: 100,
+            });
+            fireEvent.pointerCancel(stage(container), { pointerId: 1 });
+            fireEvent.pointerUp(stage(container), {
+                pointerId: 1,
+                pointerType: 'touch',
+                clientX: 100,
+                clientY: 100,
+            });
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('does nothing for a single picture', () => {
+            const { container } = render(<MediaCarousel items={[items[0]]} />);
+            swipe(stage(container), -80);
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+    });
+
     describe('stylesheet', () => {
         it('floats the arrows over the stage, semi-transparent', () => {
             expect(css).toMatch(
@@ -360,6 +462,12 @@ describe('MediaCarousel', () => {
             );
             expect(css).toMatch(
                 /\.tintora-media-carousel__arrow--next\s*\{[^}]*right:/,
+            );
+        });
+
+        it('lets the page scroll vertically but takes horizontal swipes', () => {
+            expect(css).toMatch(
+                /\.tintora-media-carousel__stage\s*\{[^}]*touch-action:\s*pan-y/,
             );
         });
 
