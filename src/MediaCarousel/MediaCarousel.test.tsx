@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -273,6 +273,74 @@ describe('MediaCarousel', () => {
             await userEvent.click(thumb('Top view'));
             expect(screen.getByAltText('Lamp, top')).toBeInTheDocument();
             expect(next()).toBeDisabled();
+        });
+    });
+
+    describe('keyboard', () => {
+        it('makes only the current thumbnail tabbable', () => {
+            setup({ defaultValue: 'side' });
+            expect(thumb('Side view')).toHaveAttribute('tabindex', '0');
+            expect(thumb('Front view')).toHaveAttribute('tabindex', '-1');
+            expect(thumb('Top view')).toHaveAttribute('tabindex', '-1');
+        });
+
+        it('moves to the next thumbnail with ArrowRight, selecting and focusing it', async () => {
+            setup();
+            thumb('Front view').focus();
+            await userEvent.keyboard('{ArrowRight}');
+            expect(thumb('Side view')).toHaveFocus();
+            expect(thumb('Side view')).toHaveAttribute('aria-current', 'true');
+            expect(screen.getByAltText('Lamp, side')).toBeInTheDocument();
+        });
+
+        it('moves to the previous thumbnail with ArrowLeft', async () => {
+            setup({ defaultValue: 'top' });
+            thumb('Top view').focus();
+            await userEvent.keyboard('{ArrowLeft}');
+            expect(thumb('Side view')).toHaveFocus();
+            expect(screen.getByAltText('Lamp, side')).toBeInTheDocument();
+        });
+
+        it('jumps to the first and last with Home and End', async () => {
+            setup({ defaultValue: 'side' });
+            thumb('Side view').focus();
+            await userEvent.keyboard('{End}');
+            expect(thumb('Top view')).toHaveFocus();
+            expect(screen.getByAltText('Lamp, top')).toBeInTheDocument();
+            await userEvent.keyboard('{Home}');
+            expect(thumb('Front view')).toHaveFocus();
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('stops at the ends instead of wrapping', async () => {
+            setup();
+            thumb('Front view').focus();
+            await userEvent.keyboard('{ArrowLeft}');
+            expect(thumb('Front view')).toHaveFocus();
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
+        });
+
+        it('reports the new id once per key press', async () => {
+            const onValueChange = vi.fn();
+            setup({ onValueChange });
+            thumb('Front view').focus();
+            await userEvent.keyboard('{ArrowRight}');
+            expect(onValueChange).toHaveBeenCalledOnce();
+            expect(onValueChange).toHaveBeenCalledWith('side');
+        });
+
+        it('keeps the page from scrolling on a handled key, and ignores other keys', () => {
+            setup();
+            const front = thumb('Front view');
+            expect(fireEvent.keyDown(front, { key: 'ArrowRight' })).toBe(false);
+            expect(fireEvent.keyDown(front, { key: 'a' })).toBe(true);
+        });
+
+        it('does not react to arrow keys on the arrow buttons', async () => {
+            setup();
+            next().focus();
+            await userEvent.keyboard('{ArrowRight}');
+            expect(screen.getByAltText('Lamp, front')).toBeInTheDocument();
         });
     });
 

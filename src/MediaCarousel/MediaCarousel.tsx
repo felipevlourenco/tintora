@@ -4,6 +4,7 @@ import {
     useState,
     type CSSProperties,
     type HTMLAttributes,
+    type KeyboardEvent,
     type ReactNode,
 } from 'react';
 import { IconButton } from '../IconButton/IconButton';
@@ -125,6 +126,31 @@ export function MediaCarousel({
         { '--tintora-media-carousel-ratio': mediaAspectRatio };
     const hasMany = items.length > 1;
 
+    // Arrow keys, Home and End move between thumbnails: one tab stop for the
+    // strip (the current thumbnail), selection following focus. No wrapping,
+    // like the arrow buttons. The new thumbnail is clicked, so it goes through
+    // the same `select` as a mouse click.
+    const handleThumbnailKeyDown = (
+        event: KeyboardEvent<HTMLButtonElement>,
+    ) => {
+        const target = {
+            Home: 0,
+            End: items.length - 1,
+            ArrowRight: index + 1,
+            ArrowLeft: index - 1,
+        }[event.key];
+        if (target === undefined) return;
+
+        event.preventDefault();
+        if (target !== index) {
+            const next = event.currentTarget
+                .closest('ul')
+                ?.querySelectorAll<HTMLButtonElement>('button')[target];
+            next?.focus();
+            next?.click();
+        }
+    };
+
     return (
         <div
             {...props}
@@ -171,6 +197,8 @@ export function MediaCarousel({
                         <li key={item.id}>
                             <button
                                 type="button"
+                                onKeyDown={handleThumbnailKeyDown}
+                                tabIndex={item.id === selected.id ? 0 : -1}
                                 aria-label={item.label}
                                 aria-current={
                                     item.id === selected.id ? 'true' : undefined
