@@ -1,0 +1,81 @@
+.tintora-slider {
+    --tintora-slider-track: 6px;
+    --tintora-slider-thumb: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    font: var(--tintora-font-button);
+    color: var(--tintora-text);
+}
+.tintora-slider--disabled {
+    opacity: var(--tintora-opacity-disabled);
+}
+
+.tintora-slider__input {
+    flex: 1;
+    min-width: 0;
+    height: var(--tintora-slider-thumb);
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+}
+.tintora-slider__input:disabled {
+    cursor: not-allowed;
+}
+
+/* Track: accent up to the thumb, a faint line after it. */
+.tintora-slider__input::-webkit-slider-runnable-track {
+    height: var(--tintora-slider-track);
+    border-radius: var(--tintora-radius-pill);
+    background: linear-gradient(
+        to right,
+        var(--tintora-color-accent) var(--tintora-slider-percent),
+        var(--tintora-line-strong) var(--tintora-slider-percent)
+    );
+}
+.tintora-slider__input::-moz-range-track {
+    height: var(--tintora-slider-track);
+    border-radius: var(--tintora-radius-pill);
+    background: linear-gradient(
+        to right,
+        var(--tintora-color-accent) var(--tintora-slider-percent),
+        var(--tintora-line-strong) var(--tintora-slider-percent)
+    );
+}
+
+.tintora-slider__input::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--tintora-slider-thumb);
+    height: var(--tintora-slider-thumb);
+    margin-top: calc(
+        (var(--tintora-slider-track) - var(--tintora-slider-thumb)) / 2
+    );
+    border: 3px solid var(--tintora-color-accent);
+    border-radius: 50%;
+    background: var(--tintora-color-white);
+    box-sizing: border-box;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.tintora-slider__input::-moz-range-thumb {
+    width: var(--tintora-slider-thumb);
+    height: var(--tintora-slider-thumb);
+    border: 3px solid var(--tintora-color-accent);
+    border-radius: 50%;
+    background: var(--tintora-color-white);
+    box-sizing: border-box;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.tintora-slider__input:focus-visible {
+    outline: 2px solid var(--tintora-focus);
+    outline-offset: 4px;
+    border-radius: var(--tintora-radius-pill);
+}
+
+.tintora-slider__value {
+    min-width: 4ch;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}

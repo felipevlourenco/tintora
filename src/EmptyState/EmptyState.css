@@ -1,0 +1,41 @@
+.tintora-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px 16px;
+    text-align: center;
+    font-family: var(--tintora-font-family);
+    color: var(--tintora-text);
+}
+
+.tintora-empty-state__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: var(--tintora-fill-subtle);
+    color: var(--tintora-text-muted);
+}
+.tintora-empty-state__icon > svg {
+    width: 32px;
+    height: 32px;
+}
+
+.tintora-empty-state__title {
+    margin: 0;
+    font: var(--tintora-font-title);
+}
+.tintora-empty-state__description {
+    max-width: 36ch;
+    margin: 0;
+    font: var(--tintora-font-body);
+    line-height: 1.5;
+    color: var(--tintora-text-muted);
+}
+.tintora-empty-state__action {
+    margin-top: 12px;
+}
