@@ -206,6 +206,15 @@ Every component has a story with all its variants in the [Storybook](https://fel
 | `Drawer`      | A panel that slides in from any edge. A scrim click or Esc closes it.                                                  |
 | `BottomSheet` | A `Drawer` from the bottom with a grabber, a title and `BottomSheetOption` rows.                                       |
 
+## 🏗️ Architecture
+
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/architecture-dark.png" />
+        <img src="docs/assets/architecture-light.png" alt="Tintora architecture: the src/index.ts barrel re-exports component modules that style themselves from tokens.css and share hooks and utils, built by Vite into dist/ for consumer apps, with Storybook, test suites and GitHub Actions around it" width="900" />
+    </picture>
+</p>
+
 ## 🛠️ Development
 
 ```bash
